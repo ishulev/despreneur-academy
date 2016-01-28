@@ -1,0 +1,18 @@
+.full-width-background {
+	width: 100%;
+	min-height: 100vh;
+	background-size: cover;
+	&.front-page {
+		background-image: url('../images/background-front_page_main.jpg');
+	}
+}
+//Need to figure out how to allign center vertically
+.vertical-center {
+	min-height: 60vh;
+	@include flexbox();
+	@include flex-align(center);
+}
+
+.full-width-color {
+	background: gray;
+}

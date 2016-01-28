@@ -1,1 +1,15 @@
+@mixin flexbox() {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+}
 
+@mixin flex-align($value) {
+	-webkit-box-align: $value;
+	-webkit-align-items: $value;
+	-moz-box-align: $value;
+	-ms-flex-align: $value;
+	align-items: $value;
+}
