@@ -16,7 +16,9 @@ use Roots\Sage\Wrapper;
     <![endif]-->
     <?php
       do_action('get_header'); ?>
-      <div class="front-page full-width-background">
+      <?php if(is_front_page()): ?>
+        <div class="front-page full-width-background">
+      <?php endif; ?>
     <?php
       get_template_part('templates/header');
     ?>

@@ -2,11 +2,12 @@
 	<?php
 		$category_display_label = 'primary';
 		$category_object = wp_get_post_terms( get_the_ID(), 'course_category' )[0];
+		$instructor_id = get_post_meta(get_the_ID(), 'instructors', true)[1];
 		if('design' === $category_object->slug)
 			$category_display_label = 'danger';
 		echo do_shortcode( '[course_title class="course-single-title" title_tag="h1"]' );
 		echo '<span class="label label-'. $category_display_label .'">' . $category_object->name . '</span>';
-		echo do_shortcode( '[course_media course_id="'. get_the_ID() .'"]' );
+		echo do_shortcode( '[course_media course_id="'. get_the_ID() .'" class="course-video-holder"]' );
 	?>
 	<nav>
 		<ul class="pager">
@@ -22,8 +23,13 @@
 		<div class="col-md-4">
 			<h2>Author</h2>
 			<?php echo do_shortcode('[course_instructor_avatar]');?>
-			<?php $instructor_id = get_post_meta(get_the_ID(), 'instructors', true)[1]; ?>
-			<?php echo get_the_author_meta('description', $instructor_id); ?>
+			<h3><?php echo get_the_author_meta('display_name', $instructor_id); ?></h3>
+			<div class="row"><p class="col-xs-12"><?php echo get_the_author_meta('description', $instructor_id); ?></p></div>
+			<hr>
+			<h2>Course details</h2>
+			<?php echo do_shortcode('[course_start label="Date" label_tag="span" label_delimeter=":"]');?>
+			<?php echo do_shortcode('[course_time_estimation]'); ?>
+			<p>Category: <?php echo $category_object->name; ?></p>
 		</div>
 	</div>
 </div>
