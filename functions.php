@@ -141,3 +141,16 @@ class BootstrapNavMenuWalker extends Walker_Nav_Menu {
   }
 
 }
+
+function courses_latest() {
+	register_sidebar( array(
+		'name'          => 'Latest courses',
+		'id'            => 'courses-latest',
+		'before_widget' => '<div>' . do_shortcode( '[course_instructor_avatar]' ),
+		'after_widget'  => '</div>',
+		'before_title'  => '<h2 class="rounded">',
+		'after_title'   => '</h2>',
+		) );
+
+}
+add_action( 'widgets_init', 'courses_latest' );
