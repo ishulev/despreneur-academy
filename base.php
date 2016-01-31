@@ -22,17 +22,13 @@ use Roots\Sage\Wrapper;
     <?php
       get_template_part('templates/header');
     ?>
-      <?php include Wrapper\template_path(); ?>
-        <?php 
-        //if (Setup\display_sidebar()) : ?>
-          <!-- <aside class="sidebar"> -->
-            <?php 
-            //include Wrapper\sidebar_path(); ?>
-          <!-- </aside>/.sidebar -->
-        <?php 
-        //endif; ?>
-      </div><!-- /.content -->
-    </div><!-- /.wrap -->
+      <?php if(!is_front_page()): ?>
+        <div class="container">
+      <?php endif; ?>
+        <?php include Wrapper\template_path(); ?>
+      <?php if(!is_front_page()): ?>
+        </div>
+      <?php endif; ?>
     <?php
       do_action('get_footer');
       get_template_part('templates/footer');
