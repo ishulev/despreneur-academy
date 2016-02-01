@@ -161,3 +161,46 @@ function da_add_members_query_var( $vars ){
 	return $vars;
 }
 add_filter( 'query_vars', 'da_add_members_query_var' );
+
+add_action( 'show_user_profile', 'my_show_extra_profile_fields' );
+add_action( 'edit_user_profile', 'my_show_extra_profile_fields' );
+
+function my_show_extra_profile_fields( $user ) { ?>
+	<?php $occupationtags = get_user_meta( $user_id = $user->ID, $key = 'occupationtags', $single = true ); ?>
+	<table class="form-table">
+		<tbody>
+			<tr class="user-capabilities-wrap">
+				<th scope="row">Occupation tags</th>
+				<td>
+					<fieldset>
+						<legend class="screen-reader-text"><span>Occupation</span></legend>
+						<label for="occupation-design">
+						<input name="occupation-tags[]" type="checkbox" id="occupation-design" value="designer" <?php echo ( '' !== $occupationtags && in_array('designer', $occupationtags) ? 'checked' : ''); ?>/>
+							<span><?php esc_attr_e( 'Designer', '' ); ?></span>
+						</label>
+						<label for="occupation-engineering">
+						<input name="occupation-tags[]" type="checkbox" id="occupation-engineering" value="engineer" <?php echo ( '' !== $occupationtags && in_array('engineer', $occupationtags) ? 'checked' : ''); ?>/>
+							<span><?php esc_attr_e( 'Engineer', '' ); ?></span>
+						</label>
+						<label for="occupation-entrepreneur">
+						<input name="occupation-tags[]" type="checkbox" id="occupation-entrepreneur" value="entrepreneur" <?php echo ( '' !== $occupationtags && in_array('entrepreneur', $occupationtags) ? 'checked' : ''); ?>/>
+							<span><?php esc_attr_e( 'Entrepreneur', '' ); ?></span>
+						</label>
+					</fieldset>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+<?php }
+
+add_action( 'personal_options_update', 'my_save_extra_profile_fields' );
+add_action( 'edit_user_profile_update', 'my_save_extra_profile_fields' );
+
+function my_save_extra_profile_fields( $user_id ) {
+
+	if ( !current_user_can( 'edit_user', $user_id ) )
+		return false;
+
+	/* Copy and paste this line for additional fields. Make sure to change 'twitter' to the field ID. */
+	update_usermeta( $user_id, 'occupation-tags', $_POST['occupation-tags'] );
+}

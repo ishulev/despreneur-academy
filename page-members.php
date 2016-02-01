@@ -3,7 +3,8 @@
 	<?php get_template_part('templates/content', 'page'); ?>
 	<?php
 	global $wpdb;
-	$country_field = 'pmpro_bcountry'; 
+	$country_field = 'pmpro_bcountry';
+	$occupations_field = 'occupationtags';
 	$countries=$wpdb->get_col(
 		$wpdb->prepare(
 			"SELECT	meta_value
@@ -12,6 +13,20 @@
 			$country_field
 		)
 	);
+	$occupationtags_dirty=$wpdb->get_col(
+		$wpdb->prepare(
+			"SELECT	meta_value
+			FROM	$wpdb->usermeta
+			WHERE	meta_key=%s",
+			$occupations_field
+		)
+	);
+	$occupationtags = array();
+	foreach ($occupationtags_dirty as $tag) {
+		$occupationtags = array_merge( maybe_unserialize( $tag ), $occupationtags);
+		echo '<hr>';
+	}
+	print_r($occupationtags);
  ?>
 	<div class="btn-group" role="group" aria-label="...">
 		<button type="button" class="btn btn-default">1</button>
@@ -28,14 +43,28 @@
 			</ul>
 		</div>
 	</div>
-	<?php
-		$user_query = array(
-			'meta_key' => 'role',
-			'meta_value' => 'student',
-			'orderby' => array(
-				'meta_key' => 'pmpro_bcountry',
-				'meta_value' => get_query_var( 'country', '' ),
+	<?php 
+		$meta_query = array(
+			array(
+				'key' => 'role',
+				'value' => 'student',
 			),
+		);
+		$country = get_query_var( 'country', '' );
+		if('' !== $country) {
+			$meta_query[] = array(
+				'key' => $country_field,
+				'value' => $country,
+			);
+		}
+		print_r($meta_query);
+		$user_query = array(
+			'role' => 'subscriber',
+			'meta_query' => $meta_query,
+			// 'orderby' => array(
+			// 	'meta_key' => 'pmpro_bcountry',
+			// 	'meta_value' => get_query_var( 'country', '' ),
+			// ),
 			'order' => 'DESC',
 		);
 	?>
