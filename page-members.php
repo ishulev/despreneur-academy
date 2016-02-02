@@ -78,6 +78,9 @@
 			'role' => 'subscriber',
 			'meta_query' => $meta_query,
 			'order' => $order,
+			'fields' => array(
+				'ID',
+			),
 		);
 	?>
 	<?php $users = get_users($user_query); ?>
@@ -88,9 +91,9 @@
 				<img class="media-object img-circle" src="<?php echo get_avatar_url($user->id) ?>" alt="...">
 			</div>
 			<div class="media-body">
-				<h4 class="media-heading"><?php echo $user->display_name; ?></h4>
-				<p><i><?php echo get_user_meta($user->id, 'pmpro_bcity', true); ?>, <?php echo get_user_meta($user->id, 'pmpro_bcountry', true); ?></i><?php echo ('1' === get_user_meta( $user_id = $user->ID, $key = $occupation_field . 'engineer', $single = true ) ? '<span class="label label-success">Engineer</span>' : ''); ?><?php echo ('1' === get_user_meta( $user_id = $user->ID, $key = $occupation_field . 'designer', $single = true ) ? '<span class="label label-danger">Designer</span>' : ''); ?><?php echo ('1' === get_user_meta( $user_id = $user->ID, $key = $occupation_field . 'entrepreneur', $single = true ) ? '<span class="label label-primary">Entrepreneur</span>' : ''); ?></p>
-				<p><?php echo $user->description; ?></p>
+				<h4 class="media-heading"><?php echo get_user_meta( $user_id = $user->ID, $key = 'first_name', $single = true ) . ' ' . get_user_meta( $user_id = $user->ID, $key = 'last_name', $single = true ); ?></h4>
+				<p><i><?php echo get_user_meta($user->ID, 'pmpro_bcity', true); ?>, <?php echo get_user_meta($user->ID, 'pmpro_bcountry', true); ?></i><?php echo ('1' === get_user_meta( $user_id = $user->ID, $key = $occupation_field . 'engineer', $single = true ) ? '<span class="label label-success">Engineer</span>' : ''); ?><?php echo ('1' === get_user_meta( $user_id = $user->ID, $key = $occupation_field . 'designer', $single = true ) ? '<span class="label label-danger">Designer</span>' : ''); ?><?php echo ('1' === get_user_meta( $user_id = $user->ID, $key = $occupation_field . 'entrepreneur', $single = true ) ? '<span class="label label-primary">Entrepreneur</span>' : ''); ?></p>
+				<p><?php echo get_user_meta( $user_id = $user->ID, $key = 'description', $single = true ); ?></p>
 			</div>
 		</div>
 		<?php echo '<hr>';
