@@ -166,7 +166,6 @@ add_action( 'show_user_profile', 'my_show_extra_profile_fields' );
 add_action( 'edit_user_profile', 'my_show_extra_profile_fields' );
 
 function my_show_extra_profile_fields( $user ) { ?>
-	<?php $occupationtags = get_user_meta( $user_id = $user->ID, $key = 'occupationtags', $single = true ); ?>
 	<table class="form-table">
 		<tbody>
 			<tr class="user-capabilities-wrap">
@@ -174,16 +173,16 @@ function my_show_extra_profile_fields( $user ) { ?>
 				<td>
 					<fieldset>
 						<legend class="screen-reader-text"><span>Occupation</span></legend>
-						<label for="occupation-design">
-						<input name="occupation-tags[]" type="checkbox" id="occupation-design" value="designer" <?php echo ( '' !== $occupationtags && in_array('designer', $occupationtags) ? 'checked' : ''); ?>/>
+						<label for="occupation-designer">
+						<input name="occupation_designer" type="checkbox" id="occupation-designer" value="1" <?php echo ( '1' === get_user_meta( $user_id = $user->ID, $key = 'occupation_designer', $single = true ) ? 'checked' : ''); ?>/>
 							<span><?php esc_attr_e( 'Designer', '' ); ?></span>
 						</label>
-						<label for="occupation-engineering">
-						<input name="occupation-tags[]" type="checkbox" id="occupation-engineering" value="engineer" <?php echo ( '' !== $occupationtags && in_array('engineer', $occupationtags) ? 'checked' : ''); ?>/>
+						<label for="occupation-engineer">
+						<input name="occupation_engineer" type="checkbox" id="occupation-engineer" value="1" <?php echo ( '1' === get_user_meta( $user_id = $user->ID, $key = 'occupation_engineer', $single = true ) ? 'checked' : ''); ?>/>
 							<span><?php esc_attr_e( 'Engineer', '' ); ?></span>
 						</label>
 						<label for="occupation-entrepreneur">
-						<input name="occupation-tags[]" type="checkbox" id="occupation-entrepreneur" value="entrepreneur" <?php echo ( '' !== $occupationtags && in_array('entrepreneur', $occupationtags) ? 'checked' : ''); ?>/>
+						<input name="occupation_entrepreneur" type="checkbox" id="occupation-entrepreneur" value="1" <?php echo ( '1' === get_user_meta( $user_id = $user->ID, $key = 'occupation_entrepreneur', $single = true ) ? 'checked' : ''); ?>/>
 							<span><?php esc_attr_e( 'Entrepreneur', '' ); ?></span>
 						</label>
 					</fieldset>
@@ -202,5 +201,7 @@ function my_save_extra_profile_fields( $user_id ) {
 		return false;
 
 	/* Copy and paste this line for additional fields. Make sure to change 'twitter' to the field ID. */
-	update_usermeta( $user_id, 'occupation-tags', $_POST['occupation-tags'] );
+	update_usermeta( $user_id, 'occupation_designer', $_POST['occupation_designer'] );
+	update_usermeta( $user_id, 'occupation_engineer', $_POST['occupation_engineer'] );
+	update_usermeta( $user_id, 'occupation_entrepreneur', $_POST['occupation_entrepreneur'] );
 }
