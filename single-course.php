@@ -14,7 +14,13 @@
 		<li class="next"><?php next_post_link('%link', 'Next lesson &#187;'); ?></li>
 	</ul>
 </nav>
-<?php echo do_shortcode( '[course_join_button course_id="'. get_the_ID() .'"]' ); ?>
+
+<?php
+	if(is_user_logged_in())
+		echo do_shortcode( '[course_join_button course_id="'. get_the_ID() .'"]' );
+	else
+		echo '<a href="'.get_home_url( $blog_id = null, $path = 'membership-account' ).'">Sign up!</a>';
+?>
 <div class="row">
 	<div class="col-md-8">
 		<h2>In this lesson</h2>
