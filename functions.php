@@ -156,8 +156,9 @@ function courses_latest() {
 add_action( 'widgets_init', 'courses_latest' );
 
 function da_add_members_query_var( $vars ){
-	$vars[] = "filter";
 	$vars[] = "country";
+	$vars[] = "occupation";
+	$vars[] = "order";
 	return $vars;
 }
 add_filter( 'query_vars', 'da_add_members_query_var' );
