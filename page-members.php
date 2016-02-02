@@ -4,7 +4,6 @@
 	<?php
 	global $wpdb;
 	$country_field = 'pmpro_bcountry';
-	$occupations_field = 'occupationtags';
 	$countries=$wpdb->get_col(
 		$wpdb->prepare(
 			"SELECT	meta_value
@@ -13,24 +12,20 @@
 			$country_field
 		)
 	);
-	$occupationtags_dirty=$wpdb->get_col(
-		$wpdb->prepare(
-			"SELECT	meta_value
-			FROM	$wpdb->usermeta
-			WHERE	meta_key=%s",
-			$occupations_field
-		)
-	);
-	$occupationtags = array();
-	foreach ($occupationtags_dirty as $tag) {
-		$occupationtags = array_merge( maybe_unserialize( $tag ), $occupationtags);
-		echo '<hr>';
-	}
-	print_r($occupationtags);
+	$occupation_field = 'occupation_';
  ?>
 	<div class="btn-group" role="group" aria-label="...">
-		<button type="button" class="btn btn-default">1</button>
-		<button type="button" class="btn btn-default">2</button>
+		<div class="btn-group" role="group">
+			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Occupation
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu">
+				<li><a href="<?php echo get_the_permalink() .'?occupation=designer'; ?>">Designer</a></li>
+				<li><a href="<?php echo get_the_permalink() .'?occupation=engineer'; ?>">Engineer</a></li>
+				<li><a href="<?php echo get_the_permalink() .'?occupation=entrepreneur'; ?>">Entrepreneur</a></li>
+			</ul>
+		</div>
 		<div class="btn-group" role="group">
 			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				Country
@@ -38,8 +33,18 @@
 			</button>
 			<ul class="dropdown-menu">
 				<?php foreach ($countries as $country) {
-					echo '<li><a href="'. get_the_permalink() .'?filter=country&country=' . $country . '">' . $country . '</a></li>';
+					echo '<li><a href="'. get_the_permalink() .'?country=' . $country . '">' . $country . '</a></li>';
 				} ?>
+			</ul>
+		</div>
+		<div class="btn-group" role="group">
+			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Sort by
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu">
+				<li><a href="<?php echo get_the_permalink() .'?order=asc'; ?>">Newest</a></li>
+				<li><a href="<?php echo get_the_permalink() .'?order=desc'; ?>">Oldest</a></li>
 			</ul>
 		</div>
 	</div>
@@ -57,15 +62,22 @@
 				'value' => $country,
 			);
 		}
-		print_r($meta_query);
+		$occupation = get_query_var( 'occupation', '' );
+		if('' !== $occupation) {
+			$meta_query[] = array(
+				'key' => $occupation_field . $occupation,
+				'value' => '1',
+			);
+		}
+		$order_query = get_query_var( 'order', '' );
+		$order = 'ASC';
+		if('DESC' === $order_query) {
+			$order = 'DESC';
+		}
 		$user_query = array(
 			'role' => 'subscriber',
 			'meta_query' => $meta_query,
-			// 'orderby' => array(
-			// 	'meta_key' => 'pmpro_bcountry',
-			// 	'meta_value' => get_query_var( 'country', '' ),
-			// ),
-			'order' => 'DESC',
+			'order' => $order,
 		);
 	?>
 	<?php $users = get_users($user_query); ?>
@@ -77,11 +89,10 @@
 			</div>
 			<div class="media-body">
 				<h4 class="media-heading"><?php echo $user->display_name; ?></h4>
-				<p><i><?php echo get_user_meta($user->id, 'pmpro_bcity', true); ?>, <?php echo get_user_meta($user->id, 'pmpro_bcountry', true); ?></i></p>
+				<p><i><?php echo get_user_meta($user->id, 'pmpro_bcity', true); ?>, <?php echo get_user_meta($user->id, 'pmpro_bcountry', true); ?></i><?php echo ('1' === get_user_meta( $user_id = $user->ID, $key = $occupation_field . 'engineer', $single = true ) ? '<span class="label label-success">Engineer</span>' : ''); ?><?php echo ('1' === get_user_meta( $user_id = $user->ID, $key = $occupation_field . 'designer', $single = true ) ? '<span class="label label-danger">Designer</span>' : ''); ?><?php echo ('1' === get_user_meta( $user_id = $user->ID, $key = $occupation_field . 'entrepreneur', $single = true ) ? '<span class="label label-primary">Entrepreneur</span>' : ''); ?></p>
 				<p><?php echo $user->description; ?></p>
 			</div>
 		</div>
 		<?php echo '<hr>';
-		echo get_query_var( 'filter', 'country' );
 	} ?>
 <?php endwhile; ?>
