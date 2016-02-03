@@ -34,11 +34,11 @@
 </section>
 
 <?php $args = array(
-	'post_type' 	=> 'course',
-	'post_per_page' => '3',
-	'post_status' 	=> 'publish',
-	'orderby'       => 'date',
-	'order'         => 'DESC',
+	'post_type'				=> 'course',
+	'posts_per_page'		=> 3,
+	'post_status'			=> 'publish',
+	'orderby'				=> 'date',
+	'order'					=> 'DESC',
 	);
 	// The Query
 $the_query = new WP_Query( $args );
