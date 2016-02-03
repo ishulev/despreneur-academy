@@ -16,10 +16,7 @@
 </nav>
 
 <?php
-	if(is_user_logged_in())
-		echo do_shortcode( '[course_join_button course_id="'. get_the_ID() .'"]' );
-	else
-		echo '<a href="'.get_home_url( $blog_id = null, $path = 'membership-account' ).'">Sign up!</a>';
+	echo do_shortcode( '[course_join_button course_id="'. get_the_ID() .'"]' );
 ?>
 <div class="row">
 	<div class="col-md-8">
