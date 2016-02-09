@@ -1,7 +1,9 @@
 <?php
 	$category_display_label = 'primary';
-	$category_object = wp_get_post_terms( get_the_ID(), 'course_category' )[0];
-	$instructor_id = get_post_meta(get_the_ID(), 'instructors', true)[1];
+	$category_object = wp_get_post_terms( get_the_ID(), 'course_category' );
+	$category_object = $category_object[0];
+	$instructor_id = get_post_meta(get_the_ID(), 'instructors', true);
+	$instructor_id = $instructor_id[1];
 	if('design' === $category_object->slug)
 		$category_display_label = 'danger';
 	echo do_shortcode( '[course_title class="course-single-title" title_tag="h1"]' );

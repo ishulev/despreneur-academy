@@ -2,7 +2,7 @@
 		<section class="text-center container">
 			<h1>Become a design entrepreneur. Build a business & meet amazing people.</h1>
 			<h2>Learn game-changing skills, build location independent business and meet amazing designers and entrepreneurs.</h2>
-			<button class="btn btn-primary">Start learning</button>
+			<a href="<?php echo esc_url( home_url( '/membership-account' ) ); ?>" class="btn btn-primary">Start learning</a>
 		</section>
 	</div>
 </div> <!-- This is ending the full width background div -->
@@ -29,7 +29,7 @@
 		<h3>Simple pricing</h3>
 		<p>Despreneur academy membership is only $19</p>
 		<p><i>One month trial is just $1</i></p>
-		<button class="btn btn-primary">Sign up now</button>
+		<a href="<?php echo esc_url( home_url( '/membership-account' ) ); ?>" class="btn btn-primary">Sign up now</a>
 	</div>
 </section>
 
@@ -53,7 +53,8 @@ if ( $the_query->have_posts() ) : ?>
 			while ( $the_query->have_posts() ) {
 				$the_query->the_post();
 				$category_display_label = 'primary';
-				$category_object = wp_get_post_terms( get_the_ID(), 'course_category' )[0];
+				$category_object = wp_get_post_terms( get_the_ID(), 'course_category' );
+				$category_object = $category_object[0];
 				if('design' === $category_object->slug)
 					$category_display_label = 'danger';
 				echo '<div class="col-md-4">';
@@ -102,6 +103,6 @@ if ( $the_query->have_posts() ) : ?>
 	<div class="row">
 		<h3>Start learning today</h3>
 		<p><i>Join an amazing community and start learning life-changing skills</i></p>
-		<button class="btn btn-primary">Sign up now</button>
+		<a href="<?php echo esc_url( home_url( '/membership-account' ) ); ?>" class="btn btn-primary">Sign up now</a>
 	</div>
 </section>

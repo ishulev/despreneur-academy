@@ -19,7 +19,8 @@ if ( $the_query->have_posts() ) : ?>
 					echo '</div><div class="row">';
 				$the_query->the_post();
 				$category_display_label = 'primary';
-				$category_object = wp_get_post_terms( get_the_ID(), 'course_category' )[0];
+				$category_object = wp_get_post_terms( get_the_ID(), 'course_category' );
+				$category_object = $category_object[0];
 				if('design' === $category_object->slug)
 					$category_display_label = 'danger';
 				echo '<div class="col-md-4">';

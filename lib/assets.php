@@ -12,7 +12,7 @@ class JsonManifest {
     if (file_exists($manifest_path)) {
       $this->manifest = json_decode(file_get_contents($manifest_path), true);
     } else {
-      $this->manifest = [];
+      $this->manifest = array();
     }
   }
 
@@ -51,7 +51,8 @@ function asset_path($filename) {
   }
 
   if (array_key_exists($file, $manifest->get())) {
-    return $dist_path . $directory . $manifest->get()[$file];
+    $return_var = $dist_path . $directory . $manifest->get();
+    return $return_var[$file];
   } else {
     return $dist_path . $directory . $file;
   }
