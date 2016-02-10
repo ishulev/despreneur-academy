@@ -163,6 +163,12 @@ function da_add_members_query_var( $vars ){
 }
 add_filter( 'query_vars', 'da_add_members_query_var' );
 
+function da_add_profile_query_var( $vars ){
+	$vars[] = "userid";
+	return $vars;
+}
+add_filter( 'query_vars', 'da_add_profile_query_var' );
+
 add_action( 'show_user_profile', 'my_show_extra_profile_fields' );
 add_action( 'edit_user_profile', 'my_show_extra_profile_fields' );
 
