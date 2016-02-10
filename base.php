@@ -18,15 +18,17 @@ use Roots\Sage\Wrapper;
       do_action('get_header'); ?>
       <?php if(is_front_page()): ?>
         <div class="front-page full-width-background">
+      <?php elseif(is_page( 'profile' )) : ?>
+        <div class="profile-page full-width-background">
       <?php endif; ?>
     <?php
       get_template_part('templates/header');
     ?>
-      <?php if(!is_front_page()): ?>
+      <?php if(!is_front_page() && !is_page( 'profile' )): ?>
         <div class="container">
       <?php endif; ?>
         <?php include Wrapper\template_path(); ?>
-      <?php if(!is_front_page()): ?>
+      <?php if(!is_front_page() && !is_page( 'profile' )): ?>
         </div>
       <?php endif; ?>
     <?php
