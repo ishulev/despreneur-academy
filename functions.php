@@ -207,8 +207,36 @@ function my_save_extra_profile_fields( $user_id ) {
 	if ( !current_user_can( 'edit_user', $user_id ) )
 		return false;
 
-	/* Copy and paste this line for additional fields. Make sure to change 'twitter' to the field ID. */
 	update_usermeta( $user_id, 'occupation_designer', $_POST['occupation_designer'] );
 	update_usermeta( $user_id, 'occupation_engineer', $_POST['occupation_engineer'] );
 	update_usermeta( $user_id, 'occupation_entrepreneur', $_POST['occupation_entrepreneur'] );
 }
+
+add_action( 'fu_after_upload', 'my_fu_after_upload', 10, 3 );
+
+function my_fu_after_upload( $attachment_ids, $success, $post_id ) {
+	if($success)
+		update_usermeta( get_current_user_id(), 'profile_background', $attachment_ids[0] );
+}
+
+function my_styles_method() {
+	if(is_page( 'profile' )) {
+		
+		$user_id = get_current_user_id();
+		$user_id_var = get_query_var( 'userid', '' );
+
+		if('' !== $user_id_var && is_numeric($user_id_var)){
+			$user = get_userdata( $user_id_var );
+			if(false !== $user) {
+				$user_id = $user_id_var;
+			}
+		}
+		$background_url = get_user_meta( $user_id = $user_id, $key = 'profile_background', $single = true );
+		if('' !== $background_url) {
+			$custom_css = ".profile-page { background-image: url('" . wp_get_attachment_url($background_url) . "'); }";
+			wp_add_inline_style( 'sage/css', $custom_css );
+		}
+	}
+}
+
+add_action( 'wp_enqueue_scripts', 'my_styles_method', 101 );
