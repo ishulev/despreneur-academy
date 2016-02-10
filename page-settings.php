@@ -71,6 +71,9 @@
 	$student = new Student( get_current_user_id() );
 	?>
 	<h1>Rnaodmawm</h1>
+	<div>
+	<?php echo do_shortcode( '[fu-upload-form][input type="file" name="photo"][input type="submit" class="btn btn-default" value="Submit"][/fu-upload-form]' ); ?>
+	</div>
 	<p class="<?php echo esc_attr( 'form-info-' . $form_message_class ); ?>"><?php echo esc_html( $form_message ); ?></p>
 	<?php do_action( 'coursepress_before_settings_form' ); ?>
 	<form id="student-settings" name="student-settings" method="post" class="form-horizontal">
