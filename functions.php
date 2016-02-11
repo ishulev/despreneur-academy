@@ -63,12 +63,11 @@ class BootstrapNavMenuWalker extends Walker_Nav_Menu {
 		}
 
 		$classes[] = ($args->has_children) ? 'dropdown' : '';
-		$classes[] = ($item->current || $item->current_item_ancestor) ? 'active' : '';
+		$classes[] = ($item->current || $item->current_item_ancestor || 'Courses' === $item->title && is_post_type_archive( 'course' ) || 'Courses' === $item->title && is_singular( 'course' ) ) ? 'active' : '';
 		$classes[] = 'menu-item-' . $item->ID;
 		if($depth && $args->has_children){
 			$classes[] = 'dropdown-submenu';
 		}
-
 
 		$class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args ) );
 		$class_names = ' class="' . esc_attr( $class_names ) . '"';
