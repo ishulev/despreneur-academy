@@ -13,3 +13,24 @@
   @extend .btn;
   @extend .btn-default;
 }
+.wpua-edit {
+	.button {
+		@extend .btn;
+		@extend .btn-default;
+	}
+	#wpua-upload-messages-existing {
+		@extend .help-block;
+	}
+	#wpua-remove-existing {
+		@extend .btn-danger;
+	}
+	#submit {
+		@extend .btn-primary;
+	}
+	#wpua-file-existing {
+		margin-bottom: 20px;
+	}
+	#wpua-undo-button-existing {
+		display: none;
+	}
+}

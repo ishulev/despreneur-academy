@@ -70,100 +70,122 @@
 	}
 	$student = new Student( get_current_user_id() );
 	?>
-	<h1>Rnaodmawm</h1>
 	<div>
-	<?php echo do_shortcode( '[fu-upload-form][input type="file" name="photo"][input type="submit" class="btn btn-default" value="Submit"][/fu-upload-form]' ); ?>
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active"><a href="#images" aria-controls="images" role="tab" data-toggle="tab">Images</a></li>
+			<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+			<li role="presentation"><a href="#payment" aria-controls="payment" role="tab" data-toggle="tab">Payment</a></li>
+		</ul>
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane active" id="images">
+				<div class="col-md-8 col-md-offset-2">
+					<h2>Profile background</h2>
+					<?php $background_id = get_user_meta( $user_id = get_current_user_id(), $key = 'profile_background', $single = true );
+						if('' !== $background_id) {
+							echo wp_get_attachment_image( $attachment_id = $background_id, $size = 'thumbnail', $icon, $attr );
+						}
+					?>
+					<?php echo do_shortcode( '[fu-upload-form title=""][input type="file" name="photo"][input type="submit" class="btn btn-default" value="Upload"][/fu-upload-form]' ); ?>
+					<hr>
+					<h2>Profile photo</h2>
+					<?php echo do_shortcode( '[avatar_upload]' ); ?>
+				</div>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="profile">
+				<p class="<?php echo esc_attr( 'form-info-' . $form_message_class ); ?>"><?php echo esc_html( $form_message ); ?></p>
+				<?php do_action( 'coursepress_before_settings_form' ); ?>
+				<form id="student-settings" name="student-settings" method="post" class="form-horizontal">
+					<?php wp_nonce_field( 'student_settings_save', 'student_settings_nonce' ); ?>
+					<div class="form-group">
+						<label class="col-md-3 control-label">
+							<?php _e( 'First Name', 'cp' ); ?>
+						</label>
+						<div class="col-md-5">
+							<input type="text" class="form-control" name="first_name" value="<?php esc_attr_e( $student->user_firstname ); ?>"/>
+						</div>
+						<?php do_action( 'coursepress_after_settings_first_name' ); ?>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label">
+							<?php _e( 'Last Name', 'cp' ); ?>
+						</label>
+						<div class="col-md-5">
+							<input type="text" class="form-control" name="last_name" value="<?php esc_attr_e( $student->user_lastname ); ?>"/>
+						</div>
+						<?php do_action( 'coursepress_after_settings_last_name' ); ?>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label">
+							<?php _e( 'E-mail', 'cp' ); ?>
+						</label>
+						<div class="col-md-5">
+							<input type="text" class="form-control" name="email" value="<?php esc_attr_e( $student->user_email ); ?>"/>
+						</div>
+						<?php do_action( 'coursepress_after_settings_email' ); ?>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label">
+							<?php _e( 'Username', 'cp' ); ?>:
+						</label>
+						<div class="col-md-5">
+							<input type="text" class="form-control" name="username" value="<?php esc_attr_e( $student->user_login ); ?>" disabled="disabled"/>
+						</div>
+						<?php do_action( 'coursepress_after_settings_username' ); ?>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label">Occupation</label>
+						<div class="col-md-5">
+							<div class="checkbox">
+								<label>
+									<input name="occupation_designer" type="checkbox" id="occupation-designer" value="1" <?php echo ( '1' === $occupation_designer ? 'checked' : ''); ?>/>Designer
+								</label>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input name="occupation_engineer" type="checkbox" id="occupation-engineer" value="1" <?php echo ( '1' === $occupation_engineer ? 'checked' : ''); ?>/>Engineer
+								</label>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input name="occupation_entrepreneur" type="checkbox" id="occupation-entrepreneur" value="1" <?php echo ( '1' === $occupation_entrepreneur ? 'checked' : ''); ?>/>Entrepreneur
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label">Description</label>
+						<div class="col-md-5">
+							<textarea name="user-description" class="form-control" rows="3"><?php echo $description; ?></textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label">
+							<?php _e( 'Password', 'cp' ); ?>
+						</label>
+						<div class="col-md-5">
+							<input type="password" class="form-control" name="password" value="" placeholder="<?php _e( "Won't change if empty.", 'cp' ); ?>"/>
+						</div>
+						<?php do_action( 'coursepress_after_settings_passwordon' ); ?>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label">
+							<?php _e( 'Confirm Password', 'cp' ); ?>:
+						</label>
+						<div class="col-md-5">
+							<input type="password" class="form-control" name="password_confirmation" value=""/>
+						</div>
+						<?php do_action( 'coursepress_after_settings_pasword' ); ?>
+					</div>
+					<div class="form-group">
+						<div class="col-md-5 col-md-offset-3">
+							<input type="submit" name="student-settings-submit" class="btn btn-primary" value="<?php _e( 'Save Changes', 'cp' ); ?>"/>
+						</div>
+					</div>
+				</form><?php do_action( 'coursepress_after_settings_form' ); ?>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="payment">...</div>
+		</div>
 	</div>
-	<p class="<?php echo esc_attr( 'form-info-' . $form_message_class ); ?>"><?php echo esc_html( $form_message ); ?></p>
-	<?php do_action( 'coursepress_before_settings_form' ); ?>
-	<form id="student-settings" name="student-settings" method="post" class="form-horizontal">
-		<?php wp_nonce_field( 'student_settings_save', 'student_settings_nonce' ); ?>
-		<div class="form-group">
-			<label class="col-md-3 control-label">
-				<?php _e( 'First Name', 'cp' ); ?>
-			</label>
-			<div class="col-md-5">
-				<input type="text" class="form-control" name="first_name" value="<?php esc_attr_e( $student->user_firstname ); ?>"/>
-			</div>
-			<?php do_action( 'coursepress_after_settings_first_name' ); ?>
-		</div>
-		<div class="form-group">
-			<label class="col-md-3 control-label">
-				<?php _e( 'Last Name', 'cp' ); ?>
-			</label>
-			<div class="col-md-5">
-				<input type="text" class="form-control" name="last_name" value="<?php esc_attr_e( $student->user_lastname ); ?>"/>
-			</div>
-			<?php do_action( 'coursepress_after_settings_last_name' ); ?>
-		</div>
-		<div class="form-group">
-			<label class="col-md-3 control-label">
-				<?php _e( 'E-mail', 'cp' ); ?>
-			</label>
-			<div class="col-md-5">
-				<input type="text" class="form-control" name="email" value="<?php esc_attr_e( $student->user_email ); ?>"/>
-			</div>
-			<?php do_action( 'coursepress_after_settings_email' ); ?>
-		</div>
-		<div class="form-group">
-			<label class="col-md-3 control-label">
-				<?php _e( 'Username', 'cp' ); ?>:
-			</label>
-			<div class="col-md-5">
-				<input type="text" class="form-control" name="username" value="<?php esc_attr_e( $student->user_login ); ?>" disabled="disabled"/>
-			</div>
-			<?php do_action( 'coursepress_after_settings_username' ); ?>
-		</div>
-		<div class="form-group">
-			<label class="col-md-3 control-label">Occupation</label>
-			<div class="col-md-5">
-				<div class="checkbox">
-					<label>
-						<input name="occupation_designer" type="checkbox" id="occupation-designer" value="1" <?php echo ( '1' === $occupation_designer ? 'checked' : ''); ?>/>Designer
-					</label>
-				</div>
-				<div class="checkbox">
-					<label>
-						<input name="occupation_engineer" type="checkbox" id="occupation-engineer" value="1" <?php echo ( '1' === $occupation_engineer ? 'checked' : ''); ?>/>Engineer
-					</label>
-				</div>
-				<div class="checkbox">
-					<label>
-						<input name="occupation_entrepreneur" type="checkbox" id="occupation-entrepreneur" value="1" <?php echo ( '1' === $occupation_entrepreneur ? 'checked' : ''); ?>/>Entrepreneur
-					</label>
-				</div>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-md-3 control-label">Description</label>
-			<div class="col-md-5">
-				<textarea name="user-description" class="form-control" rows="3"><?php echo $description; ?></textarea>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-md-3 control-label">
-				<?php _e( 'Password', 'cp' ); ?>
-			</label>
-			<div class="col-md-5">
-				<input type="password" class="form-control" name="password" value="" placeholder="<?php _e( "Won't change if empty.", 'cp' ); ?>"/>
-			</div>
-			<?php do_action( 'coursepress_after_settings_passwordon' ); ?>
-		</div>
-		<div class="form-group">
-			<label class="col-md-3 control-label">
-				<?php _e( 'Confirm Password', 'cp' ); ?>:
-			</label>
-			<div class="col-md-5">
-				<input type="password" class="form-control" name="password_confirmation" value=""/>
-			</div>
-			<?php do_action( 'coursepress_after_settings_pasword' ); ?>
-		</div>
-		<div class="form-group">
-			<div class="col-md-5 col-md-offset-3">
-				<input type="submit" name="student-settings-submit" class="btn btn-primary" value="<?php _e( 'Save Changes', 'cp' ); ?>"/>
-			</div>
-		</div>
-	</form><?php do_action( 'coursepress_after_settings_form' ); ?>
 <?php
 } else {
 	// if( defined('DOING_AJAX') && DOING_AJAX ) { cp_write_log('doing ajax'); }

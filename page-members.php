@@ -85,10 +85,16 @@
 	?>
 	<?php $users = get_users($user_query); ?>
 	<?php foreach ($users as $key => $user) {
+		$avatar_url = '';
+		if ( has_wp_user_avatar($user->ID) ) {
+			$avatar_url = get_wp_user_avatar_src($user->ID, 'thumbnail');
+		} else {
+			$avatar_url = get_avatar_url( $id_or_email = $user->ID );
+		}
 		?>
 		<div class="media">
 			<div class="media-left">
-				<img class="media-object img-circle" src="<?php echo get_avatar_url($user->id) ?>" alt="...">
+				<img class="media-object img-circle" src="<?php echo esc_url( $url = $avatar_url, $protocols, $_context ); ?>" alt="...">
 			</div>
 			<div class="media-body">
 				<h4 class="media-heading"><a href="<?php echo home_url( 'profile/?userid='.$user->ID, 'relative' ); ?> "><?php echo get_user_meta( $user_id = $user->ID, $key = 'first_name', $single = true ) . ' ' . get_user_meta( $user_id = $user->ID, $key = 'last_name', $single = true ); ?></a></h4>
