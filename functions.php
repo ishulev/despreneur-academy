@@ -230,12 +230,34 @@ function my_styles_method() {
 				$user_id = $user_id_var;
 			}
 		}
-		$background_url = get_user_meta( $user_id = $user_id, $key = 'profile_background', $single = true );
-		if('' !== $background_url) {
-			$custom_css = ".profile-page { background-image: url('" . wp_get_attachment_url($background_url) . "'); }";
+		$background_id = get_user_meta( $user_id = $user_id, $key = 'profile_background', $single = true );
+		if('' !== $background_id) {
+			$custom_css = ".profile-page { background-image: url('" . wp_get_attachment_url($background_id) . "'); }";
 			wp_add_inline_style( 'sage/css', $custom_css );
 		}
 	}
 }
 
 add_action( 'wp_enqueue_scripts', 'my_styles_method', 101 );
+
+function da_avatar_filter() {
+  // Remove from show_user_profile hook
+	remove_action('show_user_profile', array('wp_user_avatar', 'wpua_action_show_user_profile'));
+	remove_action('show_user_profile', array('wp_user_avatar', 'wpua_media_upload_scripts'));
+
+  // Remove from edit_user_profile hook
+	remove_action('edit_user_profile', array('wp_user_avatar', 'wpua_action_show_user_profile'));
+	remove_action('edit_user_profile', array('wp_user_avatar', 'wpua_media_upload_scripts'));
+	remove_action('wpua_before_avatar', 'wpua_do_before_avatar');
+	remove_action('wpua_after_avatar', 'wpua_do_after_avatar');
+
+  // Add to edit_user_avatar hook
+	add_action('edit_user_avatar', array('wp_user_avatar', 'wpua_action_show_user_profile'));
+	add_action('edit_user_avatar', array('wp_user_avatar', 'wpua_media_upload_scripts'));
+}
+
+// Loads only outside of administration panel
+if(!is_admin()) {
+	add_action('init','da_avatar_filter');
+}
+
