@@ -1,5 +1,6 @@
 <?php if ( is_user_logged_in() ) { ?>
 	<?php
+	global $wpdb;
 	$form_message_class = '';
 	$form_message       = '';
 	$occupation_designer = get_user_meta( $user_id = get_current_user_id(), $key = 'occupation_designer', $single = true );
@@ -69,6 +70,14 @@
 		}
 	}
 	$student = new Student( get_current_user_id() );
+
+	$user_id = get_current_user_id();
+	$payment_status = $wpdb->get_var( $wpdb->prepare( 
+		"SELECT status 
+		FROM $wpdb->pmpro_memberships_users 
+		WHERE user_id = %s", 
+		$user_id
+		) );
 	?>
 	<div>
 		<ul class="nav nav-tabs" role="tablist">
@@ -183,7 +192,11 @@
 					</div>
 				</form><?php do_action( 'coursepress_after_settings_form' ); ?>
 			</div>
-			<div role="tabpanel" class="tab-pane" id="payment">...</div>
+			<div role="tabpanel" class="tab-pane" id="payment">
+				<?php
+					include(PMPRO_DIR . "/pages/account.php");
+				?>
+			</div>
 		</div>
 	</div>
 <?php

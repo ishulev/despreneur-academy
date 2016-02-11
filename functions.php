@@ -261,3 +261,10 @@ if(!is_admin()) {
 	add_action('init','da_avatar_filter');
 }
 
+add_action( 'init', 'add_ppro_heading' );
+
+function add_ppro_heading() {
+	if( is_page( 'settings' ) ) {
+		include(PMPRO_DIR . "/preheaders/levels.php");
+	}
+}
