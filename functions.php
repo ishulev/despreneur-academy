@@ -279,3 +279,24 @@ function add_ppro_heading() {
 		include(PMPRO_DIR . "/preheaders/levels.php");
 	}
 }
+
+function da_add_logout_link($sorted_menu_items) {
+	if(is_user_logged_in()) {
+		$new_menu_items = $sorted_menu_items;
+		foreach ($sorted_menu_items as $menu_item) {
+			if('Settings' === $menu_item->title) {
+				$link = array (
+					'title'				=> 'Logout',
+					'menu_item_parent'	=> $menu_item->menu_item_parent,
+					'url'				=> wp_logout_url(home_url()),
+					);
+				$new_menu_items[] = (object) $link;
+			}
+		}
+		return $new_menu_items;
+	} else {
+		return $sorted_menu_items;
+	}
+}
+
+add_filter( 'wp_nav_menu_objects', 'da_add_logout_link');
