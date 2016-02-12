@@ -221,13 +221,23 @@ function my_fu_after_upload( $attachment_ids, $success, $post_id ) {
 function my_styles_method() {
 	if(is_page( 'profile' )) {
 		
+		global $wpdb;
 		$user_id = get_current_user_id();
 		$user_id_var = get_query_var( 'userid', '' );
 
 		if('' !== $user_id_var && is_numeric($user_id_var)){
 			$user = get_userdata( $user_id_var );
 			if(false !== $user) {
-				$user_id = $user_id_var;
+				$payment_status = $wpdb->get_var( $wpdb->prepare( 
+					"SELECT status 
+					FROM $wpdb->pmpro_memberships_users 
+					WHERE user_id = %s", 
+					$user_id_var
+					)
+				);
+				if('active' == $payment_status) {
+					$user_id = $user_id_var;
+				}
 			}
 		}
 		$background_id = get_user_meta( $user_id = $user_id, $key = 'profile_background', $single = true );

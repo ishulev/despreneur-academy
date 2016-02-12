@@ -7,7 +7,16 @@
 	if('' !== $user_id_var && is_numeric($user_id_var)){
 		$user = get_userdata( $user_id_var );
 		if(false !== $user) {
-			$user_id = $user_id_var;
+			$payment_status = $wpdb->get_var( $wpdb->prepare( 
+				"SELECT status 
+				FROM $wpdb->pmpro_memberships_users 
+				WHERE user_id = %s", 
+				$user_id_var
+				)
+			);
+			if('active' == $payment_status) {
+				$user_id = $user_id_var;
+			}
 		}
 	}
 
@@ -29,12 +38,11 @@
 
 	if((int)$user_id === get_current_user_id()) {
 		global $pmpro_pages;
-		$user_id = get_current_user_id();
 		$payment_status = $wpdb->get_var( $wpdb->prepare( 
 			"SELECT status 
 			FROM $wpdb->pmpro_memberships_users 
 			WHERE user_id = %s", 
-			$user_id
+			get_current_user_id()
 			)
 		);
 	}
@@ -42,7 +50,7 @@
 	<?php while (have_posts()) : the_post(); ?>
 		<div class="vertical-center">
 			<div class="container">
-				<?php if((int)$user_id === get_current_user_id() && !$payment_status) { ?>
+				<?php if((int)$user_id === get_current_user_id() && 'active' !== $payment_status) { ?>
 					<div class="alert alert-warning alert-dismissible fade in" role="alert">
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
 						<p>Your profile is still not visible to others. Please select a <a href="<?php echo get_page_link( $post = $pmpro_pages['levels'], $leavename, $sample ); ?>">payment plan</a>.</p>
