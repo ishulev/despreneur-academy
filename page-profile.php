@@ -26,10 +26,28 @@
 	$user_city = get_user_meta($user_id, 'pmpro_bcity', true);
 	$user_country = get_user_meta($user_id, 'pmpro_bcountry', true);
 	$user_description = get_user_meta( $user_id = $user_id, $key = 'description', $single = true );
+
+	if((int)$user_id === get_current_user_id()) {
+		global $pmpro_pages;
+		$user_id = get_current_user_id();
+		$payment_status = $wpdb->get_var( $wpdb->prepare( 
+			"SELECT status 
+			FROM $wpdb->pmpro_memberships_users 
+			WHERE user_id = %s", 
+			$user_id
+			)
+		);
+	}
 ?>
 	<?php while (have_posts()) : the_post(); ?>
 		<div class="vertical-center">
 			<div class="container">
+				<?php if((int)$user_id === get_current_user_id() && !$payment_status) { ?>
+					<div class="alert alert-warning alert-dismissible fade in" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+						<p>Your profile is still not visible to others. Please select a <a href="<?php echo get_page_link( $post = $pmpro_pages['levels'], $leavename, $sample ); ?>">payment plan</a>.</p>
+					</div>
+				<?php } ?>
 				<div class="row">
 					<div class="col-md-6 col-md-offset-3 text-center">
 						<?php if ($avatar_url) {
