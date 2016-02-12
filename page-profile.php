@@ -28,20 +28,21 @@
 	$user_description = get_user_meta( $user_id = $user_id, $key = 'description', $single = true );
 ?>
 	<?php while (have_posts()) : the_post(); ?>
-		<div class="container">
-		<?php get_template_part('templates/content', 'page'); ?>
-			<div class="row">
-				<div class="col-md-6 col-md-offset-3 text-center">
-					<?php if ($avatar_url) {
-						echo '<img class="img-circle" src="' . esc_url( $url = $avatar_url, $protocols, $_context ) . '" alt="Profile photo of ' . $fname . ' ' . $lname . '">';
-					} ?>
-					<h1><?php echo $fname . ' ' . $lname; ?></h1>
-					<p><?php echo ('1' === $occupation_engineer ? '<a href="' . home_url( 'members/?occupation=engineer', 'relative' ) . '"><span class="label label-success">Engineer</span></a>' : ''); ?><?php echo ('1' === $occupation_designer ? '<a href="' . home_url( 'members/?occupation=designer', 'relative' ) . '"><span class="label label-danger">Designer</span></a>' : ''); ?><?php echo ('1' === $occupation_entrepreneur ? '<a href="' . home_url( 'members/?occupation=entrepreneur', 'relative' ) . '"><span class="label label-primary">Entrepreneur</span></a>' : ''); ?></p>
-					<p>Member since <?php echo date('F, Y', strtotime($student->user_registered)); ?> &#8226; Location: <a href="<?php echo home_url( 'members/?country=' . $user_country, 'relative' ); ?> "><?php echo $user_city . ', ' . $user_country; ?></a></p>
-					<p><?php echo $user_description; ?></p>
-					<?php if((int)$user_id === get_current_user_id()) : ?>
-						<a href="<?php echo home_url( 'settings', 'relative' ); ?>">Edit</a>
-					<?php endif; ?>
+		<div class="vertical-center">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 col-md-offset-3 text-center">
+						<?php if ($avatar_url) {
+							echo '<img class="img-circle" src="' . esc_url( $url = $avatar_url, $protocols, $_context ) . '" alt="Profile photo of ' . $fname . ' ' . $lname . '">';
+						} ?>
+						<h1><?php echo $fname . ' ' . $lname; ?></h1>
+						<p><?php echo ('1' === $occupation_engineer ? '<a href="' . home_url( 'members/?occupation=engineer', 'relative' ) . '"><span class="label label-success">Engineer</span></a>' : ''); ?><?php echo ('1' === $occupation_designer ? '<a href="' . home_url( 'members/?occupation=designer', 'relative' ) . '"><span class="label label-danger">Designer</span></a>' : ''); ?><?php echo ('1' === $occupation_entrepreneur ? '<a href="' . home_url( 'members/?occupation=entrepreneur', 'relative' ) . '"><span class="label label-primary">Entrepreneur</span></a>' : ''); ?></p>
+						<p>Member since <?php echo date('F, Y', strtotime($student->user_registered)); ?> &#8226; Location: <a href="<?php echo home_url( 'members/?country=' . $user_country, 'relative' ); ?> "><?php echo $user_city . ', ' . $user_country; ?></a></p>
+						<p><?php echo $user_description; ?></p>
+						<?php if((int)$user_id === get_current_user_id()) : ?>
+							<a href="<?php echo home_url( 'settings', 'relative' ); ?>">Edit</a>
+						<?php endif; ?>
+					</div>
 				</div>
 			</div>
 		</div>
