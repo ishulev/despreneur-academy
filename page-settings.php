@@ -8,6 +8,10 @@
 	$occupation_entrepreneur = get_user_meta( $user_id = get_current_user_id(), $key = 'occupation_entrepreneur', $single = true );
 	$description = get_user_meta( $user_id = get_current_user_id(), $key = 'description', $single = true );
 
+	$smediaurl_facebook = get_user_meta( $user_id = get_current_user_id(), $key = 'smediaurl_facebook', $single = true );
+	$smediaurl_twitter = get_user_meta( $user_id = get_current_user_id(), $key = 'smediaurl_twitter', $single = true );
+	$smediaurl_googleplus = get_user_meta( $user_id = get_current_user_id(), $key = 'smediaurl_googleplus', $single = true );
+
 	if ( isset( $_POST['student-settings-submit'] ) ) {
 
 		if ( ! isset( $_POST['student_settings_nonce'] ) || ! wp_verify_nonce( $_POST['student_settings_nonce'], 'student_settings_save' )
@@ -29,6 +33,19 @@
 			if($_POST['user-description'] !== $description) {
 				update_usermeta( get_current_user_id(), 'description', $_POST['user-description'], $description );
 				$description = $_POST['user-description'];
+			}
+
+			if($_POST['smediaurl_facebook'] !== $smediaurl_facebook && filter_var($_POST['smediaurl_facebook'], FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED)) {
+				update_usermeta( get_current_user_id(), 'smediaurl_facebook', $_POST['smediaurl_facebook'], $smediaurl_facebook );
+				$smediaurl_facebook = $_POST['smediaurl_facebook'];
+			}
+			if($_POST['smediaurl_twitter'] !== $smediaurl_twitter && filter_var($_POST['smediaurl_twitter'], FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED)) {
+				update_usermeta( get_current_user_id(), 'smediaurl_twitter', $_POST['smediaurl_twitter'], $smediaurl_twitter );
+				$smediaurl_twitter = $_POST['smediaurl_twitter'];
+			}
+			if($_POST['smediaurl_googleplus'] !== $smediaurl_googleplus && filter_var($_POST['smediaurl_googleplus'], FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED)) {
+				update_usermeta( get_current_user_id(), 'smediaurl_googleplus', $_POST['smediaurl_googleplus'], $smediaurl_googleplus );
+				$smediaurl_googleplus = $_POST['smediaurl_googleplus'];
 			}
 
 			$student_data       = array();
@@ -188,6 +205,30 @@
 						<?php do_action( 'coursepress_after_settings_pasword' ); ?>
 					</div>
 					<div class="form-group">
+						<label class="col-md-3 control-label">
+							<?php _e( 'Facebook URL', 'cp' ); ?>
+						</label>
+						<div class="col-md-5">
+							<input type="url" class="form-control" name="smediaurl_facebook" value="<?php echo $smediaurl_facebook; ?>" placeholder="Facebook URL"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label">
+							<?php _e( 'Twitter URL', 'cp' ); ?>
+						</label>
+						<div class="col-md-5">
+							<input type="url" class="form-control" name="smediaurl_twitter" value="<?php echo $smediaurl_twitter; ?>" placeholder="Twitter URL"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label">
+							<?php _e( 'Google Plus URL', 'cp' ); ?>
+						</label>
+						<div class="col-md-5">
+							<input type="url" class="form-control" name="smediaurl_googleplus" value="<?php echo $smediaurl_googleplus; ?>" placeholder="Google Plus URL"/>
+						</div>
+					</div>
+					<div class="form-group">
 						<div class="col-md-5 col-md-offset-3">
 							<input type="submit" name="student-settings-submit" class="btn btn-primary" value="<?php _e( 'Save Changes', 'cp' ); ?>"/>
 						</div>
@@ -201,7 +242,6 @@
 					} else {
 						echo '<h2>It seems like your account hasn\'t been setup yet</h2>';
 						echo '<p>Please visit <a href="' . get_page_link( $post = $pmpro_pages['levels'], $leavename, $sample ) . '">this link</a> for more.</p>';
-						// print_r($pmpro_pages);
 					}
 				?>
 			</div>
