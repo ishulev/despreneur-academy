@@ -77,7 +77,9 @@
 		FROM $wpdb->pmpro_memberships_users 
 		WHERE user_id = %s", 
 		$user_id
-		) );
+		)
+	);
+	global $pmpro_pages;
 	?>
 	<div>
 		<ul class="nav nav-tabs" role="tablist">
@@ -194,7 +196,13 @@
 			</div>
 			<div role="tabpanel" class="tab-pane" id="payment">
 				<?php
-					include(PMPRO_DIR . "/pages/account.php");
+					if($payment_status) {
+						include(PMPRO_DIR . "/pages/account.php");
+					} else {
+						echo '<h2>It seems like your account hasn\'t been setup yet</h2>';
+						echo '<p>Please visit <a href="' . get_page_link( $post = $pmpro_pages['levels'], $leavename, $sample ) . '">this link</a> for more.</p>';
+						// print_r($pmpro_pages);
+					}
 				?>
 			</div>
 		</div>
