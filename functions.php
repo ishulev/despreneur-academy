@@ -218,7 +218,8 @@ function my_fu_after_upload( $attachment_ids, $success, $post_id ) {
 		update_usermeta( get_current_user_id(), 'profile_background', $attachment_ids[0] );
 }
 
-function my_styles_method() {
+function da_custom_styles() {
+	wp_enqueue_style( $handle = 'fontawesome', $src = '//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css', $deps, $ver, $media );
 	if(is_page( 'profile' )) {
 		
 		global $wpdb;
@@ -248,7 +249,7 @@ function my_styles_method() {
 	}
 }
 
-add_action( 'wp_enqueue_scripts', 'my_styles_method', 101 );
+add_action( 'wp_enqueue_scripts', 'da_custom_styles', 101 );
 
 function da_avatar_filter() {
   // Remove from show_user_profile hook
