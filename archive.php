@@ -1,3 +1,4 @@
+<?php /* Template Name: Courses archive */ ?>
 <?php $args = array(
 	'post_type' 	=> 'course',
 	'post_per_page' => -1,
