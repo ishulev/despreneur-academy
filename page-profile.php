@@ -36,6 +36,10 @@
 	$user_country = get_user_meta($user_id, 'pmpro_bcountry', true);
 	$user_description = get_user_meta( $user_id = $user_id, $key = 'description', $single = true );
 
+	$smediaurl_facebook = get_user_meta( $user_id = $user_id, $key = 'smediaurl_facebook', $single = true );
+	$smediaurl_twitter = get_user_meta( $user_id = $user_id, $key = 'smediaurl_twitter', $single = true );
+	$smediaurl_googleplus = get_user_meta( $user_id = $user_id, $key = 'smediaurl_googleplus', $single = true );
+
 	if((int)$user_id === get_current_user_id()) {
 		global $pmpro_pages;
 		$payment_status = $wpdb->get_var( $wpdb->prepare( 
@@ -65,6 +69,11 @@
 						<p><?php echo ('1' === $occupation_engineer ? '<a href="' . home_url( 'members/?occupation=engineer', 'relative' ) . '"><span class="label label-success">Engineer</span></a>' : ''); ?><?php echo ('1' === $occupation_designer ? '<a href="' . home_url( 'members/?occupation=designer', 'relative' ) . '"><span class="label label-danger">Designer</span></a>' : ''); ?><?php echo ('1' === $occupation_entrepreneur ? '<a href="' . home_url( 'members/?occupation=entrepreneur', 'relative' ) . '"><span class="label label-primary">Entrepreneur</span></a>' : ''); ?></p>
 						<p>Member since <?php echo date('F, Y', strtotime($student->user_registered)); ?> &#8226; Location: <a href="<?php echo home_url( 'members/?country=' . $user_country, 'relative' ); ?> "><?php echo $user_city . ', ' . $user_country; ?></a></p>
 						<p><?php echo $user_description; ?></p>
+						<div class="row">
+							<?php if('' !== $smediaurl_facebook) : ?><a href="<?php echo $smediaurl_facebook; ?>"><span class="fa fa-facebook"></span></a><?php endif; ?>
+							<?php if('' !== $smediaurl_twitter) : ?><a href="<?php echo $smediaurl_twitter; ?>"><span class="fa fa-twitter"></span></a><?php endif; ?>
+							<?php if('' !== $smediaurl_googleplus) : ?><a href="<?php echo $smediaurl_googleplus; ?>"><span class="fa fa-google-plus"></span></a><?php endif; ?>
+						</div>
 						<?php if((int)$user_id === get_current_user_id()) : ?>
 							<a href="<?php echo home_url( 'settings', 'relative' ); ?>">Edit</a>
 						<?php endif; ?>

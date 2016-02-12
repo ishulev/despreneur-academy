@@ -1,5 +1,6 @@
 <?php if ( is_user_logged_in() ) { ?>
 	<?php
+	//TODO: Add social media specific checks: E.g. If the url for facebook starts with http:facebook.com, etc.
 	global $wpdb;
 	$form_message_class = '';
 	$form_message       = '';
