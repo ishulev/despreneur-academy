@@ -4,17 +4,6 @@
 		<?php get_template_part('templates/content', 'page'); ?>
 		<?php
 		global $wpdb;
-		$country_field = 'pmpro_bcountry';
-		$countries=$wpdb->get_col(
-			$wpdb->prepare(
-				"SELECT	meta_value
-				FROM	$wpdb->usermeta
-				WHERE	meta_key=%s",
-				$country_field
-			)
-		);
-		$occupation_field = 'occupation_';
-
 		$payed_users = $wpdb->get_col(
 			$wpdb->prepare(
 				"SELECT	user_id
@@ -23,67 +12,65 @@
 				'active'
 			)
 		);
+		$country_field = 'pmpro_bcountry';
+		$countries=$wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT	meta_value
+				FROM	$wpdb->usermeta
+				WHERE	meta_key=%s
+				AND		user_id IN (".implode(',',$payed_users).")",
+				$country_field
+			)
+		);
+		$occupation_field = 'occupation_';
+		$meta_query = array(
+			array(
+				'key' => 'role',
+				'value' => 'student',
+			),
+		);
+		$country = get_query_var( 'country', '' );
+		if('' !== $country) {
+			$meta_query[] = array(
+				'key' => $country_field,
+				'value' => $country,
+			);
+		}
+		$occupation = get_query_var( 'occupation', '' );
+		if('' !== $occupation) {
+			$meta_query[] = array(
+				'key' => $occupation_field . $occupation,
+				'value' => '1',
+			);
+		}
+		$ordering = get_query_var( 'order', '' );
+		$order = 'ASC';
+		if('DESC' === $ordering) {
+			$order = 'DESC';
+		}
 	 ?>
-		<div class="btn-group" role="group" aria-label="...">
-			<div class="btn-group" role="group">
-				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Occupation
-					<span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu">
-					<li><a href="<?php echo get_the_permalink() .'?occupation=designer'; ?>">Designer</a></li>
-					<li><a href="<?php echo get_the_permalink() .'?occupation=engineer'; ?>">Engineer</a></li>
-					<li><a href="<?php echo get_the_permalink() .'?occupation=entrepreneur'; ?>">Entrepreneur</a></li>
-				</ul>
-			</div>
-			<div class="btn-group" role="group">
-				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Country
-					<span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu">
-					<?php foreach ($countries as $country) {
-						echo '<li><a href="'. get_the_permalink() .'?country=' . $country . '">' . $country . '</a></li>';
-					} ?>
-				</ul>
-			</div>
-			<div class="btn-group" role="group">
-				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Sort by
-					<span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu">
-					<li><a href="<?php echo get_the_permalink() .'?order=asc'; ?>">Newest</a></li>
-					<li><a href="<?php echo get_the_permalink() .'?order=desc'; ?>">Oldest</a></li>
-				</ul>
-			</div>
-		</div>
-		<?php 
-			$meta_query = array(
-				array(
-					'key' => 'role',
-					'value' => 'student',
-				)
-	,		);
-			$country = get_query_var( 'country', '' );
-			if('' !== $country) {
-				$meta_query[] = array(
-					'key' => $country_field,
-					'value' => $country,
-				);
-			}
-			$occupation = get_query_var( 'occupation', '' );
-			if('' !== $occupation) {
-				$meta_query[] = array(
-					'key' => $occupation_field . $occupation,
-					'value' => '1',
-				);
-			}
-			$order_query = get_query_var( 'order', '' );
-			$order = 'ASC';
-			if('DESC' === $order_query) {
-				$order = 'DESC';
-			}
+	<select class="selectpicker" onchange="location = this.options[this.selectedIndex].value;">
+		<option style="display: none" value="" selected disabled>Sort</option>
+		<optgroup label="Order">
+			<option <?php if('ASC' === $ordering ) : ?>selected<?php endif; ?> value="<?php echo get_the_permalink() .'?order=asc'; ?>">Newest</option>
+			<option <?php if('DESC' === $ordering ) : ?>selected<?php endif; ?> value="<?php echo get_the_permalink() .'?order=desc'; ?>">Oldest</option>
+		</optgroup>
+		<optgroup label="Occupation">
+			<option <?php if('designer' === $occupation ) : ?>selected disabled<?php endif; ?> value="<?php echo get_the_permalink() .'?occupation=designer'; ?>">Designer</option>
+			<option <?php if('engineer' === $occupation ) : ?>selected disabled<?php endif; ?> value="<?php echo get_the_permalink() .'?occupation=engineer'; ?>">Engineer</option>
+			<option <?php if('entrepreneur' === $occupation ) : ?>selected disabled<?php endif; ?> value="<?php echo get_the_permalink() .'?occupation=entrepreneur'; ?>">Entrepreneur</option>
+		</optgroup>
+		<optgroup label="Country">
+			<?php foreach ($countries as $country_name) {
+				$attr = '';
+				if($country === $country_name) {
+					$attr = 'selected disabled';
+				}
+				echo '<option ' . $attr . ' value="'. get_the_permalink() .'?country=' . $country_name . '">' . $country_name . '</option>';
+			} ?>
+		</optgroup>
+	</select>
+		<?php
 			$user_query = array(
 				'role' => 'subscriber',
 				'meta_query' => $meta_query,
@@ -96,16 +83,10 @@
 		<?php $users = get_users($user_query); ?>
 		<?php foreach ($users as $key => $user) {
 			if(in_array($user->ID, $payed_users)) {
-				$avatar_url = '';
-				if ( has_wp_user_avatar($user->ID) ) {
-					$avatar_url = get_wp_user_avatar_src($user->ID, 'thumbnail');
-				} else {
-					$avatar_url = get_avatar_url( $id_or_email = $user->ID );
-				}
 				?>
 				<div class="media">
 					<div class="media-left">
-						<img class="media-object img-circle" src="<?php echo esc_url( $url = $avatar_url, $protocols, $_context ); ?>" alt="...">
+						<?php echo get_avatar( $id_or_email = $user->ID, $size, $default, $alt, $args = array( 'class' => 'img-circle' )); ?>
 					</div>
 					<div class="media-body">
 						<h4 class="media-heading"><a href="<?php echo home_url( 'profile/?userid='.$user->ID, 'relative' ); ?> "><?php echo get_user_meta( $user_id = $user->ID, $key = 'first_name', $single = true ) . ' ' . get_user_meta( $user_id = $user->ID, $key = 'last_name', $single = true ); ?></a></h4>

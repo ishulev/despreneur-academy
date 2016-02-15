@@ -117,7 +117,7 @@
 					<?php echo do_shortcode( '[fu-upload-form title=""][input type="file" name="photo"][input type="submit" class="btn btn-default" value="Upload"][/fu-upload-form]' ); ?>
 					<hr>
 					<h2>Profile photo</h2>
-					<?php echo do_shortcode( '[avatar_upload]' ); ?>
+					<?php echo do_shortcode( '[basic-user-avatars]' ); ?>
 				</div>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="profile">

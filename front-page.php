@@ -9,11 +9,13 @@
 <section class="container text-center">
 	<div class="row">
 		<div class="col-md-4">
+			<span class="fa fa-globe"></span>
 			<h3>Invest in yourself</h3>
 			<p>Lorem ipsum</p>
 			<a href="#">Some link</a>
 		</div>
 		<div class="col-md-4">
+			<span class="fa fa-briefcase"></span>
 			<h3>Invest in yourself</h3>
 			<p>Lorem ipsum</p>
 			<a href="#">Some link</a>

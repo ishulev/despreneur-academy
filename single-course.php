@@ -9,13 +9,6 @@
 	echo do_shortcode( '[course_title class="course-single-title" title_tag="h1"]' );
 	echo '<span class="label label-'. $category_display_label .'">' . $category_object->name . '</span>';
 	echo do_shortcode( '[course_media course_id="'. get_the_ID() .'" class="course-video-holder"]' );
-
-	$avatar_url = '';
-	if ( has_wp_user_avatar($instructor_id) ) {
-		$avatar_url = get_wp_user_avatar_src($instructor_id, 'thumbnail');
-	} else {
-		$avatar_url = get_avatar_url( $id_or_email = $instructor_id );
-	}
 ?>
 <nav>
 	<ul class="pager">
@@ -24,9 +17,7 @@
 	</ul>
 </nav>
 
-<?php
-	echo do_shortcode( '[course_join_button course_id="'. get_the_ID() .'"]' );
-?>
+<div id="course-signup"><?php echo do_shortcode( '[course_join_button course_id="'. get_the_ID() .'"]' ); ?></div>
 <div class="row">
 	<div class="col-md-8">
 		<h2>In this lesson</h2>
@@ -35,7 +26,7 @@
 	</div>
 	<div class="col-md-4">
 		<h2>Author</h2>
-		<img src="<?php echo $avatar_url;?>" class="img-circle img-responsive" alt="Instructor photo">
+		<?php echo get_avatar( $id_or_email = $user_id, $size, $default, $alt, $args = array( 'class' => 'img-circle' )); ?>
 		<h3><?php echo get_the_author_meta('display_name', $instructor_id); ?></h3>
 		<div class="row"><p class="col-xs-12"><?php echo get_the_author_meta('description', $instructor_id); ?></p></div>
 		<hr>

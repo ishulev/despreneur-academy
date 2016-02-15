@@ -20,13 +20,6 @@
 		}
 	}
 
-	$avatar_url = '';
-	if ( has_wp_user_avatar($user_id) ) {
-		$avatar_url = get_wp_user_avatar_src($user_id, 'thumbnail');
-	} else {
-		$avatar_url = get_avatar_url( $id_or_email = $user_id );
-	}
-
 	$fname = get_user_meta( $user_id = $user_id, $key = 'first_name', $single = true );
 	$lname = get_user_meta( $user_id = $user_id, $key = 'last_name', $single = true );
 	$occupation_designer = get_user_meta( $user_id = $user_id, $key = 'occupation_designer', $single = true );
@@ -62,9 +55,7 @@
 				<?php } ?>
 				<div class="row">
 					<div class="col-md-6 col-md-offset-3 text-center">
-						<?php if ($avatar_url) {
-							echo '<img class="img-circle" src="' . esc_url( $url = $avatar_url, $protocols, $_context ) . '" alt="Profile photo of ' . $fname . ' ' . $lname . '">';
-						} ?>
+						<?php echo get_avatar( $id_or_email = $user_id, $size, $default, $alt, $args = array( 'class' => 'img-circle' )); ?>
 						<h1><?php echo $fname . ' ' . $lname; ?></h1>
 						<p><?php echo ('1' === $occupation_engineer ? '<a href="' . home_url( 'members/?occupation=engineer', 'relative' ) . '"><span class="label label-success">Engineer</span></a>' : ''); ?><?php echo ('1' === $occupation_designer ? '<a href="' . home_url( 'members/?occupation=designer', 'relative' ) . '"><span class="label label-danger">Designer</span></a>' : ''); ?><?php echo ('1' === $occupation_entrepreneur ? '<a href="' . home_url( 'members/?occupation=entrepreneur', 'relative' ) . '"><span class="label label-primary">Entrepreneur</span></a>' : ''); ?></p>
 						<p>Member since <?php echo date('F, Y', strtotime($student->user_registered)); ?> &#8226; Location: <a href="<?php echo home_url( 'members/?country=' . $user_country, 'relative' ); ?> "><?php echo $user_city . ', ' . $user_country; ?></a></p>
