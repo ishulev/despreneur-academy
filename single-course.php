@@ -17,7 +17,13 @@
 	</ul>
 </nav>
 
-<div id="course-signup"><?php echo do_shortcode( '[course_join_button course_id="'. get_the_ID() .'"]' ); ?></div>
+<div id="course-signup">
+	<?php if(is_user_logged_in()) : ?>
+		<?php echo do_shortcode( '[course_join_button course_id="'. get_the_ID() .'"]' ); ?>
+	<?php else : ?>
+		<a class="btn btn-primary" href="<?php echo esc_url( home_url( '/register' ) ); ?>">Signup!</a>
+	<?php endif; ?>
+</div>
 <div class="row">
 	<div class="col-md-8">
 		<h2>In this lesson</h2>
@@ -26,7 +32,7 @@
 	</div>
 	<div class="col-md-4">
 		<h2>Author</h2>
-		<?php echo get_avatar( $id_or_email = $user_id, $size, $default, $alt, $args = array( 'class' => 'img-circle' )); ?>
+		<?php echo get_avatar( $id_or_email = $instructor_id, $size, $default, $alt, $args = array( 'class' => 'img-circle' )); ?>
 		<h3><?php echo get_the_author_meta('display_name', $instructor_id); ?></h3>
 		<div class="row"><p class="col-xs-12"><?php echo get_the_author_meta('description', $instructor_id); ?></p></div>
 		<hr>
