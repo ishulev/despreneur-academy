@@ -20,6 +20,7 @@
 					</div>
 					<p class="login-submit">
 						<input type="submit" name="wp-submit" id="wp-submit" class="btn btn-primary" value="Log in" />
+						<p>Don\'t have an account?<a class="btn btn-link" href=" ' . esc_url( home_url( '/register' ) ) . ' ">Register</a></p>
 					</p>
 				</form>';
 				echo $form;

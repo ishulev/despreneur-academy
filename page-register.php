@@ -84,6 +84,7 @@
 				<p class="registration-submit">
 					<?php wp_nonce_field( $action = 'register_nonce', $name = 'register_wpnonce', $referer, $echo = true ); ?>
 					<input type="submit" name="registration-submit" id="registration-submit" class="btn btn-primary" value="Register" />
+					<p>Have an account?<a class="btn btn-link" href="<?php echo esc_url( home_url( '/login' ) ); ?>">Log in</a></p>
 				</p>
 			</form>
 		</div>
