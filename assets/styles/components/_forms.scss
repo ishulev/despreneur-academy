@@ -35,9 +35,10 @@
 	}
 }
 #course-signup {
-	// .apply-button {
-	// 	float: left;
-	// 	@extend .btn;
-	// 	@extend .btn-primary;
-	// }
+	text-align: center;
+	.apply-button {
+		float: none;
+		@extend .btn;
+		@extend .btn-primary;
+	}
 }

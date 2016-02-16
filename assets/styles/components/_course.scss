@@ -37,3 +37,9 @@
 .clearfix {
 	clear: both;
 }
+.cp_popup_inner {
+	button.apply-button {
+		@extend .btn;
+		@extend .btn-primary;
+	}
+}
