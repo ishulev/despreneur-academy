@@ -4,6 +4,20 @@
 	background-size: cover;
 	&.front-page {
 		background-image: url('../images/background-front_page_main.jpg');
+		.vertical-center {
+			h1 {
+				font-weight: 700;
+				text-transform: uppercase;
+			}
+			h2 {
+				font-family: 'Source Serif Pro', serif;
+				margin: 40px 0 0 0;
+			}
+			.btn {
+				margin: 40px 0 0 0;
+			}
+			color: white;
+		}
 	}
 }
 //Need to figure out how to allign center vertically
@@ -14,5 +28,6 @@
 }
 
 .full-width-color {
-	background: gray;
+	background: #f4f5f6;
+	padding: 40px 0;
 }
