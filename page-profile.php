@@ -121,7 +121,7 @@
 									echo '<a href="' . esc_url(get_permalink()) . '"><img src="' . get_post_meta(get_the_ID(), 'featured_url', true) . '" class="img-responsive"></a>';
 									echo '<span class="course-category label label-'. $category_display_label .'">' . $category_object->name . '</span>';
 									echo '<a class="title" href="' . esc_url(get_permalink()) . '">' . get_the_title() . '</a>';
-									echo '<p>' . trim(do_shortcode( '[course_end label="" label_tag="" course_id="' . get_the_ID() . '"]') ) . ' / ' . trim(do_shortcode( '[course_time_estimation course_id="' . get_the_ID() . '"]' ) ) . '</p>';
+									echo '<p><i>' . get_the_date() . ' / ' . trim(do_shortcode( '[course_time_estimation course_id="' . get_the_ID() . '"]' ) ) . '</i></p>';
 									echo '<div class="progress">';
 										echo '<div class="progress-bar" role="progressbar" aria-valuenow="' . $progress . '" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: ' . $progress . '%;">';
 											echo $progress . '%';
@@ -157,7 +157,7 @@
 									echo '<a href="' . esc_url(get_permalink()) . '"><img src="' . get_post_meta(get_the_ID(), 'featured_url', true) . '" class="img-responsive"></a>';
 									echo '<span class="course-category label label-'. $category_display_label .'">' . $category_object->name . '</span>';
 									echo '<a class="title" href="' . esc_url(get_permalink()) . '">' . get_the_title() . '</a>';
-									echo '<p>' . trim(do_shortcode( '[course_end label="" label_tag="" course_id="' . get_the_ID() . '"]') ) . ' / ' . trim(do_shortcode( '[course_time_estimation course_id="' . get_the_ID() . '"]' ) ) . '</p>';
+									echo '<p><i>' . get_the_date() . ' / ' . trim(do_shortcode( '[course_time_estimation course_id="' . get_the_ID() . '"]' ) ) . '</i></p>';
 								echo '</div>';
 							echo '</div>';
 						}
