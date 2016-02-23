@@ -303,3 +303,109 @@ function da_add_logout_link($sorted_menu_items) {
 }
 
 add_filter( 'wp_nav_menu_objects', 'da_add_logout_link');
+
+class Stats_Widget extends WP_Widget {
+
+	/**
+	 * Register widget with WordPress.
+	 */
+	function __construct() {
+		parent::__construct(
+			'stats_widget', // Base ID
+			__( 'Stats Widget', 'text_domain' ), // Name
+			array( 'description' => __( 'Academy stats', 'text_domain' ),
+				'title' => 'Academy stats',
+			) // Args
+		);
+	}
+
+
+	/**
+	 * Front-end display of widget.
+	 *
+	 * @see WP_Widget::widget()
+	 *
+	 * @param array $args     Widget arguments.
+	 * @param array $instance Saved values from database.
+	 */
+	public function widget( $args, $instance ) {
+		$query_args = array(
+			'post_type'				=> 'course',
+			'posts_per_page'		=> -1,
+			'post_status'			=> 'publish',
+			'fields'				=> 'ids',
+		);
+		// The Query
+		$courseIds = get_posts( $query_args );
+
+		// The Loop
+		$totalSeconds = 0;
+		$totalMinutes = 0;
+		foreach ($courseIds as $courseId) {
+			$timeForCourse = (int)strtotime(Course::get_course_time_estimation($courseId));
+			$totalMinutes += date("i", $timeForCourse);
+		}
+
+		global $wpdb;
+		$payed_users = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT	COUNT(user_id)
+				FROM	$wpdb->pmpro_memberships_users
+				WHERE	status=%s",
+				'active'
+			)
+		);
+		echo $args['before_widget'];
+		if ( ! empty( $instance['title'] ) ) {
+			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ). $args['after_title'];
+		} ?>
+		<ul>
+			<li><?php echo count($courseIds); ?> Courses</li>
+			<li><?php echo $totalMinutes ?> Minutes of video || CHANGE TO HOUR!</li>
+			<li>25 Tutorials || STATIC!!</li>
+			<li><?php echo $payed_users; ?> Members</li>
+		</ul>
+		<?php echo $args['after_widget'];
+	}
+
+	/**
+	 * Back-end widget form.
+	 *
+	 * @see WP_Widget::form()
+	 *
+	 * @param array $instance Previously saved values from database.
+	 */
+	public function form( $instance ) {
+		$title = ! empty( $instance['title'] ) ? $instance['title'] : __( 'New title', 'text_domain' );
+		?>
+		<p>
+		<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label> 
+		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
+		</p>
+		<?php 
+	}
+
+	/**
+	 * Sanitize widget form values as they are saved.
+	 *
+	 * @see WP_Widget::update()
+	 *
+	 * @param array $new_instance Values just sent to be saved.
+	 * @param array $old_instance Previously saved values from database.
+	 *
+	 * @return array Updated safe values to be saved.
+	 */
+	public function update( $new_instance, $old_instance ) {
+		$instance = array();
+		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
+
+		return $instance;
+	}
+
+} // class Stats_Widget
+
+// register Stats_Widget widget
+function register_stats_widget() {
+	register_widget( 'Stats_Widget' );
+}
+add_action( 'widgets_init', 'register_stats_widget' );
