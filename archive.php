@@ -12,12 +12,12 @@ $the_query = new WP_Query( $args );
 	// The Loop
 if ( $the_query->have_posts() ) : ?>
 		<h3>All courses</h3>
-		<div class="row">
+		<div class="row courses">
 			<?php
 			$count = 0;
 			while ( $the_query->have_posts() ) {
 				if($count !== 0 && $count % 3 == 0)
-					echo '</div><div class="row">';
+					echo '</div><div class="row courses">';
 				$the_query->the_post();
 				$category_display_label = 'primary';
 				$category_object = wp_get_post_terms( get_the_ID(), 'course_category' );
@@ -28,7 +28,7 @@ if ( $the_query->have_posts() ) : ?>
 				echo '<div class="thumbnail">';
 				echo '<a href="' . esc_url(get_permalink()) . '"><img src="' . get_post_meta(get_the_ID(), 'featured_url', true) . '" class="img-responsive"></a>';
 				echo '<span class="course-category label label-'. $category_display_label .'">' . $category_object->name . '</span>';
-				echo '<a href="' . esc_url(get_permalink()) . '">' . get_the_title() . '</a>';
+				echo '<a class="title" href="' . esc_url(get_permalink()) . '">' . get_the_title() . '</a>';
 				echo '<p>' . trim(do_shortcode( '[course_end label="" label_tag="" course_id="' . get_the_ID() . '"]') ) . ' / ' . trim(do_shortcode( '[course_time_estimation course_id="' . get_the_ID() . '"]' ) ) . '</p>';
 				echo '</div>';
 				echo '</div>';

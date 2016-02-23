@@ -98,10 +98,13 @@
 			} ?>
 			<div class="container">
 				<?php if($started_courses > 0) : ?>
+					<?php $count = 0; ?>
 					<h3>Started courses</h3>
-					<div class="row">
+					<div class="row courses">
 						<?php
 						while ( $the_query->have_posts() ) {
+							if($count !== 0 && $count % 3 == 0)
+								echo '</div><div class="row courses">';
 							$the_query->the_post();
 							$completed = Student_Completion::is_course_complete( $user_id, get_the_ID() );
 							$progress = do_shortcode( '[course_progress course_id="' . get_the_ID() . '"]' );
@@ -117,7 +120,7 @@
 								echo '<div class="thumbnail">';
 									echo '<a href="' . esc_url(get_permalink()) . '"><img src="' . get_post_meta(get_the_ID(), 'featured_url', true) . '" class="img-responsive"></a>';
 									echo '<span class="course-category label label-'. $category_display_label .'">' . $category_object->name . '</span>';
-									echo '<a href="' . esc_url(get_permalink()) . '">' . get_the_title() . '</a>';
+									echo '<a class="title" href="' . esc_url(get_permalink()) . '">' . get_the_title() . '</a>';
 									echo '<p>' . trim(do_shortcode( '[course_end label="" label_tag="" course_id="' . get_the_ID() . '"]') ) . ' / ' . trim(do_shortcode( '[course_time_estimation course_id="' . get_the_ID() . '"]' ) ) . '</p>';
 									echo '<div class="progress">';
 										echo '<div class="progress-bar" role="progressbar" aria-valuenow="' . $progress . '" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: ' . $progress . '%;">';
@@ -131,10 +134,13 @@
 					</div>
 				<?php endif; ?>
 				<?php if($completed_courses > 0) : ?>
+					<?php $count = 0; ?>
 					<h3>Completed courses</h3>
-					<div class="row">
+					<div class="row courses">
 						<?php
 						while ( $the_query->have_posts() ) {
+							if($count !== 0 && $count % 3 == 0)
+								echo '</div><div class="row courses">';
 							$the_query->the_post();
 							$completed = Student_Completion::is_course_complete( $user_id, get_the_ID() );
 							$progress = do_shortcode( '[course_progress course_id="' . get_the_ID() . '"]' );
@@ -150,7 +156,7 @@
 								echo '<div class="thumbnail">';
 									echo '<a href="' . esc_url(get_permalink()) . '"><img src="' . get_post_meta(get_the_ID(), 'featured_url', true) . '" class="img-responsive"></a>';
 									echo '<span class="course-category label label-'. $category_display_label .'">' . $category_object->name . '</span>';
-									echo '<a href="' . esc_url(get_permalink()) . '">' . get_the_title() . '</a>';
+									echo '<a class="title" href="' . esc_url(get_permalink()) . '">' . get_the_title() . '</a>';
 									echo '<p>' . trim(do_shortcode( '[course_end label="" label_tag="" course_id="' . get_the_ID() . '"]') ) . ' / ' . trim(do_shortcode( '[course_time_estimation course_id="' . get_the_ID() . '"]' ) ) . '</p>';
 								echo '</div>';
 							echo '</div>';

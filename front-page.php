@@ -50,7 +50,7 @@ if ( $the_query->have_posts() ) : ?>
 <section class="full-width-color">
 	<div class="container">
 		<h3>Latest courses</h3>
-		<div class="row">
+		<div class="row courses">
 			<?php
 			while ( $the_query->have_posts() ) {
 				$the_query->the_post();
@@ -63,7 +63,7 @@ if ( $the_query->have_posts() ) : ?>
 				echo '<div class="thumbnail">';
 				echo '<a href="' . esc_url(get_permalink()) . '"><img src="' . get_post_meta(get_the_ID(), 'featured_url', true) . '" class="img-responsive"></a>';
 				echo '<span class="course-category label label-'. $category_display_label .'">' . $category_object->name . '</span>';
-				echo '<a href="' . esc_url(get_permalink()) . '">' . get_the_title() . '</a>';
+				echo '<a class="title" href="' . esc_url(get_permalink()) . '">' . get_the_title() . '</a>';
 				echo '<p>' . get_the_date() . ' / ' . trim(do_shortcode( '[course_time_estimation course_id="' . get_the_ID() . '"]' ) ) . '</p>';
 				echo '</div>';
 				echo '</div>';
