@@ -9,7 +9,17 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="<?php echo esc_url(home_url()); ?>"><?php bloginfo('name'); ?></a>
+					<?php
+						$logo_option = get_theme_mod('da_logo_option', 'title');
+						$to_display = '';
+						if( 'title' === $logo_option ) :
+							$to_display = get_theme_mod('da_logo_title', get_bloginfo( 'name' ));
+						else :
+							$logo_src = get_theme_mod('da_logo_image', '');
+						$to_display = '<img class="img-responsive logo" src="' . $logo_src . '">';
+						endif;
+					?>
+					<a class="navbar-brand" href="<?php echo esc_url(home_url()); ?>"><?php echo $to_display; ?></a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<?php
