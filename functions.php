@@ -304,4 +304,13 @@ function da_add_logout_link($sorted_menu_items) {
 
 add_filter( 'wp_nav_menu_objects', 'da_add_logout_link');
 
+function da_add_login_link($items, $args) {
+	if(!is_user_logged_in() && $args->menu->slug == 'primary') {
+		$items .= '<li class="menu-item"><a data-toggle="modal" data-target="#myModal" href="#">Login</a></li>';
+	}
+		return $items;
+}
+
+add_filter( 'wp_nav_menu_items', 'da_add_login_link', 10, 2);
+
 require_once (trailingslashit( get_template_directory() ) . 'lib/widgets.php');
