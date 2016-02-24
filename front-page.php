@@ -6,7 +6,7 @@
 		</section>
 	</div>
 </div> <!-- This is ending the full width background div -->
-<section class="container text-center">
+<section class="container text-center first-after-full">
 	<div class="row">
 		<div class="col-md-4">
 			<span class="fa fa-globe"></span>
@@ -27,7 +27,7 @@
 		</div>
 	</div>
 	<hr>
-	<div class="row">
+	<div class="row single">
 		<h3>Simple pricing</h3>
 		<p>Despreneur academy membership is only $19</p>
 		<p><i>One month trial is just $1</i></p>
@@ -74,7 +74,7 @@ if ( $the_query->have_posts() ) : ?>
 </section>
 <?php endif; ?>
 <?php wp_reset_postdata(); ?>
-<section class="container text-center">
+<section class="container text-center second-after-full">
 	<h3>What people are saying</h3>
 	<div class="row">
 		<div class="col-md-4 h-card vcard">
@@ -96,13 +96,13 @@ if ( $the_query->have_posts() ) : ?>
 			<p><i>Loved every video course I've taken. Very easy to follow.</i></p>
 		</div>
 	</div>
-	<a href="#">Read more success stories</a>
-	<div class="row">
+	<a class="out" href="#">Read more success stories</a>
+	<div class="row partners">
 		<h3>Exclusive partner deals to kickstart your business</h3>
 		<img src="<?php echo get_template_directory_uri();?>/dist/images/partners-front_page.png" alt="">
 	</div>
 	<hr>
-	<div class="row">
+	<div class="row final-cta">
 		<h3>Start learning today</h3>
 		<p><i>Join an amazing community and start learning life-changing skills</i></p>
 		<a href="<?php echo esc_url( home_url( '/membership-account' ) ); ?>" class="btn btn-primary">Sign up now</a>
