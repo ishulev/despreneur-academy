@@ -306,7 +306,7 @@ add_filter( 'wp_nav_menu_objects', 'da_add_logout_link');
 
 function da_add_login_link($items, $args) {
 	if(!is_user_logged_in() && $args->menu->slug == 'primary') {
-		$items .= '<li class="menu-item"><a data-toggle="modal" data-target="#myModal" href="#">Login</a></li>';
+		$items .= '<li class="menu-item"><a data-toggle="modal" data-target="#modal-login" href="#">Login</a></li>';
 	}
 		return $items;
 }
@@ -314,3 +314,78 @@ function da_add_login_link($items, $args) {
 add_filter( 'wp_nav_menu_items', 'da_add_login_link', 10, 2);
 
 require_once (trailingslashit( get_template_directory() ) . 'lib/widgets.php');
+
+function da_ajax_login_init() {
+
+	wp_register_script('ajax-handler', get_template_directory_uri() . '/dist/scripts/ajax-handler.js', array('jquery') ); 
+	wp_enqueue_script('ajax-handler');
+
+	wp_localize_script( 'ajax-handler', 'ajax_handler_object', array( 
+		'ajaxurl' => admin_url( 'admin-ajax.php' ),
+		'redirecturl' => get_permalink( get_page_by_path('profile') ),
+		'loadingmessage' => __('Sending user info, please wait...')
+		));
+
+    // Enable the user with no privileges to run da_ajax_login() and da_ajax_regster() in AJAX
+    // VITAL!!!
+	add_action( 'wp_ajax_nopriv_ajaxlogin', 'da_ajax_login' );
+	add_action( 'wp_ajax_nopriv_ajaxregister', 'da_ajax_register' );
+}
+
+// Execute the action only if the user isn't logged in
+if (!is_user_logged_in()) {
+	add_action('init', 'da_ajax_login_init');
+}
+
+function da_ajax_login() {
+
+    // First check the nonce, if it fails the function will break
+	check_ajax_referer( 'ajax-login-nonce', 'ajax-login' );
+
+    // Nonce is checked, get the POST data and sign user on
+	$info = array();
+	$info['user_login'] = $_POST['login-email'];
+	$info['user_password'] = $_POST['login-password'];
+	$info['remember'] = $_POST['rememberme'];
+
+	$user_signon = wp_signon( $info, false );
+	if ( is_wp_error($user_signon) ){
+		echo json_encode(array('loggedin'=>false, 'message'=>__('Wrong username or password.')));
+	} else {
+		echo json_encode(array('loggedin'=>true, 'message'=>__('Login successful, redirecting...')));
+	}
+
+	die();
+}
+
+function da_ajax_register() {
+
+    // First check the nonce, if it fails the function will break
+	check_ajax_referer( 'ajax-register-nonce', 'ajax-register' );
+
+    // Nonce is checked, get the POST data and sign user on
+	$userdata = array(
+		'user_login'	=>	$_POST['register-email'],
+		'user_pass'		=>	$_POST['register-password'],
+		'user_email'	=>	$_POST['register-email'],
+		);
+	$new_user_id = wp_insert_user( $userdata );
+	if ( ! is_wp_error( $new_user_id )) {
+		$user = get_user_by( 'id', $new_user_id ); 
+		if( $user ) {
+			update_user_meta( $user_id = $new_user_id, $meta_key = 'role', $meta_value = 'student', $prev_value );
+			wp_set_current_user( $new_user_id, $user->user_login );
+			wp_set_auth_cookie( $new_user_id );
+			do_action( 'wp_login', $user->user_login );
+			echo json_encode(array('registration'=>true, 'message'=>__('Login successful, redirecting...')));
+		} else {
+			echo json_encode(array('registration'=>false, 'message'=>__('Error! Try again :)')));
+		}
+	}
+	else {
+		$error = $new_user_id->get_error_message();
+		echo json_encode(array('registration'=>false, 'message'=>__($error)));
+	}
+
+	die();
+}

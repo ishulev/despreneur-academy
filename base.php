@@ -32,37 +32,66 @@ do_action('get_header'); ?>
 		</div>
 	<?php endif; ?>
 	<?php if(!is_user_logged_in()) : ?>
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-			<div class="modal-dialog" role="document">
+		<div class="modal fade" id="modal-login" tabindex="-1" role="dialog" aria-labelledby="ModalLogin">
+			<div class="modal-dialog modal-sm" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+						<h4 class="modal-title" id="myModalLabel">Login</h4>
 					</div>
 					<div class="modal-body">
 						<form name="loginform" id="loginform" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ) ?>" method="post">
+							<div class="status"></div>
 							<div class="form-group">
-								<label for="user_login">Username</label>
-								<input type="text" name="log" id="user_login" class="form-control" value=""/>
+								<label for="login-email">Email</label>
+								<input type="text" name="login-email" id="login-email" class="form-control" value=""/>
 							</div>
 							<div class="form-group">
-								<label for="user_pass">Password</label>
-								<input type="password" name="pwd" id="user_pass" class="form-control" value=""/>
+								<label for="login-password">Password</label>
+								<input type="password" name="login-password" id="login-password" class="form-control" value=""/>
 							</div>
-							<div class="checkbox">
-								<label>
-									<input name="rememberme" type="checkbox" id="rememberme" value="forever"/>Remember me
-								</label>
+							<div class="row">
+								<div class="col-md-12">
+									<label>
+										<input name="rememberme" type="checkbox" id="rememberme"/>Remember me
+									</label>
+									<a class="lost" href="<?php echo wp_lostpassword_url(); ?>">Lost your password?</a>
+								</div>
 							</div>
 							<p class="login-submit">
-								<input type="submit" name="wp-submit" id="wp-submit" class="btn btn-primary" value="Log in" />
-								<p>Don\'t have an account?<a class="btn btn-link" href="#">Register</a></p>
+								<button id="login-submit" class="btn btn-primary">Log in</button>
+								<p>Don't have an account? <button class="btn btn-link" id="toggle-modal-register" href="#">Register</button></p>
 							</p>
+							<?php wp_nonce_field( 'ajax-login-nonce', 'ajax-login' ); ?>
 						</form>
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="modal-register" tabindex="-1" role="dialog" aria-labelledby="ModalRegister">
+			<div class="modal-dialog modal-sm" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">Register</h4>
+					</div>
+					<div class="modal-body">
+						<form name="registerform" id="registerform" action="register" method="post">
+							<div class="status"></div>
+							<div class="form-group">
+								<label for="register-email">Email</label>
+								<input type="email" name="register-email" id="register-email" class="form-control" value=""/>
+							</div>
+							<div class="form-group">
+								<label for="register-password">Password</label>
+								<input type="password" name="register-password" id="register-password" class="form-control" value=""/>
+							</div>
+							<p class="login-submit">
+								<button id="register-submit" class="btn btn-primary" value="Register" />
+								<p>Already a member? <button class="btn btn-link" id="toggle-modal-login" href="#">Login here</button></p>
+							</p>
+							<?php wp_nonce_field( 'ajax-register-nonce', 'ajax-register' ); ?>
+						</form>
 					</div>
 				</div>
 			</div>
