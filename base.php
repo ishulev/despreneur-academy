@@ -87,7 +87,7 @@ do_action('get_header'); ?>
 								<input type="password" name="register-password" id="register-password" class="form-control" value=""/>
 							</div>
 							<p class="login-submit">
-								<button id="register-submit" class="btn btn-primary" value="Register" />
+								<button id="register-submit" class="btn btn-primary">Register</button>
 								<p>Already a member? <button class="btn btn-link" id="toggle-modal-login" href="#">Login here</button></p>
 							</p>
 							<?php wp_nonce_field( 'ajax-register-nonce', 'ajax-register' ); ?>
