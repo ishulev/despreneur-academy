@@ -1,3 +1,43 @@
 .lost {
 	float: right;
 }
+.modal-header {
+	border-bottom: none;
+	padding-bottom: 0px;
+}
+.modal {
+	label, .lost {
+		font-family: $font-s-serif-pro;
+	}
+	.form-group label {
+		font-weight: 600;
+	}
+	.rememberme {
+		vertical-align: top;
+		margin-left: 10px;
+	}
+}
+.modal-content {
+	#register-submit {
+		margin-top: 20px;
+	}
+	.col-md-12 label {
+		margin-bottom: 0;
+	}
+	.btn-primary {
+		margin-top: 15px;
+	}
+	padding: 10px 15px;
+	.direct-other-modal, .direct-other-modal button {
+		font-size: 13px;
+		font-style: italic;
+	}
+	.direct-other-modal {
+		margin-bottom: 0;
+		button {
+			font-family: $font-s-serif-pro;
+			text-transform: none;
+			padding: 0px;
+		}
+	}
+}

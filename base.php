@@ -37,7 +37,7 @@ do_action('get_header'); ?>
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="myModalLabel">Login</h4>
+						<h5 class="modal-title" id="myModalLabel">Login</h5>
 					</div>
 					<div class="modal-body">
 						<form name="loginform" id="loginform" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ) ?>" method="post">
@@ -53,15 +53,15 @@ do_action('get_header'); ?>
 							<div class="row">
 								<div class="col-md-12">
 									<label>
-										<input name="rememberme" type="checkbox" id="rememberme"/>Remember me
+										<input name="rememberme" type="checkbox" id="rememberme"/><span class="rememberme">Remember me</span>
 									</label>
 									<a class="lost" href="<?php echo wp_lostpassword_url(); ?>">Lost your password?</a>
 								</div>
 							</div>
 							<p class="login-submit">
-								<button id="login-submit" class="btn btn-primary">Log in</button>
-								<p>Don't have an account? <button class="btn btn-link" id="toggle-modal-register" href="#">Register</button></p>
+								<button id="login-submit" class="btn btn-primary btn-block">Log in</button>
 							</p>
+							<p class="direct-other-modal">If you are not a member, <button class="btn btn-link" id="toggle-modal-register" href="#">register here</button>.</p>
 							<?php wp_nonce_field( 'ajax-login-nonce', 'ajax-login' ); ?>
 						</form>
 					</div>
@@ -73,7 +73,7 @@ do_action('get_header'); ?>
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="myModalLabel">Register</h4>
+						<h5 class="modal-title" id="myModalLabel">Register</h5>
 					</div>
 					<div class="modal-body">
 						<form name="registerform" id="registerform" action="register" method="post">
@@ -87,9 +87,9 @@ do_action('get_header'); ?>
 								<input type="password" name="register-password" id="register-password" class="form-control" value=""/>
 							</div>
 							<p class="login-submit">
-								<button id="register-submit" class="btn btn-primary">Register</button>
-								<p>Already a member? <button class="btn btn-link" id="toggle-modal-login" href="#">Login here</button></p>
+								<button id="register-submit" class="btn btn-primary btn-block">Register</button>
 							</p>
+							<p class="direct-other-modal">If you already have an account, <button class="btn btn-link" id="toggle-modal-login" href="#">log in now</button>.</p>
 							<?php wp_nonce_field( 'ajax-register-nonce', 'ajax-register' ); ?>
 						</form>
 					</div>

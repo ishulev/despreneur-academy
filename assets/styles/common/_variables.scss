@@ -13,5 +13,13 @@ $label-danger-bg : #fe0000 !default;
 $label-success-bg : #00d3a0 !default;
 
 // Fonts
-$headings-font-family : 'Montserrat', sans-serif !default; 
-$font-family-base : 'Source Sans Pro', sans-serif !default;
+$font-montserrat : 'Montserrat', sans-serif !default;
+$font-s-sans-pro : 'Source Sans Pro', sans-serif !default;
+$font-s-serif-pro : 'Source Serif Pro', serif !default;
+
+$headings-font-family : $font-montserrat; 
+$font-family-base : $font-s-sans-pro;
+
+// Modals
+$modal-sm : 320px !default;
+$border-radius-large : 0px !default;
