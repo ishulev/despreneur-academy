@@ -223,7 +223,7 @@ function da_custom_styles() {
 	wp_enqueue_style( $handle = 'font-s-sans-pro', $src = '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700', $deps, $ver, $media );
 	wp_enqueue_style( $handle = 'font-s-serif-pro', $src = '//fonts.googleapis.com/css?family=Source+Serif+Pro:400,600', $deps, $ver, $media );
 	wp_enqueue_style( $handle = 'fontawesome', $src = '//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css', $deps, $ver, $media );
-	if(is_page( 'profile' )) {
+	if(is_page( 'profile' ) || is_page( 'settings' )) {
 		
 		global $wpdb;
 		$user_id = get_current_user_id();

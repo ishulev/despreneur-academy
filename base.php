@@ -18,7 +18,7 @@ use Roots\Sage\Wrapper;
 do_action('get_header'); ?>
 <?php if(is_front_page()): ?>
 <div class="front-page full-width-background">
-<?php elseif(is_page( 'profile' )) : ?>
+<?php elseif(is_page( 'profile' ) || is_page( 'settings' )) : ?>
 	<div class="profile-page full-width-background">
 	<?php endif; ?>
 	<?php

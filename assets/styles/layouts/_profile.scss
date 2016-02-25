@@ -1,0 +1,53 @@
+p.edit-button {
+	margin: 0 0 30px;
+	a {
+		@extend .btn;
+		@extend .btn-link;
+		display: inline-block;
+		background-color: #41474c;
+		color: white;
+		font-size: 10px;
+		padding: 2px 6px;
+		font-style: none;
+	}
+	a:hover {
+		background-color: #41474c;
+		color: white;
+	}
+}
+
+.profile-view {
+	h1 {
+		font-family: $font-s-sans-pro;
+		font-weight: 700;
+		font-size: 27px;
+		color: white;
+	}
+	p.text {
+		a {
+			color: white;
+		}
+		margin-top: 15px;
+		color: white;
+		font-size: 13px;
+		font-family: $font-s-serif-pro;
+		font-style: italic;
+	}
+	p.description {
+		font-size: 16px;
+	}
+	.social {
+		margin-top: 20px;
+		.fa {
+			color: white;
+		}
+	}
+}
+.page-profile {
+	h5 {
+		margin-bottom: 25px;
+	}
+}
+.profile-page {
+	margin-bottom: 40px;
+}

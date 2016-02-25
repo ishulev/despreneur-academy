@@ -1,5 +1,5 @@
 <?php
-	if(isset($_POST['registration-submit'])) {
+	if(isset($_POST['registration-static-submit'])) {
 		$missing_fields = false;
 		$password_missmatch = false;
 		$reserved_email = false;
@@ -81,9 +81,9 @@
 					<label class="control-label" for="password-repeat">Repeat Password</label>
 					<input type="password" name="password-repeat" id="password-repeat" class="form-control"/>
 				</div>
-				<p class="registration-submit">
+				<p class="registration-static-submit">
 					<?php wp_nonce_field( $action = 'register_nonce', $name = 'register_wpnonce', $referer, $echo = true ); ?>
-					<input type="submit" name="registration-submit" id="registration-submit" class="btn btn-primary" value="Register" />
+					<input type="submit" name="registration-static-submit" id="registration-static-submit" class="btn btn-primary" value="Register" />
 					<p>Have an account?<a class="btn btn-link" href="<?php echo esc_url( home_url( '/login' ) ); ?>">Log in</a></p>
 				</p>
 			</form>
