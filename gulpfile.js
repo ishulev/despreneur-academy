@@ -199,6 +199,15 @@ gulp.task('scripts', ['jshint'], function() {
     .pipe(writeToManifest('scripts'));
 });
 
+// CUstom ajax login JS. Needs to be in separate file, not main.js
+gulp.task('custom-loginjs-compile', ['jshint'], function() {
+  gulp.src(path.source + '/scripts/' + 'ajax-handler.js')
+  .pipe(jsTasks('ajax-handler.js')
+    .pipe(uglify())
+    .pipe(gulp.dest(path.dist + 'scripts'))
+  );
+  });
+
 // ### Fonts
 // `gulp fonts` - Grabs all the fonts and outputs them in a flattened directory
 // structure. See: https://github.com/armed/gulp-flatten
@@ -254,6 +263,7 @@ gulp.task('watch', function() {
   });
   gulp.watch([path.source + 'styles/**/*'], ['styles']);
   gulp.watch([path.source + 'scripts/**/*'], ['jshint', 'scripts']);
+  gulp.watch([path.source + 'scripts/ajax-handler.js'], ['custom-loginjs-compile']);
   gulp.watch([path.source + 'fonts/**/*'], ['fonts']);
   gulp.watch([path.source + 'images/**/*'], ['images']);
   gulp.watch(['bower.json', 'assets/manifest.json'], ['build']);
