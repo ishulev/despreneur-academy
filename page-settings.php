@@ -98,6 +98,101 @@
 		)
 	);
 	global $pmpro_pages;
+
+	//PMPRO
+	global $pmpro_msg, $pmpro_msgt, $pmpro_levels, $current_user, $levels;
+	ob_start();
+	if(pmpro_hasMembershipLevel())
+	{
+		$ssorder = new MemberOrder();
+		$ssorder->getLastMemberOrder();
+		$invoices = $wpdb->get_results("SELECT *, UNIX_TIMESTAMP(timestamp) as timestamp FROM $wpdb->pmpro_membership_orders WHERE user_id = '$current_user->ID' ORDER BY timestamp DESC LIMIT 6");		
+		?>	
+		<div id="pmpro_account">	
+			<h5><?php _e("Membership", "pmpro");?></h5>
+			<div class="row">
+				<div class="col-md-4">
+					<h6>Level</h6>
+					<?php echo $current_user->membership_level->name?>
+					<div class="pmpro_actionlinks">
+						<?php do_action("pmpro_member_action_links_before"); ?>
+						
+						<?php if( pmpro_isLevelExpiringSoon( $current_user->membership_level) ) { ?>
+							<a href="<?php echo pmpro_url("checkout", "?level=" . $current_user->membership_level->id, "https")?>"><?php _e("Renew", "pmpro");?></a>
+						<?php } ?>
+
+						<?php if((isset($ssorder->status) && $ssorder->status == "success") && (isset($ssorder->gateway) && in_array($ssorder->gateway, array("authorizenet", "paypal", "stripe", "braintree", "payflow", "cybersource")))) { ?>
+							<a href="<?php echo pmpro_url("billing", "", "https")?>"><?php _e("Update Billing Info", "pmpro"); ?></a>
+						<?php } ?>
+						
+						<?php 
+							//To do: Only show CHANGE link if this level is in a group that has upgrade/downgrade rules
+							if(count($pmpro_levels) > 1 && !defined("PMPRO_DEFAULT_LEVEL")) { ?>
+							<a href="<?php echo pmpro_url("levels")?>"><?php _e("Change", "pmpro");?></a>
+						<?php } ?>
+						<a href="<?php echo pmpro_url("cancel", "?level=" . $current_user->membership_level->id)?>"><?php _e("Cancel", "pmpro");?></a>
+						<?php do_action("pmpro_member_action_links_after"); ?>
+					</div>
+					<div class="pmpro_actionlinks">
+						<a href="<?php echo pmpro_url("levels")?>"><?php _e("View all Membership Options", "pmpro");?></a>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<h6>Billing</h6>
+					<?php $level = $current_user->membership_level; ?>
+					<p><?php echo pmpro_getLevelCost($level, true, true);?></p>
+					<a href="<?php echo pmpro_url("billing", "")?>"><?php _e("Update Billing Info", "pmpro"); ?></a>
+				</div>
+				<div class="col-md-4">
+					<h6>Expiration</h6>
+					<?php
+						if($current_user->membership_level->enddate) 
+							echo date(get_option('date_format'), $current_user->membership_level->enddate);
+						else
+							echo "---";
+					?>
+				</div>
+			</div>
+			<hr>
+			<h5>Invoices</h5>
+			<div class="row">
+				<div class="col-md-4"><h6>Date</h6></div>
+				<div class="col-md-4"><h6>Level</h6></div>
+				<div class="col-md-4"><h6>Amount</h6></div>
+			</div>
+			<?php 
+				$count = 0;
+				foreach($invoices as $invoice) 
+				{ ?>
+					<div class="row">
+						<?php
+
+						//get an member order object
+						$invoice_id = $invoice->id;
+						$invoice = new MemberOrder;
+						$invoice->getMemberOrderByID($invoice_id);
+						$invoice->getMembershipLevel();						
+						?>
+						<div class="col-md-4">
+							<a href="<?php echo pmpro_url("invoice", "?invoice=" . $invoice->code)?>"><?php echo date(get_option("date_format"), $invoice->timestamp); ?></a>
+						</div>
+						<div class="col-md-4">
+							<?php echo $invoice->membership_level->name; ?>
+						</div>
+						<div class="col-md-4">
+							<?php echo pmpro_formatPrice($invoice->total);?>
+						</div>
+					</div>
+				<?php 
+				}
+			?>
+		</div>
+	<?php
+	}
+	
+	$content = ob_get_contents();
+	ob_end_clean();
+	
 	?>
 	<?php require_once(trailingslashit( get_template_directory() ) . 'templates/profile-view.php'); ?>
 	</div>
@@ -189,114 +284,53 @@
 							</div>
 							<div class="clearfix"></div>
 						</div>
-						<div class="form-group">
-							<label class="col-md-3 control-label">
-								<?php _e( 'First Name', 'cp' ); ?>
-							</label>
-							<div class="col-md-5">
-								<input type="text" class="form-control" name="first_name" value="<?php esc_attr_e( $student->user_firstname ); ?>"/>
-							</div>
-							<?php do_action( 'coursepress_after_settings_first_name' ); ?>
+						<div class="">
+							<label class="control-label">Biographical info</label>
+							<textarea name="user-description" class="form-control" rows="3"><?php echo $description; ?></textarea>
 						</div>
-						<div class="form-group">
-							<label class="col-md-3 control-label">
-								<?php _e( 'Last Name', 'cp' ); ?>
-							</label>
-							<div class="col-md-5">
-								<input type="text" class="form-control" name="last_name" value="<?php esc_attr_e( $student->user_lastname ); ?>"/>
-							</div>
-							<?php do_action( 'coursepress_after_settings_last_name' ); ?>
-						</div>
-						<div class="form-group">
-							<label class="col-md-3 control-label">
-								<?php _e( 'E-mail', 'cp' ); ?>
-							</label>
-							<div class="col-md-5">
-								<input type="text" class="form-control" name="email" value="<?php esc_attr_e( $student->user_email ); ?>"/>
-							</div>
-							<?php do_action( 'coursepress_after_settings_email' ); ?>
-						</div>
-						<div class="form-group">
-							<label class="col-md-3 control-label">
-								<?php _e( 'Username', 'cp' ); ?>:
-							</label>
-							<div class="col-md-5">
-								<input type="text" class="form-control" name="username" value="<?php esc_attr_e( $student->user_login ); ?>" disabled="disabled"/>
-							</div>
-							<?php do_action( 'coursepress_after_settings_username' ); ?>
-						</div>
-						<div class="form-group">
-							<label class="col-md-3 control-label">Description</label>
-							<div class="col-md-5">
-								<textarea name="user-description" class="form-control" rows="3"><?php echo $description; ?></textarea>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-3 control-label">
-								<?php _e( 'Password', 'cp' ); ?>
-							</label>
-							<div class="col-md-5">
-								<input type="password" class="form-control" name="password" value="" placeholder="<?php _e( "Won't change if empty.", 'cp' ); ?>"/>
-							</div>
-							<?php do_action( 'coursepress_after_settings_passwordon' ); ?>
-						</div>
-						<div class="form-group">
-							<label class="col-md-3 control-label">
-								<?php _e( 'Confirm Password', 'cp' ); ?>:
-							</label>
-							<div class="col-md-5">
-								<input type="password" class="form-control" name="password_confirmation" value=""/>
-							</div>
-							<?php do_action( 'coursepress_after_settings_pasword' ); ?>
-						</div>
-						<div class="form-group">
-							<label class="col-md-3 control-label">
-								<?php _e( 'Facebook URL', 'cp' ); ?>
-							</label>
-							<div class="col-md-5">
+						<div class="row">
+							<div class="col-md-4">
+								<label class="control-label">
+									<?php _e( 'Facebook URL', 'cp' ); ?>
+								</label>
 								<input type="url" class="form-control" name="smediaurl_facebook" value="<?php echo $smediaurl_facebook; ?>" placeholder="Facebook URL"/>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-3 control-label">
-								<?php _e( 'Twitter URL', 'cp' ); ?>
-							</label>
-							<div class="col-md-5">
+							<div class="col-md-4">
+								<label class="control-label">
+									<?php _e( 'Twitter URL', 'cp' ); ?>
+								</label>
 								<input type="url" class="form-control" name="smediaurl_twitter" value="<?php echo $smediaurl_twitter; ?>" placeholder="Twitter URL"/>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-3 control-label">
-								<?php _e( 'Google Plus URL', 'cp' ); ?>
-							</label>
-							<div class="col-md-5">
+							<div class="col-md-4">
+								<label class="control-label">
+									<?php _e( 'Google Plus URL', 'cp' ); ?>
+								</label>
 								<input type="url" class="form-control" name="smediaurl_googleplus" value="<?php echo $smediaurl_googleplus; ?>" placeholder="Google Plus URL"/>
 							</div>
 						</div>
-						<div class="form-group">
-							<div class="col-md-5 col-md-offset-3">
-								<input type="submit" name="student-settings-submit" class="btn btn-primary" value="<?php _e( 'Save Changes', 'cp' ); ?>"/>
-							</div>
-						</div>
+						<input type="submit" name="student-settings-submit" class="btn btn-primary" value="<?php _e( 'Save Changes', 'cp' ); ?>"/>
 					</form><?php do_action( 'coursepress_after_settings_form' ); ?>
 					<hr>
-					<h2>Profile background</h2>
-					<?php $background_id = get_user_meta( $user_id = get_current_user_id(), $key = 'profile_background', $single = true );
-						if('' !== $background_id) {
-							echo wp_get_attachment_image( $attachment_id = $background_id, $size = 'thumbnail', $icon, $attr );
-						}
-					?>
-					<?php echo do_shortcode( '[fu-upload-form title=""][input type="file" name="photo"][input type="submit" class="btn btn-default" value="Upload"][/fu-upload-form]' ); ?>
-					<hr>
-					<h2>Profile photo</h2>
-					<?php echo do_shortcode( '[basic-user-avatars]' ); ?>
-					<p class="<?php echo esc_attr( 'form-info-' . $form_message_class ); ?>"><?php echo esc_html( $form_message ); ?></p>
-					<?php do_action( 'coursepress_before_settings_form' ); ?>
+					<div class="row">
+						<div class="col-md-4">
+							<?php $background_id = get_user_meta( $user_id = get_current_user_id(), $key = 'profile_background', $single = true );
+								if('' !== $background_id) {
+									echo wp_get_attachment_image( $attachment_id = $background_id, $size = 'thumbnail', $icon, $attr );
+								}
+							?>
+							<?php echo do_shortcode( '[fu-upload-form title=""][input type="file" name="photo"][input type="submit" class="btn btn-default" value="Upload"][/fu-upload-form]' ); ?>
+						</div>
+						<div class="col-md-4 bua">	
+							<?php echo do_shortcode( '[basic-user-avatars]' ); ?>
+						</div>
+					</div>
 				</div>
 				<div role="tabpanel" class="tab-pane" id="payment">
 					<?php
 						if($payment_status) {
-							include(PMPRO_DIR . "/pages/account.php");
+							// include(PMPRO_DIR . "/pages/account.php");
+							// echo pmpro_shortcode_account(array( 'sections' => 'membership,invoices',));
+							echo $content;
 						} else {
 							echo '<h2>It seems like your account hasn\'t been setup yet</h2>';
 							echo '<p>Please visit <a href="' . get_page_link( $post = $pmpro_pages['levels'], $leavename, $sample ) . '">this link</a> for more.</p>';
