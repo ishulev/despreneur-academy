@@ -28,17 +28,19 @@ function is_pmpro_page() {
 		do_action('get_header'); ?>
 		<?php if(is_front_page()): ?>
 			<div class="front-page full-width-background">
+			<?php get_template_part('templates/header'); ?>
 		<?php elseif(is_page( 'profile' ) || is_page( 'settings' )) : ?>
 			<div class="profile-page full-width-background">
-		<?php elseif(is_pmpro_page()) : ?>
-			<div class="billing-page full-width-background">
-		<?php endif;
-		get_template_part('templates/header'); ?>
-		<?php if(!is_front_page() && !is_page( 'profile' ) && !is_page( 'settings' ) && !is_pmpro_page()): ?>
+			<?php get_template_part('templates/header'); ?>
+		<?php elseif(is_pmpro_page() || is_post_type_archive( 'course' )) : ?>
+			<div class="full-width-background partly-height">
+			<?php get_template_part('templates/header'); ?>
+		<?php else : ?>
+			<?php get_template_part('templates/header'); ?>
 			<div class="container">
-			<?php endif; ?>
-			<?php include Wrapper\template_path(); ?>
-			<?php if(!is_front_page() && !is_page( 'profile' )): ?>
+		<?php endif; ?>
+		<?php include Wrapper\template_path(); ?>
+		<?php if(!is_front_page() && !is_page( 'profile' )): ?>
 			</div>
 		<?php endif; ?>
 		<?php if(!is_user_logged_in()) : ?>
