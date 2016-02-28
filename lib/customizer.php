@@ -118,6 +118,41 @@ function customize_register($wp_customize) {
 			)
 		)
 	);
+
+	function customizer_is_course_archive_page() {
+		if(is_post_type_archive( 'course' )) {
+			return true;
+		}
+		return false;
+	}
+	$wp_customize->add_section(
+		'da_course_archive',
+		array(
+			'title'    => __('Courses', 'themename'),
+			'description' => '',
+			'priority' => 160,
+			'active_callback' => __NAMESPACE__ . '\\customizer_is_course_archive_page'
+		)
+	);
+	$wp_customize->add_setting(
+		'da_course_archive_background',
+		array(
+			'capability'     => 'edit_theme_options',
+			'type'           => 'theme_mod',
+		)
+	);
+	$wp_customize->add_control(
+		new \WP_Customize_Image_Control(
+			$wp_customize,
+			'da_course_archive_background',
+			array(
+				'label'      => __( 'Manage background', 'theme_name' ),
+				'section'    => 'da_course_archive',
+				'settings'   => 'da_course_archive_background',
+				'context'    => '' 
+			)
+		)
+	);
 }
 add_action('customize_register', __NAMESPACE__ . '\\customize_register');
 
