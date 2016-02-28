@@ -1,6 +1,5 @@
-.billing-page {
-	min-height: 60vh;
-	.vertical-center {
-		min-height: 40vh;
+.membership-checkout {
+	select[name='bcountry'] {
+		width: 100%;
 	}
 }
