@@ -15,7 +15,7 @@
 		$country_field = 'pmpro_bcountry';
 		$countries=$wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT	meta_value
+				"SELECT	DISTINCT (meta_value)
 				FROM	$wpdb->usermeta
 				WHERE	meta_key=%s
 				AND		user_id IN (".implode(',',$payed_users).")",
