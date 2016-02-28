@@ -247,8 +247,11 @@ function da_custom_styles() {
 		$background_id = get_user_meta( $user_id = $user_id, $key = 'profile_background', $single = true );
 		if('' !== $background_id) {
 			$custom_css = ".profile-page { background-image: url('" . wp_get_attachment_url($background_id) . "'); }";
-			wp_add_inline_style( 'sage/css', $custom_css );
 		}
+		else {
+			$custom_css = ".profile-page { background: gray; }";
+		}
+		wp_add_inline_style( 'sage/css', $custom_css );
 	}
 }
 
