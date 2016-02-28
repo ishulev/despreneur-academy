@@ -27,7 +27,8 @@
 				
 				?>
 
-				<?php echo apply_filters("the_content", $confirmation_message);	?>	
+				<?php echo apply_filters("the_content", $confirmation_message);	?>
+				<hr>	
 				<?php if($pmpro_msg) : ?>
 					<div class="pmpro_message <?php echo $pmpro_msgt?>"><?php echo $pmpro_msg?></div>
 				<?php endif; ?>
