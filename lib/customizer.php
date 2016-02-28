@@ -8,12 +8,12 @@ use Roots\Sage\Assets;
  * Add postMessage support
  */
 function customize_register($wp_customize) {
-  $wp_customize->get_setting('blogname')->transport = 'postMessage';
+	$wp_customize->get_setting('blogname')->transport = 'postMessage';
 
-  //CUSTOM!
-  $wp_customize->add_setting( 'da_logo_option', array(
+	//CUSTOM!
+	$wp_customize->add_setting( 'da_logo_option', array(
 		'default'        => 'title',
-		) );
+	) );
 	$wp_customize->add_control( 'da_logo_option', array(
 		'label'      => 'Choose type of logo',
 		'section'    => 'title_tagline',
@@ -46,7 +46,7 @@ function customize_register($wp_customize) {
 		)
 	);
 	$wp_customize->add_control(
-		new WP_Customize_Image_Control(
+		new \WP_Customize_Image_Control(
 			$wp_customize,
 			'da_logo_image',
 			array(
@@ -54,7 +54,7 @@ function customize_register($wp_customize) {
 				'section'    => 'title_tagline',
 				'settings'   => 'da_logo_image',
 				'context'    => '',
-				'active_callback'   => 'choice_image_callback',
+				'active_callback'   => __NAMESPACE__ . '\\choice_image_callback',
 			)
 		)
 	);
@@ -74,7 +74,48 @@ function customize_register($wp_customize) {
 			'section'    => 'title_tagline',
 			'settings'   => 'da_logo_title',
 			'context'    => '',
-			'active_callback' => 'choice_title_callback' 
+			'active_callback' => __NAMESPACE__ . '\\choice_title_callback'
+		)
+	);
+
+	function customizer_is_pmpro_page() {
+		global $pmpro_pages;
+		if(is_array($pmpro_pages)) {
+			foreach ($pmpro_pages as $value) {
+				if(is_page( $value )) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	$wp_customize->add_section(
+		'da_payment_pages',
+		array(
+			'title'    => __('Payment pages', 'themename'),
+			'description' => '',
+			'priority' => 160,
+			'active_callback' => __NAMESPACE__ . '\\customizer_is_pmpro_page'
+		)
+	);
+	$wp_customize->add_setting(
+		'da_payment_pages_background',
+		array(
+			'capability'     => 'edit_theme_options',
+			'type'           => 'theme_mod',
+		)
+	);
+	$wp_customize->add_control(
+		new \WP_Customize_Image_Control(
+			$wp_customize,
+			'da_payment_pages_background',
+			array(
+				'label'      => __( 'Manage background', 'theme_name' ),
+				'section'    => 'da_payment_pages',
+				'settings'   => 'da_payment_pages_background',
+				'context'    => '' 
+			)
 		)
 	);
 }

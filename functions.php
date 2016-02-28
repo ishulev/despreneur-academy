@@ -246,10 +246,20 @@ function da_custom_styles() {
 		}
 		$background_id = get_user_meta( $user_id = $user_id, $key = 'profile_background', $single = true );
 		if('' !== $background_id) {
-			$custom_css = ".profile-page { background-image: url('" . wp_get_attachment_url($background_id) . "'); }";
+			$custom_css = '.profile-page { background-image: url("' . wp_get_attachment_url($background_id) . '"); }';
 		}
 		else {
-			$custom_css = ".profile-page { background: gray; }";
+			$custom_css = '.profile-page { background: gray; }';
+		}
+		wp_add_inline_style( 'sage/css', $custom_css );
+	}
+	else if(is_pmpro_page()) {
+		$background_image_src = get_theme_mod('da_payment_pages_background', '');
+		if( '' !== $background_image_src ) {
+			$custom_css = '.billing-page { background-image: url("' . $background_image_src . '"); }';
+		}
+		else {
+			$custom_css = '.billing-page { background-color: gray; }';
 		}
 		wp_add_inline_style( 'sage/css', $custom_css );
 	}
