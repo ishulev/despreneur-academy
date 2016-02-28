@@ -17,7 +17,7 @@
 </div> <!-- CLOSING FULL WIDTH TAG -->
 <div class="container">
 	<div class="row">
-		<div class="col-md-offset-3 col-md-6">
+		<div class="col-md-offset-2 col-md-8">
 			<?php if($pmpro_msg)
 				{
 			?>
@@ -31,7 +31,7 @@
 			<?php
 				}
 			?>
-			<form id="pmpro_form" class="pmpro_form" action="<?php if(!empty($_REQUEST['review'])) echo pmpro_url("checkout", "?level=" . $pmpro_level->id); ?>" method="post">
+			<form id="pmpro_form" class="membership-checkout" action="<?php if(!empty($_REQUEST['review'])) echo pmpro_url("checkout", "?level=" . $pmpro_level->id); ?>" method="post">
 				<p><?php printf(__('You have selected the <strong>%s</strong> membership level.', 'pmpro'), $pmpro_level->name);?></p>
 				<?php if($current_user->ID && !$pmpro_review) { ?>
 					<p id="pmpro_account_loggedin">
@@ -43,47 +43,49 @@
 				<?php } ?>
 				<?php echo wpautop(pmpro_getLevelCost($pmpro_level)); ?>
 				<hr>
-				<div>
-					<div>
+				<div class="row">
+					<div class="col-md-4">
 						<label for="bfirstname"><?php _e('First Name', 'pmpro');?></label>
 						<input id="bfirstname" name="bfirstname" type="text" class="input <?php echo pmpro_getClassForField("bfirstname");?>" size="30" value="<?php echo esc_attr($bfirstname)?>" />
 					</div>
-					<div>
+					<div class="col-md-4">
 						<label for="blastname"><?php _e('Last Name', 'pmpro');?></label>
 						<input id="blastname" name="blastname" type="text" class="input <?php echo pmpro_getClassForField("blastname");?>" size="30" value="<?php echo esc_attr($blastname)?>" />
 					</div>
-					<div>
+					<div class="col-md-4">
 						<label for="baddress1"><?php _e('Address 1', 'pmpro');?></label>
 						<input id="baddress1" name="baddress1" type="text" class="input <?php echo pmpro_getClassForField("baddress1");?>" size="30" value="<?php echo esc_attr($baddress1)?>" />
 					</div>
-					<div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
 						<label for="baddress2"><?php _e('Address 2', 'pmpro');?></label>
 						<input id="baddress2" name="baddress2" type="text" class="input <?php echo pmpro_getClassForField("baddress2");?>" size="30" value="<?php echo esc_attr($baddress2)?>" />
 					</div>
-
 					<?php
 					$longform_address = apply_filters("pmpro_longform_address", true);
 					if($longform_address)
 					{
-						?>
-						<div>
-							<label for="bcity"><?php _e('City', 'pmpro');?></label>
-							<input id="bcity" name="bcity" type="text" class="input <?php echo pmpro_getClassForField("bcity");?>" size="30" value="<?php echo esc_attr($bcity)?>" />
-						</div>
-						<div>
-							<label for="bstate"><?php _e('State', 'pmpro');?></label>
-							<input id="bstate" name="bstate" type="text" class="input <?php echo pmpro_getClassForField("bstate");?>" size="30" value="<?php echo esc_attr($bstate)?>" />
-						</div>
-						<div>
-							<label for="bzipcode"><?php _e('Postal Code', 'pmpro');?></label>
-							<input id="bzipcode" name="bzipcode" type="text" class="input <?php echo pmpro_getClassForField("bzipcode");?>" size="30" value="<?php echo esc_attr($bzipcode)?>" />
-						</div>
-						<?php
+					?>
+					<div class="col-md-4">
+						<label for="bcity"><?php _e('City', 'pmpro');?></label>
+						<input id="bcity" name="bcity" type="text" class="input <?php echo pmpro_getClassForField("bcity");?>" size="30" value="<?php echo esc_attr($bcity)?>" />
+					</div>
+					<div class="col-md-4">
+						<label for="bstate"><?php _e('State', 'pmpro');?></label>
+						<input id="bstate" name="bstate" type="text" class="input <?php echo pmpro_getClassForField("bstate");?>" size="30" value="<?php echo esc_attr($bstate)?>" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<label for="bzipcode"><?php _e('Postal Code', 'pmpro');?></label>
+						<input id="bzipcode" name="bzipcode" type="text" class="input <?php echo pmpro_getClassForField("bzipcode");?>" size="30" value="<?php echo esc_attr($bzipcode)?>" />
+					</div>
+					<?php
 					}
 					else
-					{
-						?>
-						<div>
+					{ ?>
+						<div  class="col-md-4">
 							<label for="bcity_state_zip"><?php _e('City, State Zip', 'pmpro');?></label>
 							<input id="bcity" name="bcity" type="text" class="input <?php echo pmpro_getClassForField("bcity");?>" size="14" value="<?php echo esc_attr($bcity)?>" />,
 							<?php
@@ -136,7 +138,7 @@
 							if($show_country)
 							{
 								?>
-								<div>
+								<div class="col-md-4">
 									<label for="bcountry"><?php _e('Country', 'pmpro');?></label>
 									<select name="bcountry" class=" <?php echo pmpro_getClassForField("bcountry");?>">
 										<?php
@@ -161,8 +163,12 @@
 								<?php
 							}
 							?>
+					<div class="col-md-4">
+						<label for="bphone"><?php _e('Phone', 'pmpro');?></label>
+						<input id="bphone" name="bphone" type="text" class="input <?php echo pmpro_getClassForField("bphone");?>" size="30" value="<?php echo esc_attr(formatPhone($bphone))?>" />
+					</div>
 				</div>
-				<div>
+				<div class="row">
 					<?php if($skip_account_fields) { ?>
 					<?php
 					if($current_user->ID)
@@ -194,45 +200,43 @@
 					?>
 					<?php } ?>
 				</div>
-				<div>
-					<label for="bphone"><?php _e('Phone', 'pmpro');?></label>
-					<input id="bphone" name="bphone" type="text" class="input <?php echo pmpro_getClassForField("bphone");?>" size="30" value="<?php echo esc_attr(formatPhone($bphone))?>" />
-				</div>
 				<hr>
-				<?php if(pmpro_getGateway() == "paypal" && empty($pmpro_review)) { ?>
-					<?php _e('Choose your Payment Method', 'pmpro');?></th>
-					<div>
-						<span class="gateway_paypal">
-							<input type="radio" name="gateway" value="paypal" <?php if(!$gateway || $gateway == "paypal") { ?>checked="checked"<?php } ?> />
-							<a href="javascript:void(0);" class="pmpro_radio"><?php _e('Check Out with a Credit Card Here', 'pmpro');?></a>
-						</span>
-						<span class="gateway_paypalexpress">
-							<input type="radio" name="gateway" value="paypalexpress" <?php if($gateway == "paypalexpress") { ?>checked="checked"<?php } ?> />
-							<a href="javascript:void(0);" class="pmpro_radio"><?php _e('Check Out with PayPal', 'pmpro');?></a>
-						</span>
-					</div>
-				<?php } ?>
 				<?php
 				$pmpro_accepted_credit_cards = pmpro_getOption("accepted_credit_cards");
 				$pmpro_accepted_credit_cards = explode(",", $pmpro_accepted_credit_cards);
 				$pmpro_accepted_credit_cards_string = pmpro_implodeToEnglish($pmpro_accepted_credit_cards);
 			?>
-				<span class="pmpro_thead-name"><?php _e('Payment Information', 'pmpro');?></span>
-					<span class="pmpro_thead-msg"><?php printf(__('We Accept %s', 'pmpro'), $pmpro_accepted_credit_cards_string);?></span>
-						<?php $sslseal = pmpro_getOption("sslseal");
-						if($sslseal)
-						{
-						?>
-							<div class="pmpro_sslseal"><?php echo stripslashes($sslseal)?></div>
-						<?php
-						} ?>
-
+				<h4><?php _e('Payment Information', 'pmpro');?></h4>
+				<span><?php printf(__('We Accept PayPal, %s', 'pmpro'), $pmpro_accepted_credit_cards_string);?></span>
+				<?php $sslseal = pmpro_getOption("sslseal");
+				if($sslseal)
+				{
+				?>
+					<div class="pmpro_sslseal"><?php echo stripslashes($sslseal)?></div>
+				<?php
+				} ?>
+				<h5><?php _e('Payment Method', 'pmpro');?></h5>
+				<div class="payment-methods">
+					<div class="radio">
+						<label>
+							<input type="radio" name="gateway" value="credit-card" <?php if(!$gateway || $gateway == "paypal") { ?>checked="checked"<?php } ?> />
+							<?php _e('Check Out with a Credit Card', 'pmpro');?>
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" name="gateway" value="paypalexpress" <?php if($gateway == "paypalexpress") { ?>checked="checked"<?php } ?> />
+							<?php _e('Check Out with PayPal', 'pmpro');?>
+						</label>
+					</div>
+				</div>
+				<div class="<?php if($gateway == "paypalexpress") { echo 'hidden'; } ?> row card-fields">
 					<?php
 						$pmpro_include_cardtype_field = apply_filters('pmpro_include_cardtype_field', false);
 						if($pmpro_include_cardtype_field)
 						{
 							?>
-							<div class="pmpro_payment-card-type">
+							<div class="col-md-4 pmpro_payment-card-type">
 								<label for="CardType"><?php _e('Card Type', 'pmpro');?></label>
 								<select id="CardType" name="CardType" class=" <?php echo pmpro_getClassForField("CardType");?>">
 									<?php foreach($pmpro_accepted_credit_cards as $cc) { ?>
@@ -275,38 +279,39 @@
 						}
 					?>
 
-					<div class="pmpro_payment-account-number">
+					<div class="col-md-4 pmpro_payment-account-number">
 						<label for="AccountNumber"><?php _e('Card Number', 'pmpro');?></label>
 						<input id="AccountNumber" name="AccountNumber" class="input <?php echo pmpro_getClassForField("AccountNumber");?>" type="text" size="25" value="<?php echo esc_attr($AccountNumber)?>" data-encrypted-name="number" autocomplete="off" />
 					</div>
-
-					<div class="pmpro_payment-expiration">
+					<div class="col-md-4">
 						<label for="ExpirationMonth"><?php _e('Expiration Date', 'pmpro');?></label>
-						<select id="ExpirationMonth" name="ExpirationMonth" class=" <?php echo pmpro_getClassForField("ExpirationMonth");?>">
-							<option value="01" <?php if($ExpirationMonth == "01") { ?>selected="selected"<?php } ?>>01</option>
-							<option value="02" <?php if($ExpirationMonth == "02") { ?>selected="selected"<?php } ?>>02</option>
-							<option value="03" <?php if($ExpirationMonth == "03") { ?>selected="selected"<?php } ?>>03</option>
-							<option value="04" <?php if($ExpirationMonth == "04") { ?>selected="selected"<?php } ?>>04</option>
-							<option value="05" <?php if($ExpirationMonth == "05") { ?>selected="selected"<?php } ?>>05</option>
-							<option value="06" <?php if($ExpirationMonth == "06") { ?>selected="selected"<?php } ?>>06</option>
-							<option value="07" <?php if($ExpirationMonth == "07") { ?>selected="selected"<?php } ?>>07</option>
-							<option value="08" <?php if($ExpirationMonth == "08") { ?>selected="selected"<?php } ?>>08</option>
-							<option value="09" <?php if($ExpirationMonth == "09") { ?>selected="selected"<?php } ?>>09</option>
-							<option value="10" <?php if($ExpirationMonth == "10") { ?>selected="selected"<?php } ?>>10</option>
-							<option value="11" <?php if($ExpirationMonth == "11") { ?>selected="selected"<?php } ?>>11</option>
-							<option value="12" <?php if($ExpirationMonth == "12") { ?>selected="selected"<?php } ?>>12</option>
-						</select>/<select id="ExpirationYear" name="ExpirationYear" class=" <?php echo pmpro_getClassForField("ExpirationYear");?>">
-							<?php
-								for($i = date("Y"); $i < date("Y") + 10; $i++)
-								{
-							?>
-								<option value="<?php echo $i?>" <?php if($ExpirationYear == $i) { ?>selected="selected"<?php } ?>><?php echo $i?></option>
-							<?php
-								}
-							?>
-						</select>
+						<div class="pmpro_payment-expiration">
+							<select id="ExpirationMonth" name="ExpirationMonth" class=" <?php echo pmpro_getClassForField("ExpirationMonth");?>">
+								<option value="01" <?php if($ExpirationMonth == "01") { ?>selected="selected"<?php } ?>>01</option>
+								<option value="02" <?php if($ExpirationMonth == "02") { ?>selected="selected"<?php } ?>>02</option>
+								<option value="03" <?php if($ExpirationMonth == "03") { ?>selected="selected"<?php } ?>>03</option>
+								<option value="04" <?php if($ExpirationMonth == "04") { ?>selected="selected"<?php } ?>>04</option>
+								<option value="05" <?php if($ExpirationMonth == "05") { ?>selected="selected"<?php } ?>>05</option>
+								<option value="06" <?php if($ExpirationMonth == "06") { ?>selected="selected"<?php } ?>>06</option>
+								<option value="07" <?php if($ExpirationMonth == "07") { ?>selected="selected"<?php } ?>>07</option>
+								<option value="08" <?php if($ExpirationMonth == "08") { ?>selected="selected"<?php } ?>>08</option>
+								<option value="09" <?php if($ExpirationMonth == "09") { ?>selected="selected"<?php } ?>>09</option>
+								<option value="10" <?php if($ExpirationMonth == "10") { ?>selected="selected"<?php } ?>>10</option>
+								<option value="11" <?php if($ExpirationMonth == "11") { ?>selected="selected"<?php } ?>>11</option>
+								<option value="12" <?php if($ExpirationMonth == "12") { ?>selected="selected"<?php } ?>>12</option>
+							</select>/<select id="ExpirationYear" name="ExpirationYear" class=" <?php echo pmpro_getClassForField("ExpirationYear");?>">
+								<?php
+									for($i = date("Y"); $i < date("Y") + 10; $i++)
+									{
+								?>
+									<option value="<?php echo $i?>" <?php if($ExpirationYear == $i) { ?>selected="selected"<?php } ?>><?php echo $i?></option>
+								<?php
+									}
+								?>
+							</select>
+						</div>
 					</div>
-
+					<div class="col-md-4">
 					<?php
 					$pmpro_show_cvv = apply_filters("pmpro_show_cvv", true);
 					if($pmpro_show_cvv)
@@ -317,6 +322,8 @@
 						</div>
 						<?php
 					} ?>
+					</div>
+				</div>
 				<div class="pmpro_submit">
 					<?php if($pmpro_review) { ?>
 
@@ -357,6 +364,20 @@
 </div>	
 <script>
 <!--
+	var cardFields = jQuery('.card-fields');
+	var cardSubmit = jQuery('#pmpro_submit_span');
+	var payPalSubmit = jQuery('#pmpro_paypalexpress_checkout');
+	jQuery('.payment-methods input').on('change', function(){
+		if(jQuery(this).val() == 'paypalexpress') {
+			cardFields.addClass('hidden');
+			cardSubmit.hide();
+			payPalSubmit.show();
+		} else {
+			payPalSubmit.hide();
+			cardFields.removeClass('hidden');
+			cardSubmit.show();
+		}
+	});
 	// Find ALL <form> tags on your page
 	jQuery('form').submit(function(){
 		// On submit disable its submit button
