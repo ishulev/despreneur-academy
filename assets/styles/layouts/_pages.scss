@@ -113,3 +113,10 @@
 		font-family: 'Montserrat', sans-serif;
 	}
 }
+.partly-height {
+	min-height: 60vh;
+	margin-bottom: 40px;
+	.vertical-center {
+		min-height: 40vh;
+	}
+}
