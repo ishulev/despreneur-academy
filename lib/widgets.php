@@ -174,9 +174,96 @@ class Credentials_Widget extends WP_Widget {
 
 } // class Credentials_Widget
 
+class Front_Top_CTA_Widget extends WP_Widget {
+
+	/**
+	 * Register widget with WordPress.
+	 */
+	function __construct() {
+		parent::__construct(
+			'front_top_cta', // Base ID
+			__( 'Front Top CTA', 'da' ), // Name
+			array( 'description' => __( 'The top CTA CPTs', 'da' ),
+				'title' => 'Top CTA',
+			) // Args
+		);
+	}
+
+
+	/**
+	 * Front-end display of widget.
+	 *
+	 * @see WP_Widget::widget()
+	 *
+	 * @param array $args     Widget arguments.
+	 * @param array $instance Saved values from database.
+	 */
+	public function widget( $args, $instance ) {
+		$query_args = array(
+			'post_type'				=> 'ctatop',
+			'posts_per_page'		=> 3,
+			'post_status'			=> 'publish',
+		);
+		$has_hr = $instance['has-hr'];
+		// The Query
+		$ctas = get_posts( $query_args );
+		echo $args['before_widget'];
+		echo '<div class="row">';
+			foreach ( $ctas as $cta ) : setup_postdata( $cta ); ?>
+				<?php $meta = get_post_meta($cta->ID); ?>
+				<div class="col-md-4 text-center">
+					<?php if(has_post_thumbnail()) : ?>
+						<?php echo get_the_post_thumbnail( $post_id = $cta->ID, $size = 'thumbnail', $attr = array() ); ?>
+					<?php endif; ?>
+					<h3><?php echo get_the_title( $post = $cta->ID ); ?></h3>
+					<p><?php the_content(); ?></p>
+					<?php if($meta['has_cta'][0]) : ?>
+						<a class="btn btn-link" href="<?php echo get_permalink($meta['cta_action'][0]); ?>"><?php echo $meta['cta_title'][0]; ?></a>
+					<?php endif; ?>
+				</div>
+			<?php endforeach; 
+		echo '</div>';
+		wp_reset_postdata();
+		if($has_hr) {
+			echo '<hr>';
+		}
+		echo $args['after_widget'];
+	}
+
+	/**
+	 * Back-end widget form.
+	 *
+	 * @see WP_Widget::form()
+	 *
+	 * @param array $instance Previously saved values from database.
+	 */
+	public function form( $instance ) { ?>
+		<p><input class="checkbox" type="checkbox" <?php checked( $instance[ 'has-hr' ], 'on' ); ?> id="<?php echo $this->get_field_id( 'has-hr' ); ?>" name="<?php echo $this->get_field_name( 'has-hr' ); ?>" /> 
+	        <label for="<?php echo $this->get_field_id( 'has-hr' ); ?>">Show hr element at the bottom of this widget.</label></p>
+	<?php }
+
+	/**
+	 * Sanitize widget form values as they are saved.
+	 *
+	 * @see WP_Widget::update()
+	 *
+	 * @param array $new_instance Values just sent to be saved.
+	 * @param array $old_instance Previously saved values from database.
+	 *
+	 * @return array Updated safe values to be saved.
+	 */
+	public function update( $new_instance, $old_instance ) {
+		$instance = $old_instance;
+		$instance[ 'has-hr' ] = $new_instance[ 'has-hr' ];
+		return $instance;
+	}
+
+} // class Front_Top_CTA_Widget
+
 // register custom widgets
 function register_custom_widgets() {
 	register_widget( 'Stats_Widget' );
 	register_widget( 'Credentials_Widget' );
+	register_widget( 'Front_Top_CTA_Widget' );
 }
 add_action( 'widgets_init', 'register_custom_widgets' );
