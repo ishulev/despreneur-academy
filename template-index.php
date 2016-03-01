@@ -1,32 +1,5 @@
 <?php /* Template Name: Home page */ ?>
-<section class="text-center first-after-full">
-	<div class="row">
-		<div class="col-md-4">
-			<span class="fa fa-globe"></span>
-			<h3>Invest in yourself</h3>
-			<p>Lorem ipsum</p>
-			<a href="#">Some link</a>
-		</div>
-		<div class="col-md-4">
-			<span class="fa fa-briefcase"></span>
-			<h3>Invest in yourself</h3>
-			<p>Lorem ipsum</p>
-			<a href="#">Some link</a>
-		</div>
-		<div class="col-md-4">
-			<h3>Invest in yourself</h3>
-			<p>Lorem ipsum</p>
-			<a href="#">Some link</a>
-		</div>
-	</div>
-	<hr>
-	<div class="row single">
-		<h3>Simple pricing</h3>
-		<p>Despreneur academy membership is only $19</p>
-		<p><i>One month trial is just $1</i></p>
-		<a href="<?php echo esc_url( home_url( '/membership-account' ) ); ?>" class="btn btn-primary">Sign up now</a>
-	</div>
-</section>
+<?php dynamic_sidebar('front-page-items'); ?>
 <?php $args = array(
 	'post_type'				=> 'course',
 	'posts_per_page'		=> 3,
