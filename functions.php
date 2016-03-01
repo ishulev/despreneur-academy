@@ -246,10 +246,10 @@ function da_custom_styles() {
 		}
 		$background_id = get_user_meta( $user_id = $user_id, $key = 'profile_background', $single = true );
 		if('' !== $background_id) {
-			$custom_css = '.profile-page { background-image: url("' . wp_get_attachment_url($background_id) . '"); }';
+			$custom_css = '.full-width-background { background-image: url("' . wp_get_attachment_url($background_id) . '"); }';
 		}
 		else {
-			$custom_css = '.profile-page { background: gray; }';
+			$custom_css = '.full-width-background { background: gray; }';
 		}
 		wp_add_inline_style( 'sage/css', $custom_css );
 	}
@@ -272,6 +272,18 @@ function da_custom_styles() {
 			$custom_css = '.partly-height { background-color: gray; }';
 		}
 		wp_add_inline_style( 'sage/css', $custom_css );
+	}
+	elseif(is_page()) {
+		$the_id = get_the_ID();
+		if(get_post_meta( $post_id = $the_id, $key = 'full_width_top_section', $single = true )) {
+			if( has_post_thumbnail() ) {
+				$thumbnail_url = wp_get_attachment_url( get_post_thumbnail_id() );
+				$custom_css = '.full-width-background { background-image: url("' . $thumbnail_url . '"); }';
+			} else {
+				$custom_css = '.full-width-background { background-color: gray; }';
+			}
+			wp_add_inline_style( 'sage/css', $custom_css );
+		}
 	}
 }
 

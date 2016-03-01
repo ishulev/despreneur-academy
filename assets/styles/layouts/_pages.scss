@@ -1,24 +1,22 @@
 .full-width-background {
+	margin-bottom: 40px;
 	width: 100%;
 	min-height: 100vh;
 	background-size: cover;
-	&.front-page {
-		background-image: url('../images/background-front_page_main.jpg');
-		.vertical-center {
-			h1 {
-				font-weight: 700;
-			}
-			h2 {
-				font-family: 'Source Serif Pro', serif;
-				margin: 40px 0 0 0;
-				text-transform: none;
-				font-size: 19px;
-			}
-			.btn {
-				margin: 40px 0 0 0;
-			}
-			color: white;
+	.vertical-center {
+		h1 {
+			font-weight: 700;
 		}
+		h2 {
+			font-family: 'Source Serif Pro', serif;
+			margin: 40px 0 0 0;
+			text-transform: none;
+			font-size: 19px;
+		}
+		.btn {
+			margin: 40px 0 0 0;
+		}
+		color: white;
 	}
 }
 //Need to figure out how to allign center vertically
@@ -113,7 +111,7 @@
 		font-family: 'Montserrat', sans-serif;
 	}
 }
-.partly-height {
+.partial-height {
 	min-height: 60vh;
 	margin-bottom: 40px;
 	.vertical-center {

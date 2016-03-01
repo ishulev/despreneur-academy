@@ -3,3 +3,7 @@
 		width: 100%;
 	}
 }
+.pmpro_btn-submit-checkout {
+	@extend .btn;
+	@extend .btn-primary;
+}

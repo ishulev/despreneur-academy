@@ -25,22 +25,62 @@ function is_pmpro_page() {
 		</div>
 		<![endif]-->
 		<?php
-		do_action('get_header'); ?>
-		<?php if(is_front_page()): ?>
-			<div class="front-page full-width-background">
-			<?php get_template_part('templates/header'); ?>
-		<?php elseif(is_page( 'profile' ) || is_page( 'settings' )) : ?>
-			<div class="profile-page full-width-background">
-			<?php get_template_part('templates/header'); ?>
-		<?php elseif(is_pmpro_page() || is_post_type_archive( 'course' )) : ?>
-			<div class="full-width-background partly-height">
-			<?php get_template_part('templates/header'); ?>
+		do_action('get_header');
+		$section_classes = array();
+		$custom_heading = '';
+		$custom_subheading = '';
+		$header_cta = array();
+		if(is_pmpro_page() || is_post_type_archive( 'course' )) {
+			$section_classes[] = 'partial-height';
+			$section_classes[] = 'full-width-background';
+		}
+		if(is_page()) {
+			$the_id = get_the_ID();
+			$header_section = get_post_meta( $post_id = $the_id, $key = 'full_width_top_section', $single = true );
+			$partial_height = get_post_meta( $post_id = $the_id, $key = 'partial_height', $single = true );
+			if($partial_height) {
+				$section_classes[] = 'partial-height';
+			}
+			if($header_section) {
+				$section_classes[] = 'full-width-background';
+				$custom_heading = get_post_meta( $post_id = $the_id, $key = 'heading', $single = true );
+				$custom_subheading = get_post_meta( $post_id = $the_id, $key = 'subheading', $single = true );
+				$cta = get_post_meta( $post_id = $the_id, $key = 'cta_button', $single = true );
+				if($cta) {
+					$header_cta['title'] = get_post_meta( $post_id = $the_id, $key = 'cta_title', $single = true );
+					$header_cta['action'] = get_permalink(get_post_meta( $post_id = $the_id, $key = 'cta_action', $single = true ));
+				}
+			}
+		}
+		?>
+		<?php if(!empty($section_classes)) : ?>
+			<div class="<?php echo implode(' ', $section_classes); ?>">
+				<?php get_template_part('templates/header'); ?>
+				<div class="vertical-center">
+					<section class="text-center container">
+						<?php if(is_page( 'settings' ) || is_page( 'profile' )) :
+							require_once(trailingslashit( get_template_directory() ) . 'templates/profile-view.php');
+						else :?>
+							<h1><?php if( '' !== $custom_heading ) : echo $custom_heading; else: the_title(); endif;?></h1>
+							<?php if( '' !== $custom_subheading ) : ?>
+								<h2><?php echo $custom_subheading; ?></h2>
+							<?php endif; ?>
+							<?php if(!empty($header_cta)) : ?>
+								<a href="<?php echo $header_cta['action']; ?>" class="btn btn-primary"><?php echo $header_cta['title']; ?></a>
+							<?php endif; ?>
+						<?php endif; ?>
+					</section>
+				</div>
+			</div>
+			<div class="container">
+				<?php include Wrapper\template_path(); ?>
+			</div>
 		<?php else : ?>
 			<?php get_template_part('templates/header'); ?>
 			<div class="container">
-		<?php endif; ?>
-		<?php include Wrapper\template_path(); ?>
-		<?php if(!is_front_page() && !is_page( 'profile' )): ?>
+				<?php if(!is_singular( 'course' )) : ?><h1><?php the_title(); ?></h1>
+				<?php endif; ?>
+				<?php include Wrapper\template_path(); ?>
 			</div>
 		<?php endif; ?>
 		<?php if(!is_user_logged_in()) : ?>

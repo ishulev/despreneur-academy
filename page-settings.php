@@ -194,149 +194,145 @@
 	ob_end_clean();
 	
 	?>
-	<?php require_once(trailingslashit( get_template_directory() ) . 'templates/profile-view.php'); ?>
-	</div>
-	<div class="container">
-		<div class="col-md-6 col-md-offset-3">
-			<ul class="nav nav-tabs" role="tablist">
-				<li role="presentation" class="active"><a href="#account" aria-controls="account" role="tab" data-toggle="tab">Account</a></li>
-				<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
-				<li role="presentation"><a href="#payment" aria-controls="payment" role="tab" data-toggle="tab">Payment</a></li>
-			</ul>
-			<div class="tab-content">
-				<div role="tabpanel" class="tab-pane active" id="account">
-					<form id="student-settings" name="student-settings" method="post" class="form-horizontal">
-						<?php wp_nonce_field( 'student_settings_save', 'student_settings_nonce' ); ?>
-						<div class="row">
-							<div class="col-md-4">
-								<label class="control-label">
-									<?php _e( 'First Name', 'cp' ); ?>
-								</label>
-								<input type="text" class="form-control" name="first_name" value="<?php esc_attr_e( $student->user_firstname ); ?>"/>
-								<?php do_action( 'coursepress_after_settings_first_name' ); ?>
-							</div>
-							<div class="col-md-4">
-								<label class="control-label">
-									<?php _e( 'Last Name', 'cp' ); ?>
-								</label>
-								<input type="text" class="form-control" name="last_name" value="<?php esc_attr_e( $student->user_lastname ); ?>"/>
-								<?php do_action( 'coursepress_after_settings_last_name' ); ?>
-							</div>
-							<div class="col-md-4">
-								<label class="control-label">
-									<?php _e( 'E-mail', 'cp' ); ?>
-								</label>
-								<input type="text" class="form-control" name="email" value="<?php esc_attr_e( $student->user_email ); ?>"/>
-								<?php do_action( 'coursepress_after_settings_email' ); ?>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-4">
-								<label class="control-label">
-									<?php _e( 'Username', 'cp' ); ?>:
-								</label>
-								<input type="text" class="form-control" name="username" value="<?php esc_attr_e( $student->user_login ); ?>" disabled="disabled"/>
-								<?php do_action( 'coursepress_after_settings_username' ); ?>
-							</div>
-							<div class="col-md-4">
-								<label class="control-label">
-									<?php _e( 'Password', 'cp' ); ?>
-								</label>
-								<input type="password" class="form-control" name="password" value="" placeholder="<?php _e( "Won't change if empty.", 'cp' ); ?>"/>
-								<?php do_action( 'coursepress_after_settings_passwordon' ); ?>
-							</div>
-							<div class="col-md-4">
-								<label class="control-label">
-									<?php _e( 'Confirm Password', 'cp' ); ?>:
-								</label>
-								<input type="password" class="form-control" name="password_confirmation" value=""/>
-								<?php do_action( 'coursepress_after_settings_pasword' ); ?>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="col-md-5">
-								<input type="submit" name="student-settings-submit" class="btn btn-primary" value="<?php _e( 'Save Changes', 'cp' ); ?>"/>
-							</div>
-						</div>
-					</form><?php do_action( 'coursepress_after_settings_form' ); ?>
-				</div>
-				<div role="tabpanel" class="tab-pane" id="profile">
-					<form id="student-settings" name="student-settings" method="post" class="form-horizontal">
-						<?php wp_nonce_field( 'student_settings_save', 'student_settings_nonce' ); ?>
-						<div>
-							<label class="control-label">Occupation</label>
-							<div class="checkboxes">
-								<div class="checkbox">
-									<label>
-										<input name="occupation_designer" type="checkbox" id="occupation-designer" value="1" <?php echo ( '1' === $occupation_designer ? 'checked' : ''); ?>/>Designer
-									</label>
-								</div>
-								<div class="checkbox">
-									<label>
-										<input name="occupation_engineer" type="checkbox" id="occupation-engineer" value="1" <?php echo ( '1' === $occupation_engineer ? 'checked' : ''); ?>/>Engineer
-									</label>
-								</div>
-								<div class="checkbox">
-									<label>
-										<input name="occupation_entrepreneur" type="checkbox" id="occupation-entrepreneur" value="1" <?php echo ( '1' === $occupation_entrepreneur ? 'checked' : ''); ?>/>Entrepreneur
-									</label>
-								</div>
-							</div>
-							<div class="clearfix"></div>
-						</div>
-						<div class="">
-							<label class="control-label">Biographical info</label>
-							<textarea name="user-description" class="form-control" rows="3"><?php echo $description; ?></textarea>
-						</div>
-						<div class="row">
-							<div class="col-md-4">
-								<label class="control-label">
-									<?php _e( 'Facebook URL', 'cp' ); ?>
-								</label>
-								<input type="url" class="form-control" name="smediaurl_facebook" value="<?php echo $smediaurl_facebook; ?>" placeholder="Facebook URL"/>
-							</div>
-							<div class="col-md-4">
-								<label class="control-label">
-									<?php _e( 'Twitter URL', 'cp' ); ?>
-								</label>
-								<input type="url" class="form-control" name="smediaurl_twitter" value="<?php echo $smediaurl_twitter; ?>" placeholder="Twitter URL"/>
-							</div>
-							<div class="col-md-4">
-								<label class="control-label">
-									<?php _e( 'Google Plus URL', 'cp' ); ?>
-								</label>
-								<input type="url" class="form-control" name="smediaurl_googleplus" value="<?php echo $smediaurl_googleplus; ?>" placeholder="Google Plus URL"/>
-							</div>
-						</div>
-						<input type="submit" name="student-settings-submit" class="btn btn-primary" value="<?php _e( 'Save Changes', 'cp' ); ?>"/>
-					</form><?php do_action( 'coursepress_after_settings_form' ); ?>
-					<hr>
+	<div class="col-md-6 col-md-offset-3">
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active"><a href="#account" aria-controls="account" role="tab" data-toggle="tab">Account</a></li>
+			<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+			<li role="presentation"><a href="#payment" aria-controls="payment" role="tab" data-toggle="tab">Payment</a></li>
+		</ul>
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane active" id="account">
+				<form id="student-settings" name="student-settings" method="post" class="form-horizontal">
+					<?php wp_nonce_field( 'student_settings_save', 'student_settings_nonce' ); ?>
 					<div class="row">
 						<div class="col-md-4">
-							<?php $background_id = get_user_meta( $user_id = get_current_user_id(), $key = 'profile_background', $single = true );
-								if('' !== $background_id) {
-									echo wp_get_attachment_image( $attachment_id = $background_id, $size = 'thumbnail', $icon, $attr );
-								}
-							?>
-							<?php echo do_shortcode( '[fu-upload-form title=""][input type="file" name="photo"][input type="submit" class="btn btn-default" value="Upload"][/fu-upload-form]' ); ?>
+							<label class="control-label">
+								<?php _e( 'First Name', 'cp' ); ?>
+							</label>
+							<input type="text" class="form-control" name="first_name" value="<?php esc_attr_e( $student->user_firstname ); ?>"/>
+							<?php do_action( 'coursepress_after_settings_first_name' ); ?>
 						</div>
-						<div class="col-md-4 bua">	
-							<?php echo do_shortcode( '[basic-user-avatars]' ); ?>
+						<div class="col-md-4">
+							<label class="control-label">
+								<?php _e( 'Last Name', 'cp' ); ?>
+							</label>
+							<input type="text" class="form-control" name="last_name" value="<?php esc_attr_e( $student->user_lastname ); ?>"/>
+							<?php do_action( 'coursepress_after_settings_last_name' ); ?>
+						</div>
+						<div class="col-md-4">
+							<label class="control-label">
+								<?php _e( 'E-mail', 'cp' ); ?>
+							</label>
+							<input type="text" class="form-control" name="email" value="<?php esc_attr_e( $student->user_email ); ?>"/>
+							<?php do_action( 'coursepress_after_settings_email' ); ?>
 						</div>
 					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label class="control-label">
+								<?php _e( 'Username', 'cp' ); ?>:
+							</label>
+							<input type="text" class="form-control" name="username" value="<?php esc_attr_e( $student->user_login ); ?>" disabled="disabled"/>
+							<?php do_action( 'coursepress_after_settings_username' ); ?>
+						</div>
+						<div class="col-md-4">
+							<label class="control-label">
+								<?php _e( 'Password', 'cp' ); ?>
+							</label>
+							<input type="password" class="form-control" name="password" value="" placeholder="<?php _e( "Won't change if empty.", 'cp' ); ?>"/>
+							<?php do_action( 'coursepress_after_settings_passwordon' ); ?>
+						</div>
+						<div class="col-md-4">
+							<label class="control-label">
+								<?php _e( 'Confirm Password', 'cp' ); ?>:
+							</label>
+							<input type="password" class="form-control" name="password_confirmation" value=""/>
+							<?php do_action( 'coursepress_after_settings_pasword' ); ?>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-5">
+							<input type="submit" name="student-settings-submit" class="btn btn-primary" value="<?php _e( 'Save Changes', 'cp' ); ?>"/>
+						</div>
+					</div>
+				</form><?php do_action( 'coursepress_after_settings_form' ); ?>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="profile">
+				<form id="student-settings" name="student-settings" method="post" class="form-horizontal">
+					<?php wp_nonce_field( 'student_settings_save', 'student_settings_nonce' ); ?>
+					<div>
+						<label class="control-label">Occupation</label>
+						<div class="checkboxes">
+							<div class="checkbox">
+								<label>
+									<input name="occupation_designer" type="checkbox" id="occupation-designer" value="1" <?php echo ( '1' === $occupation_designer ? 'checked' : ''); ?>/>Designer
+								</label>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input name="occupation_engineer" type="checkbox" id="occupation-engineer" value="1" <?php echo ( '1' === $occupation_engineer ? 'checked' : ''); ?>/>Engineer
+								</label>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input name="occupation_entrepreneur" type="checkbox" id="occupation-entrepreneur" value="1" <?php echo ( '1' === $occupation_entrepreneur ? 'checked' : ''); ?>/>Entrepreneur
+								</label>
+							</div>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<div class="">
+						<label class="control-label">Biographical info</label>
+						<textarea name="user-description" class="form-control" rows="3"><?php echo $description; ?></textarea>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label class="control-label">
+								<?php _e( 'Facebook URL', 'cp' ); ?>
+							</label>
+							<input type="url" class="form-control" name="smediaurl_facebook" value="<?php echo $smediaurl_facebook; ?>" placeholder="Facebook URL"/>
+						</div>
+						<div class="col-md-4">
+							<label class="control-label">
+								<?php _e( 'Twitter URL', 'cp' ); ?>
+							</label>
+							<input type="url" class="form-control" name="smediaurl_twitter" value="<?php echo $smediaurl_twitter; ?>" placeholder="Twitter URL"/>
+						</div>
+						<div class="col-md-4">
+							<label class="control-label">
+								<?php _e( 'Google Plus URL', 'cp' ); ?>
+							</label>
+							<input type="url" class="form-control" name="smediaurl_googleplus" value="<?php echo $smediaurl_googleplus; ?>" placeholder="Google Plus URL"/>
+						</div>
+					</div>
+					<input type="submit" name="student-settings-submit" class="btn btn-primary" value="<?php _e( 'Save Changes', 'cp' ); ?>"/>
+				</form><?php do_action( 'coursepress_after_settings_form' ); ?>
+				<hr>
+				<div class="row">
+					<div class="col-md-4">
+						<?php $background_id = get_user_meta( $user_id = get_current_user_id(), $key = 'profile_background', $single = true );
+							if('' !== $background_id) {
+								echo wp_get_attachment_image( $attachment_id = $background_id, $size = 'thumbnail', $icon, $attr );
+							}
+						?>
+						<?php echo do_shortcode( '[fu-upload-form title=""][input type="file" name="photo"][input type="submit" class="btn btn-default" value="Upload"][/fu-upload-form]' ); ?>
+					</div>
+					<div class="col-md-4 bua">	
+						<?php echo do_shortcode( '[basic-user-avatars]' ); ?>
+					</div>
 				</div>
-				<div role="tabpanel" class="tab-pane" id="payment">
-					<?php
-						if($payment_status) {
-							// include(PMPRO_DIR . "/pages/account.php");
-							// echo pmpro_shortcode_account(array( 'sections' => 'membership,invoices',));
-							echo $content;
-						} else {
-							echo '<h2>It seems like your account hasn\'t been setup yet</h2>';
-							echo '<p>Please visit <a href="' . get_page_link( $post = $pmpro_pages['levels'], $leavename, $sample ) . '">this link</a> for more.</p>';
-						}
-					?>
-				</div>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="payment">
+				<?php
+					if($payment_status) {
+						// include(PMPRO_DIR . "/pages/account.php");
+						// echo pmpro_shortcode_account(array( 'sections' => 'membership,invoices',));
+						echo $content;
+					} else {
+						echo '<h2>It seems like your account hasn\'t been setup yet</h2>';
+						echo '<p>Please visit <a href="' . get_page_link( $post = $pmpro_pages['levels'], $leavename, $sample ) . '">this link</a> for more.</p>';
+					}
+				?>
 			</div>
 		</div>
 	</div>

@@ -1,12 +1,5 @@
-	<div class="vertical-center">
-		<section class="text-center container">
-			<h1>Become a design entrepreneur. Build a business & meet amazing people.</h1>
-			<h2>Learn game-changing skills, build location independent business and meet amazing designers and entrepreneurs.</h2>
-			<a href="<?php echo esc_url( home_url( '/membership-account' ) ); ?>" class="btn btn-primary">Start learning</a>
-		</section>
-	</div>
-</div> <!-- This is ending the full width background div -->
-<section class="container text-center first-after-full">
+<?php /* Template Name: Home page */ ?>
+<section class="text-center first-after-full">
 	<div class="row">
 		<div class="col-md-4">
 			<span class="fa fa-globe"></span>
@@ -34,7 +27,6 @@
 		<a href="<?php echo esc_url( home_url( '/membership-account' ) ); ?>" class="btn btn-primary">Sign up now</a>
 	</div>
 </section>
-
 <?php $args = array(
 	'post_type'				=> 'course',
 	'posts_per_page'		=> 3,
@@ -44,9 +36,9 @@
 	);
 	// The Query
 $the_query = new WP_Query( $args );
-
 	// The Loop
 if ( $the_query->have_posts() ) : ?>
+</div><!-- FOR THE OPENED .container DIV -->
 <section class="full-width-color">
 	<div class="container">
 		<h3>Latest courses</h3>
@@ -108,3 +100,4 @@ if ( $the_query->have_posts() ) : ?>
 		<a href="<?php echo esc_url( home_url( '/membership-account' ) ); ?>" class="btn btn-primary">Sign up now</a>
 	</div>
 </section>
+<div><!-- FOR THE CLOSING .container DIV -->

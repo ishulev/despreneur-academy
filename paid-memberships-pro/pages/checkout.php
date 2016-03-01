@@ -31,18 +31,20 @@
 			<?php
 				}
 			?>
-			<form id="pmpro_form" class="membership-checkout" action="<?php if(!empty($_REQUEST['review'])) echo pmpro_url("checkout", "?level=" . $pmpro_level->id); ?>" method="post">
-				<p><?php printf(__('You have selected the <strong>%s</strong> membership level.', 'pmpro'), $pmpro_level->name);?></p>
-				<?php if($current_user->ID && !$pmpro_review) { ?>
-					<p id="pmpro_account_loggedin">
-						<?php printf(__('You are logged in as <strong>%s</strong>. If you would like to use a different account for this membership, <a href="%s">log out now</a>.', 'pmpro'), $current_user->user_login, wp_logout_url($_SERVER['REQUEST_URI'])); ?>
-					</p>
-				<?php } ?>
-				<?php if($discount_code && pmpro_checkDiscountCode($discount_code)) { ?>
-					<?php printf(__('<p class="pmpro_level_discount_applied">The <strong>%s</strong> code has been applied to your order.</p>', 'pmpro'), $discount_code);?>
-				<?php } ?>
-				<?php echo wpautop(pmpro_getLevelCost($pmpro_level)); ?>
-				<hr>
+			<p><?php printf(__('You have selected the <strong>%s</strong> membership level.', 'pmpro'), $pmpro_level->name);?></p>
+			<?php if($current_user->ID && !$pmpro_review) { ?>
+				<p id="pmpro_account_loggedin">
+					<?php printf(__('You are logged in as <strong>%s</strong>. If you would like to use a different account for this membership, <a href="%s">log out now</a>.', 'pmpro'), $current_user->user_login, wp_logout_url($_SERVER['REQUEST_URI'])); ?>
+				</p>
+			<?php } ?>
+			<?php if($discount_code && pmpro_checkDiscountCode($discount_code)) { ?>
+				<?php printf(__('<p class="pmpro_level_discount_applied">The <strong>%s</strong> code has been applied to your order.</p>', 'pmpro'), $discount_code);?>
+			<?php } ?>
+			<?php echo wpautop(pmpro_getLevelCost($pmpro_level)); ?>
+			<hr>
+			<h4>Billing Address</h4>
+			<p>All fields are required</p>
+			<form id="pmpro_form" class="membership-checkout" action="<?php echo pmpro_url("checkout", "?level=" . $pmpro_level->id); ?>" method="post">
 				<div class="row">
 					<div class="col-md-4">
 						<label for="bfirstname"><?php _e('First Name', 'pmpro');?></label>
@@ -219,7 +221,7 @@
 				<div class="payment-methods">
 					<div class="radio">
 						<label>
-							<input type="radio" name="gateway" value="credit-card" <?php if(!$gateway || $gateway == "paypal") { ?>checked="checked"<?php } ?> />
+							<input type="radio" name="gateway" value="paypal" <?php if(!$gateway || $gateway == "paypal") { ?>checked="checked"<?php } ?> />
 							<?php _e('Check Out with a Credit Card', 'pmpro');?>
 						</label>
 					</div>
@@ -318,24 +320,29 @@
 					{ ?>
 						<div class="pmpro_payment-cvv">
 							<label for="CVV"><?php _e('CVV', 'pmpro');?></label>
-							<input class="input" id="CVV" name="CVV" type="text" size="4" value="<?php if(!empty($_REQUEST['CVV'])) { echo esc_attr($_REQUEST['CVV']); }?>" class=" <?php echo pmpro_getClassForField("CVV");?>" />  <small>(<a href="javascript:void(0);" onclick="javascript:window.open('<?php echo pmpro_https_filter(PMPRO_URL)?>/pages/popup-cvv.html','cvv','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=600, height=475');"><?php _e("what's this?", 'pmpro');?></a>)</small>
+							<div class="row">
+								<div class="col-md-4">
+									<input class="input" id="CVV" name="CVV" type="text" size="4" value="<?php if(!empty($_REQUEST['CVV'])) { echo esc_attr($_REQUEST['CVV']); }?>" class=" <?php echo pmpro_getClassForField("CVV");?>" />
+								</div>
+								<div class="col-md-8">
+									<small>(<a href="javascript:void(0);" onclick="javascript:window.open('<?php echo pmpro_https_filter(PMPRO_URL)?>/pages/popup-cvv.html','cvv','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=600, height=475');"><?php _e("what's this?", 'pmpro');?></a>)</small>
+								</div>
+							</div>
 						</div>
 						<?php
 					} ?>
 					</div>
 				</div>
+				<hr>
 				<div class="pmpro_submit">
 					<?php if($pmpro_review) { ?>
-
 						<span id="pmpro_submit_span">
 							<input type="hidden" name="confirm" value="1" />
 							<input type="hidden" name="token" value="<?php echo esc_attr($pmpro_paypal_token)?>" />
 							<input type="hidden" name="gateway" value="<?php echo esc_attr($gateway); ?>" />
-							<input type="submit" class="pmpro_btn pmpro_btn-submit-checkout" value="<?php _e('Complete Payment', 'pmpro');?> &raquo;" />
+							<input type="submit" class="pmpro_btn pmpro_btn-submit-checkout btn btn-primary" value="<?php _e('Complete Payment', 'pmpro');?> &raquo;" />
 						</span>
-
 					<?php } else { ?>
-
 						<?php
 							$pmpro_checkout_default_submit_button = apply_filters('pmpro_checkout_default_submit_button', true);
 							if($pmpro_checkout_default_submit_button)
@@ -343,14 +350,12 @@
 							?>
 							<span id="pmpro_submit_span">
 								<input type="hidden" name="submit-checkout" value="1" />
-								<input type="submit" class="pmpro_btn pmpro_btn-submit-checkout" value="<?php if($pmpro_requirebilling) { _e('Submit and Check Out', 'pmpro'); } else { _e('Submit and Confirm', 'pmpro');}?> &raquo;" />
+								<input type="submit" class="pmpro_btn pmpro_btn-submit-checkout btn btn-primary" value="<?php if($pmpro_requirebilling) { _e('Submit and Check Out', 'pmpro'); } else { _e('Submit and Confirm', 'pmpro');}?> &raquo;" />
 							</span>
 							<?php
 							}
 						?>
-
 					<?php } ?>
-
 					<span id="pmpro_processing_message" style="visibility: hidden;">
 						<?php
 							$processing_message = apply_filters("pmpro_processing_message", __("Processing...", "pmpro"));
