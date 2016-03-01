@@ -71,6 +71,24 @@ function widgets_init() {
     'before_title'  => '<h6>',
     'after_title'   => '</h6>'
   ));
+
+  register_sidebar( array(
+    'name'          => 'Latest courses',
+    'id'            => 'courses-latest',
+    'before_widget' => '<div>' . do_shortcode( '[course_instructor_avatar]' ),
+    'after_widget'  => '</div>',
+    'before_title'  => '<h2 class="rounded">',
+    'after_title'   => '</h2>',
+  ) );
+
+  register_sidebar( array(
+    'name'          => 'Front page items',
+    'id'            => 'front-page-items',
+    'before_widget' => '',
+    'after_widget'  => '',
+    'before_title'  => '',
+    'after_title'   => '',
+  ) );
 }
 add_action('widgets_init', __NAMESPACE__ . '\\widgets_init');
 
