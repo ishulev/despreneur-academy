@@ -2,7 +2,7 @@
 <?php while (have_posts()) : the_post(); ?>
 	<?php get_template_part('templates/page', 'header'); ?>
 	<?php if(is_singular( 'unit' )) : ?>
-		<?php if(pmpro_hasMembershipLevel('1') ) : ?>
+		<?php if( !empty($current_user->membership_level) ) : ?>
 			<?php get_template_part('templates/content', 'page'); ?>
 		<?php else : ?>
 			<?php global $pmpro_pages; ?>
