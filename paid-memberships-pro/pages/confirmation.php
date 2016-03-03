@@ -1,15 +1,6 @@
 <?php 
 	global $wpdb, $current_user, $pmpro_invoice, $pmpro_msg, $pmpro_msgt;
-	
-	if(empty($current_user->membership_level))
-		$confirmation_message = "<p>" . __('Your payment has been submitted. Your membership will be activated shortly.', 'pmpro') . "</p>";
-	else
-		$confirmation_message = "<p>" . sprintf(__('Thank you for your membership to %s.</p><p>Your %s membership is now active.', 'pmpro'), get_bloginfo("name"), $current_user->membership_level->name) . "</p>";
-?>	
-			<?php echo $confirmation_message; ?>
-		</section> <!-- CLOSING VERTICAL ALIGN SECTION -->
-	</div> <!-- CLOSING VERTICAL ALIGN PARENT -->
-</div> <!-- CLOSING FULL WIDTH TAG -->
+?>
 <div class="container">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
@@ -36,18 +27,18 @@
 					<?php printf(__('Invoice #%s on %s', 'pmpro'), $pmpro_invoice->code, date_i18n(get_option('date_format'), $pmpro_invoice->timestamp));?>		
 				</h5>
 				<a class="pmpro_a-print" href="javascript:window.print()"><?php _e('Print', 'pmpro');?></a>
-				<?php echo $pmpro_invoice->billing->name; ?> (<?php echo $current_user->user_email; ?>)
+				<?php if(!empty($pmpro_invoice->billing->name)) {echo $pmpro_invoice->billing->name; } else { echo get_user_meta( $user_id = $current_user->ID, $key = 'first_name', $single = true ) . ' ' . get_user_meta( $user_id = $current_user->ID, $key = 'last_name', $single = true ); } ?> (<?php echo $current_user->user_email; ?>)
 				<div class="row">
 					<div class="col-md-4">
 						<h6>Billing Address</h6>
-						<?php if(!empty($pmpro_invoice->billing->name)) { ?>
-						<?php echo $pmpro_invoice->billing->name?><br />
-						<?php echo $pmpro_invoice->billing->street?><br />						
+						<?php if(!empty($pmpro_invoice->billing->name)) {echo $pmpro_invoice->billing->name; } else { echo get_user_meta( $user_id = $current_user->ID, $key = 'first_name', $single = true ) . ' ' . get_user_meta( $user_id = $current_user->ID, $key = 'last_name', $single = true ); }?><br />
+						<?php if(!empty($pmpro_invoice->billing->street)) { echo $pmpro_invoice->billing->street; } else{echo get_user_meta($current_user->ID, "pmpro_baddress1", true);}?><br />						
 						<?php if($pmpro_invoice->billing->city && $pmpro_invoice->billing->state) { ?>
 						<?php echo $pmpro_invoice->billing->city?>, <?php echo $pmpro_invoice->billing->state?> <?php echo $pmpro_invoice->billing->zip?> <?php echo $pmpro_invoice->billing->country?><br />												
-						<?php } ?>
 						<?php echo formatPhone($pmpro_invoice->billing->phone)?>
-						<?php } ?>
+						<?php } else {
+							echo get_user_meta($current_user->ID, "pmpro_bcity", true) . ', ' . get_user_meta($current_user->ID, "pmpro_bstate", true) . ' ' . get_user_meta($current_user->ID, "pmpro_bzipcode", true) . ' ' . get_user_meta($current_user->ID, "pmpro_bcountry", true);
+						}?>
 					</div>
 					<div class="col-md-4">
 						<h6>Payment method</h6>
@@ -81,6 +72,7 @@
 				<?php 
 			} 
 			?>
+			<hr>
 			<?php if(!empty($current_user->membership_level)) { ?>
 			<a class="btn btn-primary" href="<?php echo esc_url( home_url( '/profile', 'relative' ) ); ?>"><?php _e('View your account', 'pmpro');?></a>
 			<?php } else { ?>
