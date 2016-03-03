@@ -12,211 +12,214 @@
 	$pmpro_email_field_type = apply_filters('pmpro_email_field_type', true);
 	$skip_account_fields = true;
 ?>
-		</section> <!-- CLOSING VERTICAL ALIGN SECTION -->
-	</div> <!-- CLOSING VERTICAL ALIGN PARENT -->
-</div> <!-- CLOSING FULL WIDTH TAG -->
-<div class="container">
-	<div class="row">
-		<div class="col-md-offset-2 col-md-8">
-			<?php if($pmpro_msg)
+<div class="row">
+	<div class="col-md-offset-2 col-md-8">
+		<?php if($pmpro_review) { ?>
+			<div class="alert alert-info alert-dismissible fade in" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<p><?php _e('Almost done. Review the membership information and pricing below then <strong>click the "Complete Payment" button</strong> to finish your order.', 'pmpro');?></p>
+			</div>
+		<?php } ?>
+		<?php if($pmpro_msg)
+			{
+		?>
+			<div id="pmpro_message" class="pmpro_message <?php echo $pmpro_msgt?>"><?php echo $pmpro_msg?></div>
+		<?php
+			}
+			else
+			{
+		?>
+			<div id="pmpro_message" class="pmpro_message" style="display: none;"></div>
+		<?php
+			}
+		?>
+		<p><?php printf(__('You have selected the <strong>%s</strong> membership level.', 'pmpro'), $pmpro_level->name);?></p>
+		<?php if($current_user->ID && !$pmpro_review) { ?>
+			<p id="pmpro_account_loggedin">
+				<?php printf(__('You are logged in as <strong>%s</strong>. If you would like to use a different account for this membership, <a href="%s">log out now</a>.', 'pmpro'), $current_user->user_login, wp_logout_url($_SERVER['REQUEST_URI'])); ?>
+			</p>
+		<?php } ?>
+		<?php if($discount_code && pmpro_checkDiscountCode($discount_code)) { ?>
+			<?php printf(__('<p class="pmpro_level_discount_applied">The <strong>%s</strong> code has been applied to your order.</p>', 'pmpro'), $discount_code);?>
+		<?php } ?>
+		<?php echo wpautop(pmpro_getLevelCost($pmpro_level)); ?>
+		<hr>
+		<h4>Billing Address</h4>
+		<p>All fields are required</p>
+		<form id="pmpro_form" class="membership-checkout" action="<?php echo pmpro_url("checkout", "?level=" . $pmpro_level->id); ?>" method="post">
+			<div class="row">
+				<div class="col-md-4">
+					<label for="bfirstname"><?php _e('First Name', 'pmpro');?></label>
+					<input id="bfirstname" name="bfirstname" type="text" class="input <?php echo pmpro_getClassForField("bfirstname");?>" size="30" value="<?php echo esc_attr($bfirstname)?>" />
+				</div>
+				<div class="col-md-4">
+					<label for="blastname"><?php _e('Last Name', 'pmpro');?></label>
+					<input id="blastname" name="blastname" type="text" class="input <?php echo pmpro_getClassForField("blastname");?>" size="30" value="<?php echo esc_attr($blastname)?>" />
+				</div>
+				<div class="col-md-4">
+					<label for="baddress1"><?php _e('Address 1', 'pmpro');?></label>
+					<input id="baddress1" name="baddress1" type="text" class="input <?php echo pmpro_getClassForField("baddress1");?>" size="30" value="<?php echo esc_attr($baddress1)?>" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<label for="baddress2"><?php _e('Address 2', 'pmpro');?></label>
+					<input id="baddress2" name="baddress2" type="text" class="input <?php echo pmpro_getClassForField("baddress2");?>" size="30" value="<?php echo esc_attr($baddress2)?>" />
+				</div>
+				<?php
+				$longform_address = apply_filters("pmpro_longform_address", true);
+				if($longform_address)
 				{
-			?>
-				<div id="pmpro_message" class="pmpro_message <?php echo $pmpro_msgt?>"><?php echo $pmpro_msg?></div>
-			<?php
+				?>
+				<div class="col-md-4">
+					<label for="bcity"><?php _e('City', 'pmpro');?></label>
+					<input id="bcity" name="bcity" type="text" class="input <?php echo pmpro_getClassForField("bcity");?>" size="30" value="<?php echo esc_attr($bcity)?>" />
+				</div>
+				<div class="col-md-4">
+					<label for="bstate"><?php _e('State', 'pmpro');?></label>
+					<input id="bstate" name="bstate" type="text" class="input <?php echo pmpro_getClassForField("bstate");?>" size="30" value="<?php echo esc_attr($bstate)?>" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<label for="bzipcode"><?php _e('Postal Code', 'pmpro');?></label>
+					<input id="bzipcode" name="bzipcode" type="text" class="input <?php echo pmpro_getClassForField("bzipcode");?>" size="30" value="<?php echo esc_attr($bzipcode)?>" />
+				</div>
+				<?php
 				}
 				else
-				{
-			?>
-				<div id="pmpro_message" class="pmpro_message" style="display: none;"></div>
-			<?php
-				}
-			?>
-			<p><?php printf(__('You have selected the <strong>%s</strong> membership level.', 'pmpro'), $pmpro_level->name);?></p>
-			<?php if($current_user->ID && !$pmpro_review) { ?>
-				<p id="pmpro_account_loggedin">
-					<?php printf(__('You are logged in as <strong>%s</strong>. If you would like to use a different account for this membership, <a href="%s">log out now</a>.', 'pmpro'), $current_user->user_login, wp_logout_url($_SERVER['REQUEST_URI'])); ?>
-				</p>
-			<?php } ?>
-			<?php if($discount_code && pmpro_checkDiscountCode($discount_code)) { ?>
-				<?php printf(__('<p class="pmpro_level_discount_applied">The <strong>%s</strong> code has been applied to your order.</p>', 'pmpro'), $discount_code);?>
-			<?php } ?>
-			<?php echo wpautop(pmpro_getLevelCost($pmpro_level)); ?>
-			<hr>
-			<h4>Billing Address</h4>
-			<p>All fields are required</p>
-			<form id="pmpro_form" class="membership-checkout" action="<?php echo pmpro_url("checkout", "?level=" . $pmpro_level->id); ?>" method="post">
-				<div class="row">
-					<div class="col-md-4">
-						<label for="bfirstname"><?php _e('First Name', 'pmpro');?></label>
-						<input id="bfirstname" name="bfirstname" type="text" class="input <?php echo pmpro_getClassForField("bfirstname");?>" size="30" value="<?php echo esc_attr($bfirstname)?>" />
-					</div>
-					<div class="col-md-4">
-						<label for="blastname"><?php _e('Last Name', 'pmpro');?></label>
-						<input id="blastname" name="blastname" type="text" class="input <?php echo pmpro_getClassForField("blastname");?>" size="30" value="<?php echo esc_attr($blastname)?>" />
-					</div>
-					<div class="col-md-4">
-						<label for="baddress1"><?php _e('Address 1', 'pmpro');?></label>
-						<input id="baddress1" name="baddress1" type="text" class="input <?php echo pmpro_getClassForField("baddress1");?>" size="30" value="<?php echo esc_attr($baddress1)?>" />
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-4">
-						<label for="baddress2"><?php _e('Address 2', 'pmpro');?></label>
-						<input id="baddress2" name="baddress2" type="text" class="input <?php echo pmpro_getClassForField("baddress2");?>" size="30" value="<?php echo esc_attr($baddress2)?>" />
-					</div>
-					<?php
-					$longform_address = apply_filters("pmpro_longform_address", true);
-					if($longform_address)
-					{
-					?>
-					<div class="col-md-4">
-						<label for="bcity"><?php _e('City', 'pmpro');?></label>
-						<input id="bcity" name="bcity" type="text" class="input <?php echo pmpro_getClassForField("bcity");?>" size="30" value="<?php echo esc_attr($bcity)?>" />
-					</div>
-					<div class="col-md-4">
-						<label for="bstate"><?php _e('State', 'pmpro');?></label>
-						<input id="bstate" name="bstate" type="text" class="input <?php echo pmpro_getClassForField("bstate");?>" size="30" value="<?php echo esc_attr($bstate)?>" />
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-4">
-						<label for="bzipcode"><?php _e('Postal Code', 'pmpro');?></label>
-						<input id="bzipcode" name="bzipcode" type="text" class="input <?php echo pmpro_getClassForField("bzipcode");?>" size="30" value="<?php echo esc_attr($bzipcode)?>" />
-					</div>
-					<?php
-					}
-					else
-					{ ?>
-						<div  class="col-md-4">
-							<label for="bcity_state_zip"><?php _e('City, State Zip', 'pmpro');?></label>
-							<input id="bcity" name="bcity" type="text" class="input <?php echo pmpro_getClassForField("bcity");?>" size="14" value="<?php echo esc_attr($bcity)?>" />,
-							<?php
-							$state_dropdowns = apply_filters("pmpro_state_dropdowns", false);
-							if($state_dropdowns === true || $state_dropdowns == "names")
+				{ ?>
+					<div  class="col-md-4">
+						<label for="bcity_state_zip"><?php _e('City, State Zip', 'pmpro');?></label>
+						<input id="bcity" name="bcity" type="text" class="input <?php echo pmpro_getClassForField("bcity");?>" size="14" value="<?php echo esc_attr($bcity)?>" />,
+						<?php
+						$state_dropdowns = apply_filters("pmpro_state_dropdowns", false);
+						if($state_dropdowns === true || $state_dropdowns == "names")
+						{
+							global $pmpro_states;
+							?>
+							<select name="bstate" class=" <?php echo pmpro_getClassForField("bstate");?>">
+								<option value="">--</option>
+								<?php
+								foreach($pmpro_states as $ab => $st)
+								{
+									?>
+									<option value="<?php echo esc_attr($ab);?>" <?php if($ab == $bstate) { ?>selected="selected"<?php } ?>><?php echo $st;?></option>
+									<?php } ?>
+								</select>
+								<?php
+							}
+							elseif($state_dropdowns == "abbreviations")
 							{
-								global $pmpro_states;
+								global $pmpro_states_abbreviations;
 								?>
 								<select name="bstate" class=" <?php echo pmpro_getClassForField("bstate");?>">
 									<option value="">--</option>
 									<?php
-									foreach($pmpro_states as $ab => $st)
+									foreach($pmpro_states_abbreviations as $ab)
 									{
 										?>
-										<option value="<?php echo esc_attr($ab);?>" <?php if($ab == $bstate) { ?>selected="selected"<?php } ?>><?php echo $st;?></option>
+										<option value="<?php echo esc_attr($ab);?>" <?php if($ab == $bstate) { ?>selected="selected"<?php } ?>><?php echo $ab;?></option>
 										<?php } ?>
 									</select>
 									<?php
 								}
-								elseif($state_dropdowns == "abbreviations")
+								else
 								{
-									global $pmpro_states_abbreviations;
 									?>
-									<select name="bstate" class=" <?php echo pmpro_getClassForField("bstate");?>">
-										<option value="">--</option>
-										<?php
-										foreach($pmpro_states_abbreviations as $ab)
-										{
-											?>
-											<option value="<?php echo esc_attr($ab);?>" <?php if($ab == $bstate) { ?>selected="selected"<?php } ?>><?php echo $ab;?></option>
-											<?php } ?>
-										</select>
-										<?php
-									}
-									else
+									<input id="bstate" name="bstate" type="text" class="input <?php echo pmpro_getClassForField("bstate");?>" size="2" value="<?php echo esc_attr($bstate)?>" />
+									<?php
+								}
+								?>
+								<input id="bzipcode" name="bzipcode" type="text" class="input <?php echo pmpro_getClassForField("bzipcode");?>" size="5" value="<?php echo esc_attr($bzipcode)?>" />
+							</div>
+							<?php
+						}
+						?>
+
+						<?php
+						$show_country = apply_filters("pmpro_international_addresses", true);
+						if($show_country)
+						{
+							?>
+							<div class="col-md-4">
+								<label for="bcountry"><?php _e('Country', 'pmpro');?></label>
+								<select name="bcountry" class=" <?php echo pmpro_getClassForField("bcountry");?>">
+									<?php
+									global $pmpro_countries, $pmpro_default_country;
+									if(!$bcountry)
+										$bcountry = $pmpro_default_country;
+									foreach($pmpro_countries as $abbr => $country)
 									{
 										?>
-										<input id="bstate" name="bstate" type="text" class="input <?php echo pmpro_getClassForField("bstate");?>" size="2" value="<?php echo esc_attr($bstate)?>" />
+										<option value="<?php echo $abbr?>" <?php if($abbr == $bcountry) { ?>selected="selected"<?php } ?>><?php echo $country?></option>
 										<?php
 									}
 									?>
-									<input id="bzipcode" name="bzipcode" type="text" class="input <?php echo pmpro_getClassForField("bzipcode");?>" size="5" value="<?php echo esc_attr($bzipcode)?>" />
-								</div>
-								<?php
-							}
-							?>
-
+								</select>
+							</div>
 							<?php
-							$show_country = apply_filters("pmpro_international_addresses", true);
-							if($show_country)
-							{
-								?>
-								<div class="col-md-4">
-									<label for="bcountry"><?php _e('Country', 'pmpro');?></label>
-									<select name="bcountry" class=" <?php echo pmpro_getClassForField("bcountry");?>">
-										<?php
-										global $pmpro_countries, $pmpro_default_country;
-										if(!$bcountry)
-											$bcountry = $pmpro_default_country;
-										foreach($pmpro_countries as $abbr => $country)
-										{
-											?>
-											<option value="<?php echo $abbr?>" <?php if($abbr == $bcountry) { ?>selected="selected"<?php } ?>><?php echo $country?></option>
-											<?php
-										}
-										?>
-									</select>
-								</div>
-								<?php
-							}
-							else
-							{
-								?>
-								<input type="hidden" name="bcountry" value="US" />
-								<?php
-							}
+						}
+						else
+						{
 							?>
-					<div class="col-md-4">
-						<label for="bphone"><?php _e('Phone', 'pmpro');?></label>
-						<input id="bphone" name="bphone" type="text" class="input <?php echo pmpro_getClassForField("bphone");?>" size="30" value="<?php echo esc_attr(formatPhone($bphone))?>" />
-					</div>
+							<input type="hidden" name="bcountry" value="US" />
+							<?php
+						}
+						?>
+				<div class="col-md-4">
+					<label for="bphone"><?php _e('Phone', 'pmpro');?></label>
+					<input id="bphone" name="bphone" type="text" class="input <?php echo pmpro_getClassForField("bphone");?>" size="30" value="<?php echo esc_attr(formatPhone($bphone))?>" />
 				</div>
-				<div class="row">
-					<?php if($skip_account_fields) { ?>
-					<?php
-					if($current_user->ID)
-					{
-						$bemail = $current_user->user_email;
-						$bconfirmemail = $current_user->user_email;
-					}
+			</div>
+			<div class="row">
+				<?php if($skip_account_fields) { ?>
+				<?php
+				if($current_user->ID)
+				{
+					$bemail = $current_user->user_email;
+					$bconfirmemail = $current_user->user_email;
+				}
+				?>
+				<div>
+					<input id="bemail" name="bemail" type="hidden" class="input <?php echo pmpro_getClassForField("bemail");?>" size="30" value="<?php echo esc_attr($bemail)?>" />
+				</div>
+				<?php
+				$pmpro_checkout_confirm_email = apply_filters("pmpro_checkout_confirm_email", true);
+				if($pmpro_checkout_confirm_email)
+				{
 					?>
 					<div>
-						<input id="bemail" name="bemail" type="hidden" class="input <?php echo pmpro_getClassForField("bemail");?>" size="30" value="<?php echo esc_attr($bemail)?>" />
+						<input id="bconfirmemail" name="bconfirmemail" type="hidden" class="input <?php echo pmpro_getClassForField("bconfirmemail");?>" size="30" value="<?php echo esc_attr($bconfirmemail)?>" />
+
 					</div>
 					<?php
-					$pmpro_checkout_confirm_email = apply_filters("pmpro_checkout_confirm_email", true);
-					if($pmpro_checkout_confirm_email)
-					{
-						?>
-						<div>
-							<input id="bconfirmemail" name="bconfirmemail" type="hidden" class="input <?php echo pmpro_getClassForField("bconfirmemail");?>" size="30" value="<?php echo esc_attr($bconfirmemail)?>" />
-
-						</div>
-						<?php
-					}
-					else
-					{
-						?>
-						<input type="hidden" name="bconfirmemail_copy" value="1" />
-						<?php
-					}
-					?>
-					<?php } ?>
-				</div>
-				<hr>
-				<?php
-				$pmpro_accepted_credit_cards = pmpro_getOption("accepted_credit_cards");
-				$pmpro_accepted_credit_cards = explode(",", $pmpro_accepted_credit_cards);
-				$pmpro_accepted_credit_cards_string = pmpro_implodeToEnglish($pmpro_accepted_credit_cards);
-			?>
-				<h4><?php _e('Payment Information', 'pmpro');?></h4>
-				<span><?php printf(__('We Accept PayPal, %s', 'pmpro'), $pmpro_accepted_credit_cards_string);?></span>
-				<?php $sslseal = pmpro_getOption("sslseal");
-				if($sslseal)
+				}
+				else
 				{
+					?>
+					<input type="hidden" name="bconfirmemail_copy" value="1" />
+					<?php
+				}
 				?>
-					<div class="pmpro_sslseal"><?php echo stripslashes($sslseal)?></div>
-				<?php
-				} ?>
+				<?php } ?>
+			</div>
+			<hr>
+			<?php
+			$pmpro_accepted_credit_cards = pmpro_getOption("accepted_credit_cards");
+			$pmpro_accepted_credit_cards = explode(",", $pmpro_accepted_credit_cards);
+			$pmpro_accepted_credit_cards_string = pmpro_implodeToEnglish($pmpro_accepted_credit_cards);
+		?>
+			<h4><?php _e('Payment Information', 'pmpro');?></h4>
+			<span><?php printf(__('We Accept PayPal, %s', 'pmpro'), $pmpro_accepted_credit_cards_string);?></span>
+			<?php $sslseal = pmpro_getOption("sslseal");
+			if($sslseal)
+			{
+			?>
+				<div class="pmpro_sslseal"><?php echo stripslashes($sslseal)?></div>
+			<?php
+			} ?>
+			<?php if(!$pmpro_review) { ?>
 				<h5><?php _e('Payment Method', 'pmpro');?></h5>
 				<div class="payment-methods">
 					<div class="radio">
@@ -333,38 +336,38 @@
 					} ?>
 					</div>
 				</div>
-				<hr>
-				<div class="pmpro_submit">
-					<?php if($pmpro_review) { ?>
-						<span id="pmpro_submit_span">
-							<input type="hidden" name="confirm" value="1" />
-							<input type="hidden" name="token" value="<?php echo esc_attr($pmpro_paypal_token)?>" />
-							<input type="hidden" name="gateway" value="<?php echo esc_attr($gateway); ?>" />
-							<input type="submit" class="pmpro_btn pmpro_btn-submit-checkout btn btn-primary" value="<?php _e('Complete Payment', 'pmpro');?> &raquo;" />
-						</span>
-					<?php } else { ?>
-						<?php
-							$pmpro_checkout_default_submit_button = apply_filters('pmpro_checkout_default_submit_button', true);
-							if($pmpro_checkout_default_submit_button)
-							{
-							?>
-							<span id="pmpro_submit_span">
-								<input type="hidden" name="submit-checkout" value="1" />
-								<input type="submit" class="pmpro_btn pmpro_btn-submit-checkout btn btn-primary" value="<?php if($pmpro_requirebilling) { _e('Submit and Check Out', 'pmpro'); } else { _e('Submit and Confirm', 'pmpro');}?> &raquo;" />
-							</span>
-							<?php
-							}
-						?>
-					<?php } ?>
-					<span id="pmpro_processing_message" style="visibility: hidden;">
-						<?php
-							$processing_message = apply_filters("pmpro_processing_message", __("Processing...", "pmpro"));
-							echo $processing_message;
-						?>
+			<hr>
+			<?php } ?>
+			<div class="pmpro_submit">
+				<?php if($pmpro_review) { ?>
+					<span id="pmpro_submit_span">
+						<input type="hidden" name="confirm" value="1" />
+						<input type="hidden" name="token" value="<?php echo esc_attr($pmpro_paypal_token)?>" />
+						<input type="hidden" name="gateway" value="<?php echo esc_attr($gateway); ?>" />
+						<input type="submit" class="pmpro_btn pmpro_btn-submit-checkout btn btn-primary" value="<?php _e('Complete Payment', 'pmpro');?> &raquo;" />
 					</span>
-				</div>
-			</form>
-		</div>
+				<?php } else { ?>
+					<?php
+						$pmpro_checkout_default_submit_button = apply_filters('pmpro_checkout_default_submit_button', true);
+						if($pmpro_checkout_default_submit_button)
+						{
+						?>
+						<span id="pmpro_submit_span">
+							<input type="hidden" name="submit-checkout" value="1" />
+							<input type="submit" class="pmpro_btn pmpro_btn-submit-checkout btn btn-primary" value="<?php if($pmpro_requirebilling) { _e('Submit and Check Out', 'pmpro'); } else { _e('Submit and Confirm', 'pmpro');}?> &raquo;" />
+						</span>
+						<?php
+						}
+					?>
+				<?php } ?>
+				<span id="pmpro_processing_message" style="visibility: hidden;">
+					<?php
+						$processing_message = apply_filters("pmpro_processing_message", __("Processing...", "pmpro"));
+						echo $processing_message;
+					?>
+				</span>
+			</div>
+		</form>
 	</div>
 </div>	
 <script>
