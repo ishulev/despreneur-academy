@@ -89,7 +89,7 @@
 				}
 				else
 				{ ?>
-					<div  class="col-md-4">
+					<div class="col-md-4">
 						<label for="bcity_state_zip"><?php _e('City, State Zip', 'pmpro');?></label>
 						<input id="bcity" name="bcity" type="text" class="input <?php echo pmpro_getClassForField("bcity");?>" size="14" value="<?php echo esc_attr($bcity)?>" />,
 						<?php
@@ -210,16 +210,16 @@
 			$pmpro_accepted_credit_cards = explode(",", $pmpro_accepted_credit_cards);
 			$pmpro_accepted_credit_cards_string = pmpro_implodeToEnglish($pmpro_accepted_credit_cards);
 		?>
-			<h4><?php _e('Payment Information', 'pmpro');?></h4>
-			<span><?php printf(__('We Accept PayPal, %s', 'pmpro'), $pmpro_accepted_credit_cards_string);?></span>
-			<?php $sslseal = pmpro_getOption("sslseal");
-			if($sslseal)
-			{
-			?>
-				<div class="pmpro_sslseal"><?php echo stripslashes($sslseal)?></div>
-			<?php
-			} ?>
 			<?php if(!$pmpro_review) { ?>
+				<h4><?php _e('Payment Information', 'pmpro');?></h4>
+				<span><?php printf(__('We Accept PayPal, %s', 'pmpro'), $pmpro_accepted_credit_cards_string);?></span>
+				<?php $sslseal = pmpro_getOption("sslseal");
+				if($sslseal)
+				{
+				?>
+					<div class="pmpro_sslseal"><?php echo stripslashes($sslseal)?></div>
+				<?php
+				} ?>
 				<h5><?php _e('Payment Method', 'pmpro');?></h5>
 				<div class="payment-methods">
 					<div class="radio">
