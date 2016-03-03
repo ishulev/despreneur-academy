@@ -243,20 +243,20 @@ function da_custom_styles() {
 	elseif(is_pmpro_page()) {
 		$background_image_src = get_theme_mod('da_payment_pages_background', '');
 		if( '' !== $background_image_src ) {
-			$custom_css = '.partly-height { background-image: url("' . $background_image_src . '"); }';
+			$custom_css = '.partial-height { background-image: url("' . $background_image_src . '"); }';
 		}
 		else {
-			$custom_css = '.partly-height { background-color: gray; }';
+			$custom_css = '.partial-height { background-color: gray; }';
 		}
 		wp_add_inline_style( 'sage/css', $custom_css );
 	}
 	elseif(is_post_type_archive( 'course' )) {
 		$background_image_src = get_theme_mod('da_course_archive_background', '');
 		if( '' !== $background_image_src ) {
-			$custom_css = '.partly-height { background-image: url("' . $background_image_src . '"); }';
+			$custom_css = '.partial-height { background-image: url("' . $background_image_src . '"); }';
 		}
 		else {
-			$custom_css = '.partly-height { background-color: gray; }';
+			$custom_css = '.partial-height { background-color: gray; }';
 		}
 		wp_add_inline_style( 'sage/css', $custom_css );
 	}
