@@ -83,7 +83,9 @@ function is_pmpro_page() {
 				<?php include Wrapper\template_path(); ?>
 			</div>
 		<?php endif; ?>
-		<?php if(!is_user_logged_in()) : ?>
+		<?php
+		do_action('get_footer');
+		if(!is_user_logged_in()) : ?>
 			<div class="modal fade" id="modal-login" tabindex="-1" role="dialog" aria-labelledby="ModalLogin">
 				<div class="modal-dialog modal-sm" role="document">
 					<div class="modal-content">
@@ -148,9 +150,7 @@ function is_pmpro_page() {
 					</div>
 				</div>
 			</div>
-		<?php endif; ?>
-		<?php
-		do_action('get_footer');
+		<?php endif;
 		get_template_part('templates/footer');
 		wp_footer();
 	?>
