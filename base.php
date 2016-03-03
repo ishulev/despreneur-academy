@@ -33,6 +33,16 @@ function is_pmpro_page() {
 		if(is_pmpro_page() || is_post_type_archive( 'course' )) {
 			$section_classes[] = 'partial-height';
 			$section_classes[] = 'full-width-background';
+			if(is_pmpro_page()) {
+				global $current_user;
+				if(empty($current_user->membership_level)) {
+					$confirmation_message = "<p>" . __('Your payment has been submitted. Your membership will be activated shortly.', 'pmpro') . "</p>";
+				}
+				else {
+					$confirmation_message = "<p>" . sprintf(__('Thank you for your membership to %s.</p><p>Your %s membership is now active.', 'pmpro'), get_bloginfo("name"), $current_user->membership_level->name) . "</p>";
+				}
+				$custom_subheading = $confirmation_message;
+			}
 		}
 		if(is_page()) {
 			$the_id = get_the_ID();
