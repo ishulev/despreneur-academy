@@ -234,7 +234,7 @@ function da_custom_styles() {
 		}
 		$background_id = get_user_meta( $user_id = $user_id, $key = 'profile_background', $single = true );
 		if('' !== $background_id) {
-			$custom_css = '.full-width-background { background-image: url("' . wp_get_attachment_url($background_id) . '"); }';
+			$custom_css = '.full-width-background:before { background-image: url("' . wp_get_attachment_url($background_id) . '"); }';
 		}
 		else {
 			$custom_css = '.full-width-background { background: ' . $default_color . '; }';

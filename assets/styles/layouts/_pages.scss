@@ -3,6 +3,7 @@
 	width: 100%;
 	min-height: 100vh;
 	background-size: cover;
+	min-height: 100vh;
 	.vertical-center {
 		h1 {
 			font-weight: 700;
@@ -17,6 +18,17 @@
 			margin: 40px 0 0 0;
 		}
 		color: white;
+	}
+}
+body.page-settings, body.page-profile {
+	.full-width-background:before {
+		-webkit-filter: grayscale(1); /* Old WebKit */
+		filter: grayscale(1);
+		content: "";
+		background-size: cover;
+		width: 100%;
+		min-height: 100vh;
+		position: absolute;
 	}
 }
 //Need to figure out how to allign center vertically
