@@ -60,8 +60,8 @@
 			<?php echo get_avatar( $id_or_email = $user_id, $size, $default, $alt, $args = array( 'class' => 'img-circle' )); ?>
 			<h1><?php echo $fname . ' ' . $lname; ?></h1>
 			<div class="row"><?php echo ('1' === $occupation_engineer ? '<a href="' . home_url( 'members/?occupation=engineer', 'relative' ) . '"><span class="label label-success">Engineer</span></a>' : ''); ?><?php echo ('1' === $occupation_designer ? '<a href="' . home_url( 'members/?occupation=designer', 'relative' ) . '"><span class="label label-danger">Designer</span></a>' : ''); ?><?php echo ('1' === $occupation_entrepreneur ? '<a href="' . home_url( 'members/?occupation=entrepreneur', 'relative' ) . '"><span class="label label-primary">Entrepreneur</span></a>' : ''); ?></div>
-			<p class="text">Member since <?php echo date('F, Y', strtotime($student->user_registered)); ?> <?php if( '' !== $user_city && '' !== $user_country) : ?>&#8226; Location: <a href="<?php echo home_url( 'members/?country=' . $user_country, 'relative' ); ?> "><?php echo $user_city . ', ' . $user_country; ?></a><?php endif; ?></p>
-			<p class="text description"><?php echo $user_description; ?></p>
+			<p class="small"><em>Member since <?php echo date('F, Y', strtotime($student->user_registered)); ?> <?php if( '' !== $user_city && '' !== $user_country) : ?>&#8226; Location: <a href="<?php echo home_url( 'members/?country=' . $user_country, 'relative' ); ?> "><?php echo $user_city . ', ' . $user_country; ?></a><?php endif; ?></em></p>
+			<p class="description"><em><?php echo $user_description; ?></em></p>
 			<div class="row social">
 				<?php if('' !== $smediaurl_facebook) : ?><a href="<?php echo $smediaurl_facebook; ?>"><span class="fa fa-facebook"></span></a><?php endif; ?>
 				<?php if('' !== $smediaurl_twitter) : ?><a href="<?php echo $smediaurl_twitter; ?>"><span class="fa fa-twitter"></span></a><?php endif; ?>

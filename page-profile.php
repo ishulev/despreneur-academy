@@ -22,7 +22,7 @@
 				} ?>
 				<?php if($started_courses > 0) : ?>
 					<?php $count = 0; ?>
-					<h5>Started courses</h5>
+					<h4>Started courses</h4>
 					<div class="row courses">
 						<?php
 						while ( $the_query->have_posts() ) {
@@ -58,7 +58,7 @@
 				<?php endif; ?>
 				<?php if($completed_courses > 0) : ?>
 					<?php $count = 0; ?>
-					<h5>Completed courses</h5>
+					<h4>Completed courses</h4>
 					<div class="row courses">
 						<?php
 						while ( $the_query->have_posts() ) {

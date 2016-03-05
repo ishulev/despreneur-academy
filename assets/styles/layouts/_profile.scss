@@ -23,15 +23,11 @@ p.edit-button {
 		font-size: 27px;
 		color: white;
 	}
-	p.text {
+	.small {
 		a {
 			color: white;
 		}
 		margin-top: 15px;
-		color: white;
-		font-size: 13px;
-		font-family: $font-s-serif-pro;
-		font-style: italic;
 	}
 	p.description {
 		font-size: 16px;
@@ -44,9 +40,7 @@ p.edit-button {
 	}
 }
 .page-profile {
-	h5 {
-		margin-bottom: 25px;
-	}
+	
 }
 .checkboxes {
 	.checkbox {
