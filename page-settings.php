@@ -315,9 +315,9 @@
 								echo wp_get_attachment_image( $attachment_id = $background_id, $size = 'thumbnail', $icon, $attr );
 							}
 						?>
-						<?php echo do_shortcode( '[fu-upload-form title=""][input type="file" name="photo"][input type="submit" class="btn btn-default" value="Upload"][/fu-upload-form]' ); ?>
+						<?php echo do_shortcode( '[fu-upload-form title=""][input type="file" name="photo"][input type="submit" class="btn btn-default" value="Update background"][/fu-upload-form]' ); ?>
 					</div>
-					<div class="col-md-4 bua">	
+					<div class="col-md-offset-4 col-md-4 bua">	
 						<?php echo do_shortcode( '[basic-user-avatars]' ); ?>
 					</div>
 				</div>

@@ -42,3 +42,14 @@
 		@extend .btn-primary;
 	}
 }
+#student-settings {
+	input[type='submit'] {
+		margin-top: 15px;
+	}
+}
+#basic-user-avatar-form {
+	input[type='submit'] {
+		@extend .btn;
+		@extend .btn-default;
+	}
+}
