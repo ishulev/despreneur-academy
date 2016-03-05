@@ -50,15 +50,15 @@
 			<div class="row">
 				<div class="col-md-4">
 					<label for="bfirstname"><?php _e('First Name', 'pmpro');?></label>
-					<input id="bfirstname" name="bfirstname" type="text" class="input <?php echo pmpro_getClassForField("bfirstname");?>" size="30" value="<?php echo esc_attr($bfirstname)?>" />
+					<input <?php if($pmpro_review) { echo 'required'; }?> id="bfirstname" name="bfirstname" type="text" class="input <?php echo pmpro_getClassForField("bfirstname");?>" size="30" value="<?php echo esc_attr($bfirstname)?>" />
 				</div>
 				<div class="col-md-4">
 					<label for="blastname"><?php _e('Last Name', 'pmpro');?></label>
-					<input id="blastname" name="blastname" type="text" class="input <?php echo pmpro_getClassForField("blastname");?>" size="30" value="<?php echo esc_attr($blastname)?>" />
+					<input <?php if($pmpro_review) { echo 'required'; }?> id="blastname" name="blastname" type="text" class="input <?php echo pmpro_getClassForField("blastname");?>" size="30" value="<?php echo esc_attr($blastname)?>" />
 				</div>
 				<div class="col-md-4">
 					<label for="baddress1"><?php _e('Address 1', 'pmpro');?></label>
-					<input id="baddress1" name="baddress1" type="text" class="input <?php echo pmpro_getClassForField("baddress1");?>" size="30" value="<?php echo esc_attr($baddress1)?>" />
+					<input <?php if($pmpro_review) { echo 'required'; }?> id="baddress1" name="baddress1" type="text" class="input <?php echo pmpro_getClassForField("baddress1");?>" size="30" value="<?php echo esc_attr($baddress1)?>" />
 				</div>
 			</div>
 			<div class="row">
@@ -73,17 +73,17 @@
 				?>
 				<div class="col-md-4">
 					<label for="bcity"><?php _e('City', 'pmpro');?></label>
-					<input id="bcity" name="bcity" type="text" class="input <?php echo pmpro_getClassForField("bcity");?>" size="30" value="<?php echo esc_attr($bcity)?>" />
+					<input <?php if($pmpro_review) { echo 'required'; }?> id="bcity" name="bcity" type="text" class="input <?php echo pmpro_getClassForField("bcity");?>" size="30" value="<?php echo esc_attr($bcity)?>" />
 				</div>
 				<div class="col-md-4">
 					<label for="bstate"><?php _e('State', 'pmpro');?></label>
-					<input id="bstate" name="bstate" type="text" class="input <?php echo pmpro_getClassForField("bstate");?>" size="30" value="<?php echo esc_attr($bstate)?>" />
+					<input <?php if($pmpro_review) { echo 'required'; }?> id="bstate" name="bstate" type="text" class="input <?php echo pmpro_getClassForField("bstate");?>" size="30" value="<?php echo esc_attr($bstate)?>" />
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-4">
 					<label for="bzipcode"><?php _e('Postal Code', 'pmpro');?></label>
-					<input id="bzipcode" name="bzipcode" type="text" class="input <?php echo pmpro_getClassForField("bzipcode");?>" size="30" value="<?php echo esc_attr($bzipcode)?>" />
+					<input id="bzipcode" <?php if($pmpro_review) { echo 'required'; }?> name="bzipcode" type="text" class="input <?php echo pmpro_getClassForField("bzipcode");?>" size="30" value="<?php echo esc_attr($bzipcode)?>" />
 				</div>
 				<?php
 				}
@@ -91,14 +91,14 @@
 				{ ?>
 					<div class="col-md-4">
 						<label for="bcity_state_zip"><?php _e('City, State Zip', 'pmpro');?></label>
-						<input id="bcity" name="bcity" type="text" class="input <?php echo pmpro_getClassForField("bcity");?>" size="14" value="<?php echo esc_attr($bcity)?>" />,
+						<input id="bcity" <?php if($pmpro_review) { echo 'required'; }?> name="bcity" type="text" class="input <?php echo pmpro_getClassForField("bcity");?>" size="14" value="<?php echo esc_attr($bcity)?>" />,
 						<?php
 						$state_dropdowns = apply_filters("pmpro_state_dropdowns", false);
 						if($state_dropdowns === true || $state_dropdowns == "names")
 						{
 							global $pmpro_states;
 							?>
-							<select name="bstate" class=" <?php echo pmpro_getClassForField("bstate");?>">
+							<select name="bstate" <?php if($pmpro_review) { echo 'required'; }?> class=" <?php echo pmpro_getClassForField("bstate");?>">
 								<option value="">--</option>
 								<?php
 								foreach($pmpro_states as $ab => $st)
@@ -113,7 +113,7 @@
 							{
 								global $pmpro_states_abbreviations;
 								?>
-								<select name="bstate" class=" <?php echo pmpro_getClassForField("bstate");?>">
+								<select <?php if($pmpro_review) { echo 'required'; }?> name="bstate" class=" <?php echo pmpro_getClassForField("bstate");?>">
 									<option value="">--</option>
 									<?php
 									foreach($pmpro_states_abbreviations as $ab)
@@ -127,11 +127,11 @@
 								else
 								{
 									?>
-									<input id="bstate" name="bstate" type="text" class="input <?php echo pmpro_getClassForField("bstate");?>" size="2" value="<?php echo esc_attr($bstate)?>" />
+									<input <?php if($pmpro_review) { echo 'required'; }?> id="bstate" name="bstate" type="text" class="input <?php echo pmpro_getClassForField("bstate");?>" size="2" value="<?php echo esc_attr($bstate)?>" />
 									<?php
 								}
 								?>
-								<input id="bzipcode" name="bzipcode" type="text" class="input <?php echo pmpro_getClassForField("bzipcode");?>" size="5" value="<?php echo esc_attr($bzipcode)?>" />
+								<input <?php if($pmpro_review) { echo 'required'; }?> id="bzipcode" name="bzipcode" type="text" class="input <?php echo pmpro_getClassForField("bzipcode");?>" size="5" value="<?php echo esc_attr($bzipcode)?>" />
 							</div>
 							<?php
 						}
@@ -144,7 +144,7 @@
 							?>
 							<div class="col-md-4">
 								<label for="bcountry"><?php _e('Country', 'pmpro');?></label>
-								<select name="bcountry" class=" <?php echo pmpro_getClassForField("bcountry");?>">
+								<select <?php if($pmpro_review) { echo 'required'; }?> name="bcountry" class=" <?php echo pmpro_getClassForField("bcountry");?>">
 									<?php
 									global $pmpro_countries, $pmpro_default_country;
 									if(!$bcountry)
@@ -169,7 +169,7 @@
 						?>
 				<div class="col-md-4">
 					<label for="bphone"><?php _e('Phone', 'pmpro');?></label>
-					<input id="bphone" name="bphone" type="text" class="input <?php echo pmpro_getClassForField("bphone");?>" size="30" value="<?php echo esc_attr(formatPhone($bphone))?>" />
+					<input id="bphone" <?php if($pmpro_review) { echo 'required'; }?> name="bphone" type="text" class="input <?php echo pmpro_getClassForField("bphone");?>" size="30" value="<?php echo esc_attr(formatPhone($bphone))?>" />
 				</div>
 			</div>
 			<div class="row">

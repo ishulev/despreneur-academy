@@ -153,6 +153,29 @@ function customize_register($wp_customize) {
 			)
 		)
 	);
+
+	$wp_customize->add_section(
+		'da_general',
+		array(
+			'title'    => __('General', 'themename'),
+			'description' => '',
+			'priority' => 160,
+		)
+	);
+	$wp_customize->add_setting( 'da_default_background_color', array(
+		'default'           => '#A2A2A2',
+		'sanitize_callback' => 'sanitize_hex_color',
+		'transport'         => 'postMessage',
+		) );
+	$wp_customize->add_control(
+		new \WP_Customize_Color_Control( $wp_customize, 'da_default_background_color',
+			array(
+				'label'       => __( 'No background image color', 'da' ),
+				'description' => __( 'Uses this color when no background image is selected. Used on payment pages, profile page, Courses archive, etc.', 'da' ),
+				'section'     => 'da_general',
+			)
+		)
+	);
 }
 add_action('customize_register', __NAMESPACE__ . '\\customize_register');
 

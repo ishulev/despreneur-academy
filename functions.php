@@ -210,6 +210,7 @@ function da_custom_styles() {
 	wp_enqueue_style( $handle = 'font-s-sans-pro', $src = '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700', $deps, $ver, $media );
 	wp_enqueue_style( $handle = 'font-s-serif-pro', $src = '//fonts.googleapis.com/css?family=Source+Serif+Pro:400,600', $deps, $ver, $media );
 	wp_enqueue_style( $handle = 'fontawesome', $src = '//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css', $deps, $ver, $media );
+	$default_color = get_theme_mod( $name = 'da_default_background_color', $default = '#A2A2A2' );
 	if(is_page( 'profile' ) || is_page( 'settings' )) {
 		
 		global $wpdb;
@@ -236,7 +237,7 @@ function da_custom_styles() {
 			$custom_css = '.full-width-background { background-image: url("' . wp_get_attachment_url($background_id) . '"); }';
 		}
 		else {
-			$custom_css = '.full-width-background { background: gray; }';
+			$custom_css = '.full-width-background { background: ' . $default_color . '; }';
 		}
 		wp_add_inline_style( 'sage/css', $custom_css );
 	}
@@ -246,7 +247,7 @@ function da_custom_styles() {
 			$custom_css = '.partial-height { background-image: url("' . $background_image_src . '"); }';
 		}
 		else {
-			$custom_css = '.partial-height { background-color: gray; }';
+			$custom_css = '.partial-height { background-color: ' . $default_color . '; }';
 		}
 		wp_add_inline_style( 'sage/css', $custom_css );
 	}
@@ -256,7 +257,7 @@ function da_custom_styles() {
 			$custom_css = '.partial-height { background-image: url("' . $background_image_src . '"); }';
 		}
 		else {
-			$custom_css = '.partial-height { background-color: gray; }';
+			$custom_css = '.partial-height { background-color: ' . $default_color . '; }';
 		}
 		wp_add_inline_style( 'sage/css', $custom_css );
 	}
@@ -267,7 +268,7 @@ function da_custom_styles() {
 				$thumbnail_url = wp_get_attachment_url( get_post_thumbnail_id() );
 				$custom_css = '.full-width-background { background-image: url("' . $thumbnail_url . '"); }';
 			} else {
-				$custom_css = '.full-width-background { background-color: gray; }';
+				$custom_css = '.full-width-background { background-color: ' . $default_color . '; }';
 			}
 			wp_add_inline_style( 'sage/css', $custom_css );
 		}
