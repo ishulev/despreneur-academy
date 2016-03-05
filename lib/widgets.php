@@ -391,7 +391,7 @@ class Display_Latest_Courses_Widget extends WP_Widget {
 			echo $args['before_widget'];
 			echo '<div class="full-width-color front-widget">';
 				echo '<div class="container">';
-					echo '<h3>' . $title . '</h3>';
+					echo '<h4>' . $title . '</h4>';
 					echo '<div class="row courses">';
 						foreach ($courses as $course) {
 							$category_display_label = 'primary';
