@@ -46,13 +46,15 @@
 	}
 ?>
 <?php while (have_posts()) : the_post(); ?>
-	<?php if((int)$user_id === get_current_user_id() && 'active' !== $payment_status) { ?>
-		<div class="alert alert-warning alert-dismissible fade in" role="alert">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-			<p>Your profile is still not visible to others. Please select a <a href="<?php echo esc_url( $url = home_url( $path = '/pricing', $scheme = 'relative' ), $protocols, $_context ); ?>">payment plan</a>.</p>
-		</div>
-	<?php } ?>
 	<div class="row profile-view">
+		<div class="col-md-12">
+			<?php if((int)$user_id === get_current_user_id() && 'active' !== $payment_status) { ?>
+				<div class="alert alert-warning alert-dismissible fade in" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+					<p>Your profile is still not visible to others. Please select a <a href="<?php echo esc_url( $url = home_url( $path = '/pricing', $scheme = 'relative' ), $protocols, $_context ); ?>">payment plan</a>.</p>
+				</div>
+			<?php } ?>
+		</div>
 		<div class="col-md-6 col-md-offset-3 text-center">
 			<?php if( !is_page( 'settings' ) && (int)$user_id === get_current_user_id()) : ?>
 				<p class="edit-button"><a href="<?php echo home_url( 'settings', 'relative' ); ?>">Edit profile</a></p>

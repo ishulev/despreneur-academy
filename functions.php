@@ -235,6 +235,11 @@ function da_custom_styles() {
 		$background_id = get_user_meta( $user_id = $user_id, $key = 'profile_background', $single = true );
 		if('' !== $background_id) {
 			$custom_css = '.full-width-background:before { background-image: url("' . wp_get_attachment_url($background_id) . '"); }';
+			function da_add_profile_special_class($classes) {
+				$classes[] = 'da-profile-background';
+				return $classes;
+			}
+			add_action( $tag = 'body_class', $function_to_add = 'da_add_profile_special_class' );
 		}
 		else {
 			$custom_css = '.full-width-background { background: ' . $default_color . '; }';
