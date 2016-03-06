@@ -44,7 +44,7 @@ function is_pmpro_page() {
 				$custom_subheading = $confirmation_message;
 			}
 		}
-		if(is_page()) {
+		else if(is_page() && !is_singular( $post_types = 'course' )) {
 			$the_id = get_the_ID();
 			$header_section = get_post_meta( $post_id = $the_id, $key = 'full_width_top_section', $single = true );
 			$partial_height = get_post_meta( $post_id = $the_id, $key = 'partial_height', $single = true );
@@ -82,6 +82,11 @@ function is_pmpro_page() {
 					</section>
 				</div>
 			</div>
+			<div class="container">
+				<?php include Wrapper\template_path(); ?>
+			</div>
+		<?php elseif(is_singular( $post_types = 'course' )) : ?>
+			<?php get_template_part('templates/course-single-header'); ?>
 			<div class="container">
 				<?php include Wrapper\template_path(); ?>
 			</div>

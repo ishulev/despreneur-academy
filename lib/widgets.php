@@ -401,9 +401,9 @@ class Display_Latest_Courses_Widget extends WP_Widget {
 								$category_display_label = 'danger';
 							echo '<div class="col-md-4">';
 								echo '<div class="thumbnail">';
-									echo '<a href="' . esc_url(get_permalink()) . '"><img src="' . get_post_meta($course->ID, 'featured_url', true) . '" class="img-responsive"></a>';
+									echo '<a href="' . esc_url(get_permalink($course->ID)) . '"><img src="' . get_post_meta($course->ID, 'featured_url', true) . '" class="img-responsive"></a>';
 									echo '<span class="course-category label label-'. $category_display_label .'">' . $category_object->name . '</span>';
-									echo '<a class="title" href="' . esc_url(get_permalink()) . '">' . get_the_title($course->ID) . '</a>';
+									echo '<a class="title" href="' . esc_url(get_permalink($course->ID)) . '">' . get_the_title($course->ID) . '</a>';
 									echo '<p><i>' . get_the_date($format, $course->ID) . ' / ' . trim(do_shortcode( '[course_time_estimation course_id="' . $course->ID . '"]' ) ) . '</i></p>';
 								echo '</div>';
 							echo '</div>';

@@ -22,6 +22,10 @@ input[type="text"] {
 	width: 100%;
 }
 
+h1, h2, h3, h4 {
+	color: #334d58;
+}
+
 h4 {
 	font-size: 14px;
 }
@@ -36,6 +40,6 @@ h3 {
 	font-weight: 700;
 }
 
-em {
+em, .serif {
 	font-family: $font-s-serif-pro;
 }
