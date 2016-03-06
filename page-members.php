@@ -49,6 +49,10 @@
 			$order = 'DESC';
 		}
 	 ?>
+	<h3>Members</h3>
+	<p class="serif">
+		Meet awesome people from all around the world. Designers, engineers, entrepreneurs are all here. Connect with them and create something amazing.
+	</p>
 	<select class="selectpicker" onchange="location = this.options[this.selectedIndex].value;">
 		<option style="display: none" value="" selected disabled>Sort</option>
 		<optgroup label="Order">
@@ -90,12 +94,11 @@
 					</div>
 					<div class="media-body">
 						<h4 class="media-heading"><a href="<?php echo home_url( 'profile/?userid='.$user->ID, 'relative' ); ?> "><?php echo get_user_meta( $user_id = $user->ID, $key = 'first_name', $single = true ) . ' ' . get_user_meta( $user_id = $user->ID, $key = 'last_name', $single = true ); ?></a></h4>
-						<p><i><?php echo get_user_meta($user->ID, 'pmpro_bcity', true); ?>, <?php echo get_user_meta($user->ID, 'pmpro_bcountry', true); ?></i><?php echo ('1' === get_user_meta( $user_id = $user->ID, $key = $occupation_field . 'engineer', $single = true ) ? '<span class="label label-success">Engineer</span>' : ''); ?><?php echo ('1' === get_user_meta( $user_id = $user->ID, $key = $occupation_field . 'designer', $single = true ) ? '<span class="label label-danger">Designer</span>' : ''); ?><?php echo ('1' === get_user_meta( $user_id = $user->ID, $key = $occupation_field . 'entrepreneur', $single = true ) ? '<span class="label label-primary">Entrepreneur</span>' : ''); ?></p>
-						<p><?php echo get_user_meta( $user_id = $user->ID, $key = 'description', $single = true ); ?></p>
+						<p><em><?php echo get_user_meta($user->ID, 'pmpro_bcity', true); ?>, <?php echo get_user_meta($user->ID, 'pmpro_bcountry', true); ?></em><?php echo ('1' === get_user_meta( $user_id = $user->ID, $key = $occupation_field . 'engineer', $single = true ) ? '<span class="label label-success">Engineer</span>' : ''); ?><?php echo ('1' === get_user_meta( $user_id = $user->ID, $key = $occupation_field . 'designer', $single = true ) ? '<span class="label label-danger">Designer</span>' : ''); ?><?php echo ('1' === get_user_meta( $user_id = $user->ID, $key = $occupation_field . 'entrepreneur', $single = true ) ? '<span class="label label-primary">Entrepreneur</span>' : ''); ?></p>
+						<p class="serif"><?php echo get_user_meta( $user_id = $user->ID, $key = 'description', $single = true ); ?></p>
 					</div>
 				</div>
-				<?php echo '<hr>';
-			}
+			<?php }
 		} ?>
 	<?php endwhile;
 	else : wp_safe_redirect( home_url('/register') );

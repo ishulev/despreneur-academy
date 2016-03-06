@@ -93,7 +93,7 @@ function is_pmpro_page() {
 		<?php else : ?>
 			<?php get_template_part('templates/header'); ?>
 			<div class="container">
-				<?php if(!is_single()) : ?><h1><?php the_title(); ?></h1>
+				<?php if(!is_single() && !is_page( $page = 'members' )) : ?><h1><?php the_title(); ?></h1>
 				<?php endif; ?>
 				<?php include Wrapper\template_path(); ?>
 			</div>
