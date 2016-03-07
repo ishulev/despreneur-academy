@@ -23,7 +23,7 @@
 			<?php if(is_user_logged_in()) : ?>
 				<?php echo do_shortcode( '[course_join_button course_id="'. get_the_ID() .'"]' ); ?>
 			<?php else : ?>
-				<a class="btn btn-primary" href="<?php echo esc_url( home_url( '/register' ) ); ?>">Signup!</a>
+				<button class="btn btn-primary" id="course-register" href="#">Signup!</button>
 			<?php endif; ?>
 		</div>
 	</div>
