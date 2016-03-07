@@ -3,11 +3,16 @@ jQuery(document).ready(function($) {
 	var modalRegister = $('#modal-register');
 	var openLogin = $('#toggle-modal-login');
 	var openRegister = $('#toggle-modal-register');
+	var singleCourseRegister = $('#course-register');
 	
 	// This variable will monitor whether a modal needs to open or not.
 	// Without it, when a modal is closed via clicking anywhere results
 	// in the showing of the other one and there is no access to the content below.
 	var modalNeedsToOpen = false;
+
+	singleCourseRegister.on('click', function() {
+		modalRegister.modal('show');
+	});
 
 	openLogin.on('click', function () {
 		modalNeedsToOpen = true;
