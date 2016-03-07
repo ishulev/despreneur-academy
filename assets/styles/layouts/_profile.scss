@@ -17,6 +17,15 @@ p.edit-button {
 }
 
 .profile-view {
+	.alert {
+		@extend .serif;
+		background-color: white;
+		border: none;
+		p {	
+			color: #334d58;
+			font-size: 15px;
+		}
+	}
 	p {
 		color: white;
 	}
@@ -41,9 +50,6 @@ p.edit-button {
 			color: white;
 		}
 	}
-}
-.page-profile {
-	
 }
 .checkboxes {
 	.checkbox {

@@ -329,8 +329,10 @@
 						// echo pmpro_shortcode_account(array( 'sections' => 'membership,invoices',));
 						echo $content;
 					} else {
-						echo '<h2>It seems like your account hasn\'t been setup yet</h2>';
-						echo '<p>Please visit <a href="' . get_page_link( $post = $pmpro_pages['levels'], $leavename, $sample ) . '">this link</a> for more.</p>';
+						echo '<div class="cta-configure">';
+							echo '<h3>It seems like your account hasn\'t been setup yet</h3>';
+							echo '<p>Please <a href="' . get_page_link( $post = $pmpro_pages['levels'], $leavename, $sample ) . '">configure</a> it</p>';
+						echo '</div>';
 					}
 				?>
 			</div>

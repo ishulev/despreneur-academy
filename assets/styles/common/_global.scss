@@ -43,3 +43,10 @@ h3 {
 em, .serif {
 	font-family: $font-s-serif-pro;
 }
+.cta-configure {
+	text-align: center;
+	padding: 40px 0;
+	p {
+		@extend .serif;
+	}
+}

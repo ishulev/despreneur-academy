@@ -35,10 +35,7 @@ function is_pmpro_page() {
 			$section_classes[] = 'full-width-background';
 			if(is_pmpro_page()) {
 				global $current_user;
-				if(empty($current_user->membership_level)) {
-					$confirmation_message = "<p>" . __('Your payment has been submitted. Your membership will be activated shortly.', 'pmpro') . "</p>";
-				}
-				else {
+				if(!empty($current_user->membership_level)) {
 					$confirmation_message = "<p>" . sprintf(__('Thank you for your membership to %s.</p><p>Your %s membership is now active.', 'pmpro'), get_bloginfo("name"), $current_user->membership_level->name) . "</p>";
 				}
 				$custom_subheading = $confirmation_message;
@@ -93,7 +90,7 @@ function is_pmpro_page() {
 		<?php else : ?>
 			<?php get_template_part('templates/header'); ?>
 			<div class="container">
-				<?php if(!is_single() && !is_page( $page = 'members' )) : ?><h1><?php the_title(); ?></h1>
+				<?php if(!is_single() && !is_singular( $post_types = 'unit' ) && !is_page( $page = 'members' )) : ?><h1><?php the_title(); ?></h1>
 				<?php endif; ?>
 				<?php include Wrapper\template_path(); ?>
 			</div>
