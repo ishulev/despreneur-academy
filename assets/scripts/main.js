@@ -21,6 +21,11 @@
         // JavaScript to be fired on all pages
       },
       finalize: function() {
+        $('.dropdown-toggle').parent().on('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          $(this).children('a').dropdown('toggle');
+        });
         // JavaScript to be fired on all pages, after page specific JS is fired
       }
     },
